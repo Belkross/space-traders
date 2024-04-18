@@ -1,7 +1,9 @@
+import { HomePage } from "./page/home.page"
+
 function App() {
   return (
     <>
-      <h1>Space Traders</h1>
+      <HomePage />
     </>
   )
 }
