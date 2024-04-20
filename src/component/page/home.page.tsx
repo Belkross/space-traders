@@ -1,34 +1,48 @@
-import { APP_NAME, TOKEN, SpaceTraderService, ILogger, SpaceTraderValidator, SpaceTraderApi } from "#domain"
-import { SpaceTraderFormatter } from "../../domain/service/space-trader.formatter"
+import { useQuery } from "react-query"
+import { APP_NAME } from "#domain"
+import { spaceTraderService } from "#service/space-traders.service"
 
-const logger: ILogger = {
-  info(message) {
-    console.log(message)
-  },
-  warn(message) {
-    console.warn(message)
-  },
-  error(message) {
-    console.error(message)
-  },
-}
-
-const validator = new SpaceTraderValidator(logger)
-const formatter = new SpaceTraderFormatter()
-const spaceTradersApi = new SpaceTraderApi({ logger, validator, token: TOKEN })
-const spaceTraderService = new SpaceTraderService({ logger, spaceTradersApi, formatter })
+import { css } from "#styled-system/css"
 
 export function HomePage() {
-  const handleClick = async () => {
-    const agent = await spaceTraderService.getMyProfile()
+  const { data, isLoading, error } = useQuery("todos", () => spaceTraderService.getServerStatus())
 
-    console.log(agent)
-  }
+  const announcements = data?.announcements ?? []
 
   return (
-    <>
+    <div className={cssContainer}>
       <h1>{APP_NAME}</h1>
-      <button onClick={() => handleClick()}>Log agent information</button>
-    </>
+      <p>{`Status: ${data?.status}`}</p>
+
+      <p data-testid="description">{data?.description}</p>
+      <div>
+        <p>{`Last server reset: ${data?.resetDate}`}</p>
+        <p>{`Next server reset: ${data?.serverResets.next}`}</p>
+      </div>
+      <ul>
+        <li>{`Agents: ${data?.stats.agents}`}</li>
+        <li>{`Ships: ${data?.stats.ships}`}</li>
+        <li>{`Systems: ${data?.stats.systems}`}</li>
+        <li>{`Waypoints: ${data?.stats.waypoints}`}</li>
+      </ul>
+      <h2>Announcements</h2>
+      {announcements.map((element) => {
+        return (
+          <div key={element.title}>
+            <h3>{element.title}</h3>
+            <p>{element.body}</p>
+          </div>
+        )
+      })}
+
+      <p>{`Version: ${data?.version}`}</p>
+    </div>
   )
 }
+
+const cssContainer = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: "*base+2",
+  padding: "*base",
+})

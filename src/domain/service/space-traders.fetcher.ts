@@ -4,25 +4,25 @@ import { SpaceTraderValidator } from "../api/space-traders.validator"
 import { UnexpectedError } from "../error/error"
 import { ILogger } from "../logger"
 
-export class SpaceTraderApi implements ISpaceTraderApi {
+export class SpaceTradersFetcher implements ISpaceTraderApi {
   readonly origin: string
   private logger: ILogger
   private validator: SpaceTraderValidator
   private readonly token
 
-  public constructor({
-    token,
-    logger,
-    validator,
-  }: {
-    token: string
-    logger: ILogger
-    validator: SpaceTraderValidator
-  }) {
+  constructor({ token, logger, validator }: { token: string; logger: ILogger; validator: SpaceTraderValidator }) {
     this.origin = "https://api.spacetraders.io/v2"
     this.logger = logger
     this.validator = validator
     this.token = token
+  }
+
+  public async getServerStatus() {
+    const response = await fetch(this.origin)
+
+    if (!response.ok) throw new UnexpectedError(this.getServerStatus.name)
+
+    return this.validator.getServerStatus(await response.json())
   }
 
   public async getMyProfile(): Promise<GetMyProfileDTO> {

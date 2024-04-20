@@ -3,13 +3,22 @@ import { Value } from "@sinclair/typebox/value"
 import { InvalidPayloadError } from "../error/error"
 import { ILogger } from "../logger"
 import { ISpaceTraderValidator } from "./space-traders.api"
-import { getMyProfileSchema } from "./space-traders.schema"
+import { getMyProfileSchema, getServerStatusSchema } from "./space-traders.schema"
 
 export class SpaceTraderValidator implements ISpaceTraderValidator {
   private logger: ILogger
 
   public constructor(logger: ILogger) {
     this.logger = logger
+  }
+
+  getServerStatus(payload: unknown) {
+    if (!Value.Check(getServerStatusSchema, payload)) {
+      this.logErrorIterator(Value.Errors(getServerStatusSchema, payload), this.getServerStatus.name)
+      throw new InvalidPayloadError(this.getServerStatus.name)
+    }
+
+    return payload
   }
 
   public getMyProfile(payload: unknown) {

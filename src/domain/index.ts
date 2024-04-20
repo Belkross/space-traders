@@ -1,6 +1,6 @@
 //service
 export * from "./service/space-traders.service"
-export * from "./service/space-traders.api"
+export * from "./service/space-traders.fetcher"
 
 //api
 export * from "./api/space-traders.api"

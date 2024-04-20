@@ -1,11 +1,9 @@
 import { HomePage } from "./page/home.page"
 
-function App() {
+export function App() {
   return (
     <>
       <HomePage />
     </>
   )
 }
-
-export default App

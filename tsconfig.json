@@ -22,7 +22,9 @@
     "types": ["vitest/globals"],
     "paths": {
       "#component/*": ["./src/component/*"],
-      "#domain": ["./src/domain"]
+      "#domain": ["./src/domain"],
+      "#service/*": ["./src/service/*"],
+      "#styled-system/*": ["./src/styled-system/*"]
     }
   },
   "include": ["src", "test"],

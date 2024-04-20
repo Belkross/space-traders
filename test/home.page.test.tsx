@@ -6,6 +6,8 @@ test("initial test", () => {
   render(<HomePage />)
 
   const appTitle = screen.getByRole("heading", { name: APP_NAME })
+  //const description = screen.getByTestId("description")
 
   expect(appTitle).toBeVisible()
+  //expect(description).toBeVisible()
 })
