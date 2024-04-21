@@ -8,13 +8,13 @@ export class SpaceTradersFetcher implements ISpaceTraderApi {
   readonly origin: string
   private logger: ILogger
   private validator: SpaceTraderValidator
-  private readonly token
+  private token: string
 
-  constructor({ token, logger, validator }: { token: string; logger: ILogger; validator: SpaceTraderValidator }) {
+  constructor({ logger, validator }: { logger: ILogger; validator: SpaceTraderValidator }) {
     this.origin = "https://api.spacetraders.io/v2"
     this.logger = logger
     this.validator = validator
-    this.token = token
+    this.token = ""
   }
 
   public async getServerStatus() {
@@ -25,15 +25,20 @@ export class SpaceTradersFetcher implements ISpaceTraderApi {
     return this.validator.getServerStatus(await response.json())
   }
 
-  public async getMyProfile(): Promise<GetMyProfileDTO> {
+  /**
+   * We use this request to authenticate the user.
+   * That’s why the token need to be set if the request succeed
+   */
+  public async getMyProfile(token: string): Promise<GetMyProfileDTO> {
     const response = await fetch(this.origin + "/my/agent", {
       headers: {
-        authorization: `Bearer ${this.token}`,
+        authorization: `Bearer ${token}`,
       },
     })
 
     if (!response.ok) throw new UnexpectedError(this.getMyProfile.name)
 
+    this.token = token
     return this.validator.getMyProfile(await response.json())
   }
 }

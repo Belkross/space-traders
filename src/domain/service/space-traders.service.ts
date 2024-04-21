@@ -1,16 +1,13 @@
 import { ISpaceTraderApi, ISpaceTraderFormatter } from "../api/space-traders.api"
 import { GetServerStatusDTO } from "../api/space-traders.schema"
-import { InvalidPayloadError, UnexpectedError } from "../error/error"
+import { UnexpectedError } from "../error/error"
 import { ILogger } from "../logger"
 import { Agent } from "../model/agent.model"
 
 export interface ISpaceTraderService {
   getServerStatus: () => Promise<GetServerStatusDTO>
-  getMyProfile: () => Promise<Agent | null>
+  getMyProfile: (token: string) => Promise<Agent>
 }
-
-//type Response<PayloadType> = {success: true, payload: PayloadType} | {success: false, payload: string}
-
 export class SpaceTraderService implements ISpaceTraderService {
   private logger: ILogger
   private spaceTradersApi: ISpaceTraderApi
@@ -39,13 +36,13 @@ export class SpaceTraderService implements ISpaceTraderService {
     }
   }
 
-  public async getMyProfile(): Promise<Agent | null> {
+  public async getMyProfile(token: string): Promise<Agent> {
     try {
-      const payload = await this.spaceTradersApi.getMyProfile()
+      const payload = await this.spaceTradersApi.getMyProfile(token)
       return this.formatter.getMyProfile(payload)
     } catch (error) {
       this.logger.error(this.getMyProfile.name)
-      return null
+      throw new UnexpectedError()
     }
   }
 }

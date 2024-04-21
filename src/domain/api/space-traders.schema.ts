@@ -20,6 +20,10 @@ export const getServerStatusSchema = Type.Object({
   }),
   announcements: Type.Array(Type.Object({ title: Type.String(), body: Type.String() })),
   links: Type.Array(Type.Object({ name: Type.String(), url: Type.String() })),
+  leaderboards: Type.Object({
+    mostCredits: Type.Array(Type.Object({ agentSymbol: Type.String(), credits: Type.Number() })),
+    mostSubmittedCharts: Type.Array(Type.Object({ agentSymbol: Type.String(), chartCount: Type.Number() })),
+  }),
 })
 
 export const getMyProfileSchema = Type.Object({
@@ -30,9 +34,5 @@ export const getMyProfileSchema = Type.Object({
     startingFaction: Type.String(),
     credits: Type.Number(),
     shipCount: Type.Number(),
-    leaderboards: Type.Object({
-      mostCredits: Type.Array(Type.Object({ agentSymbol: Type.String(), credits: Type.Number() })),
-      mostSubmittedCharts: Type.Array(Type.Object({ agentSymbol: Type.String(), chartCount: Type.Number() })),
-    }),
   }),
 })

@@ -1,11 +1,13 @@
 import { useQuery } from "react-query"
-import { APP_NAME } from "#domain"
+import { APP_NAME, TOKEN } from "#domain"
 import { spaceTraderService } from "#service/space-traders.service"
 
 import { css } from "#styled-system/css"
+import { ConnectionForm } from "#component/organism/connection-form"
+import { QueryKey } from "../../store"
 
 export function HomePage() {
-  const { data, isLoading, error } = useQuery("todos", () => spaceTraderService.getServerStatus())
+  const { data } = useQuery(QueryKey.getServerStatus, () => spaceTraderService.getServerStatus())
 
   const announcements = data?.announcements ?? []
 
@@ -13,6 +15,8 @@ export function HomePage() {
     <div className={cssContainer}>
       <h1>{APP_NAME}</h1>
       <p>{`Status: ${data?.status}`}</p>
+
+      <ConnectionForm />
 
       <p data-testid="description">{data?.description}</p>
       <div>
@@ -36,6 +40,7 @@ export function HomePage() {
       })}
 
       <p>{`Version: ${data?.version}`}</p>
+      <p>{TOKEN}</p>
     </div>
   )
 }
@@ -46,3 +51,13 @@ const cssContainer = css({
   gap: "*base+2",
   padding: "*base",
 })
+
+// Connecter un compte
+// XXX Recevoir un token avec un input
+// XXX Valider le token avec un bouton
+// XXX Expliquer le fonctionnement de la connexion avec le token
+// XXX Vérifier le token avec la récupération des détails d’un agent
+// gérer lorsque le token est invalide avec la snackbar
+// XXX si le token est valide, on passe à la page de jeu
+// XXX afficher les données de l’agent sur la page de jeu
+// XXX changer le nom de la query pour le login et celle pour la home page

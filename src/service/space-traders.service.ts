@@ -15,5 +15,5 @@ const logger: ILogger = {
 
 const validator = new SpaceTraderValidator(logger)
 const formatter = new SpaceTraderFormatter()
-const spaceTradersApi = new SpaceTradersFetcher({ logger, validator, token: TOKEN })
+const spaceTradersApi = new SpaceTradersFetcher({ logger, validator })
 export const spaceTraderService = new SpaceTraderService({ logger, spaceTradersApi, formatter })

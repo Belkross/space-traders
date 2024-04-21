@@ -5,9 +5,11 @@ import { render, screen } from "./test-util"
 test("initial test", () => {
   render(<HomePage />)
 
-  const appTitle = screen.getByRole("heading", { name: APP_NAME })
-  //const description = screen.getByTestId("description")
+  const appName = screen.getByRole("heading", { name: APP_NAME })
+  const inputLogin = screen.getByRole("textbox", { name: "login input" })
+  const buttonSubmitLogin = screen.getByRole("button", { name: "Log in" })
 
-  expect(appTitle).toBeVisible()
-  //expect(description).toBeVisible()
+  expect(appName).toBeVisible()
+  expect(inputLogin).toBeVisible()
+  expect(buttonSubmitLogin).toBeVisible()
 })

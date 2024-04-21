@@ -8,6 +8,7 @@
     "test": "vitest run",
     "test_watch": "vitest",
     "build": "tsc && vite build",
+    "build:style": "panda codegen",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky && panda codegen"

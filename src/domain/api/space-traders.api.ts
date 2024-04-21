@@ -8,7 +8,7 @@ export interface ISpaceTraderValidator {
 
 export interface ISpaceTraderApi {
   getServerStatus: () => Promise<GetServerStatusDTO>
-  getMyProfile: () => Promise<GetMyProfileDTO>
+  getMyProfile: (token: string) => Promise<GetMyProfileDTO>
 }
 
 export interface ISpaceTraderFormatter {
