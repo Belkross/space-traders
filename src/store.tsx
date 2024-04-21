@@ -1,9 +1,13 @@
 import { Dispatch, ReactElement, createContext, useContext, useReducer } from "react"
+import { Severity } from "#domain"
 
 type Page = "home" | "game"
 
 type AppState = {
   page: Page
+  snackbarOpened: boolean
+  snackbarSeverity: Severity
+  snackbarMessage: string
   accountId: string
   username: string
   faction: string
@@ -14,6 +18,9 @@ type AppState = {
 
 const initialAppState: AppState = {
   page: "home",
+  snackbarOpened: false,
+  snackbarSeverity: "info",
+  snackbarMessage: "",
   accountId: "",
   username: "",
   faction: "",
@@ -23,7 +30,10 @@ const initialAppState: AppState = {
 }
 
 export enum ActionType {
-  change_page = "change_page",
+  changePage = "change_page",
+  login = "log_in",
+  openSnackbar = "open_snackbar",
+  closeSnackbar = "close_snackbar",
 }
 
 export enum QueryKey {
@@ -31,8 +41,20 @@ export enum QueryKey {
   getServerStatus = "get_server_status",
 }
 
-type ChangePageAction = {
-  type: ActionType
+type OpenSnackbarAction = {
+  type: ActionType.openSnackbar
+  payload: {
+    severity: Severity
+    message: string
+  }
+}
+
+type CloseSnackbarAction = {
+  type: ActionType.closeSnackbar
+}
+
+type LoginAction = {
+  type: ActionType.login
   payload: {
     page: Page
     accountId: string
@@ -44,14 +66,26 @@ type ChangePageAction = {
   }
 }
 
-type Action = ChangePageAction
+type Action = LoginAction | OpenSnackbarAction | CloseSnackbarAction
 
-export function appReducer(state: AppState, action: Action) {
-  if (action.type === ActionType.change_page) {
-    return { ...state, ...action.payload }
+export function appReducer(state: AppState, action: Action): AppState {
+  switch (action.type) {
+    case ActionType.openSnackbar: {
+      const { severity, message } = action.payload
+      return { ...state, snackbarOpened: true, snackbarSeverity: severity, snackbarMessage: message }
+    }
+
+    case ActionType.closeSnackbar: {
+      return { ...state, snackbarOpened: false }
+    }
+
+    case ActionType.login: {
+      return { ...state, ...action.payload }
+    }
+
+    default:
+      return state
   }
-
-  return state
 }
 
 export const AppStateContext = createContext<{ state: AppState; dispatch: Dispatch<Action> } | undefined>(undefined)

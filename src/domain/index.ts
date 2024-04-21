@@ -1,3 +1,7 @@
+//model
+export * from "./model/agent.model"
+export * from "./model/feedback"
+
 //service
 export * from "./service/space-traders.service"
 export * from "./service/space-traders.fetcher"

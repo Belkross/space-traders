@@ -14,14 +14,22 @@ export function ConnectionForm() {
       const { username, accountId, credits, headquarters, shipCount, startingFaction } = data
 
       dispatch({
-        type: ActionType.change_page,
+        type: ActionType.login,
         payload: { page: "game", username, accountId, credits, headquarters, shipCount, faction: startingFaction },
       })
     },
 
     onError: (error) => {
-      // gérer lorsque le token est invalide avec la snackbar
-      console.error("coucou:", error)
+      dispatch({
+        type: ActionType.openSnackbar,
+        payload: { severity: "warning", message: "error login" },
+      })
+
+      setTimeout(() => {
+        dispatch({
+          type: ActionType.closeSnackbar,
+        })
+      }, 3000)
     },
   })
 
