@@ -1,7 +1,8 @@
 import { HomePage } from "#component/page/home.page"
 import { useAppState } from "../store"
 import { GamePage } from "#component/page/game.page"
-import { SnackbarModal } from "./organism/snackbar.modal"
+import { ToastContainer, Bounce } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export function App() {
   const { page } = useAppState().state
@@ -24,7 +25,19 @@ export function App() {
     <>
       {currentPage}
 
-      <SnackbarModal />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
     </>
   )
 }

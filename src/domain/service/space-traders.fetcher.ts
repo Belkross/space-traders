@@ -1,7 +1,7 @@
 import { ISpaceTraderApi } from "../api/space-traders.api"
 import { GetMyProfileDTO } from "../api/space-traders.schema"
 import { SpaceTraderValidator } from "../api/space-traders.validator"
-import { UnexpectedError } from "../error/error"
+import { SpaceTradersApiError, UnexpectedError } from "../error/error"
 import { ILogger } from "../logger"
 
 export class SpaceTradersFetcher implements ISpaceTraderApi {
@@ -35,10 +35,11 @@ export class SpaceTradersFetcher implements ISpaceTraderApi {
         authorization: `Bearer ${token}`,
       },
     })
+    const payload = await response.json()
 
-    if (!response.ok) throw new UnexpectedError(this.getMyProfile.name)
+    if (!response.ok) throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
 
     this.token = token
-    return this.validator.getMyProfile(await response.json())
+    return this.validator.getMyProfile(payload)
   }
 }

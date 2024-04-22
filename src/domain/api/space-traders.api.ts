@@ -1,9 +1,10 @@
 import { Agent } from "../model/agent.model"
-import { GetMyProfileDTO, GetServerStatusDTO } from "./space-traders.schema"
+import { GetMyProfileDTO, GetServerStatusDTO, SpaceTradersErrorDTO } from "./space-traders.schema"
 
 export interface ISpaceTraderValidator {
   getServerStatus: (payload: unknown) => GetServerStatusDTO
   getMyProfile: (payload: unknown) => GetMyProfileDTO
+  spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO
 }
 
 export interface ISpaceTraderApi {

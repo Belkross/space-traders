@@ -2,6 +2,14 @@ import { Type, Static } from "@sinclair/typebox"
 
 export type GetServerStatusDTO = Static<typeof getServerStatusSchema>
 export type GetMyProfileDTO = Static<typeof getMyProfileSchema>
+export type SpaceTradersErrorDTO = Static<typeof SpaceTradersApiErrorSchema>
+
+export const SpaceTradersApiErrorSchema = Type.Object({
+  error: Type.Object({
+    code: Type.Number(),
+    message: Type.String(),
+  }),
+})
 
 export const getServerStatusSchema = Type.Object({
   status: Type.String(),

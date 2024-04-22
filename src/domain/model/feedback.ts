@@ -1,21 +1,32 @@
 export type Severity = "info" | "success" | "warning" | "error"
 
-export type Feedback = { message: string; severity: Severity; duration: number }
+export class Feedback {
+  readonly message: string
+  readonly severity: Severity
+  readonly duration: number
+  static readonly DEFAULT_DURATION = 6000
+
+  constructor({ message, severity, duration }: { message: string; severity?: Severity; duration?: number }) {
+    this.message = message
+    this.severity = severity ?? "info"
+    this.duration = duration ?? Feedback.DEFAULT_DURATION
+  }
+}
 
 type Feedbacks = Record<FeedbackKey, Feedback>
-type FeedbackKey = "invalid_username" | "realtime_disconnected"
-
-const DEFAULT_DURATION = 2000
+type FeedbackKey = "no_token_provided" | "invalid_token" | "unexpected_feedback"
 
 export const feedback: Feedbacks = {
-  invalid_username: {
+  no_token_provided: new Feedback({
+    severity: "info",
+    message: "Please provide a token to log in.",
+  }),
+  invalid_token: new Feedback({
     severity: "warning",
-    message: "Le pseudo n’est pas valide.",
-    duration: DEFAULT_DURATION,
-  },
-  realtime_disconnected: {
-    severity: "warning",
-    message: "Vous êtes déconnecté du salon.",
-    duration: DEFAULT_DURATION,
-  },
+    message: "The provided token is invalid.",
+  }),
+  unexpected_feedback: new Feedback({
+    severity: "error",
+    message: "Something unexpected happened !",
+  }),
 }

@@ -1,4 +1,4 @@
-import { TOKEN, SpaceTraderService, ILogger, SpaceTraderValidator, SpaceTradersFetcher } from "#domain"
+import { SpaceTraderService, ILogger, SpaceTraderValidator, SpaceTradersFetcher } from "#domain"
 import { SpaceTraderFormatter } from "../domain/service/space-trader.formatter"
 
 const logger: ILogger = {

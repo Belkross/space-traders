@@ -12,3 +12,4 @@ export * from "./api/space-traders.validator"
 
 export * from "./constant"
 export * from "./logger"
+export * from "./error/error"

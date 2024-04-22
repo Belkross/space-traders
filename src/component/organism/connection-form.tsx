@@ -3,13 +3,25 @@ import { ChangeEvent, useState } from "react"
 import { useMutation } from "react-query"
 import { spaceTraderService } from "#service/space-traders.service"
 import { ActionType, QueryKey, useAppState } from "../../store"
+import { Feedback, feedback, FeedbackError } from "#domain"
+import { toast } from "react-toastify"
+
+function displayFeedback(feedback: Feedback) {
+  const { severity, duration, message } = feedback
+
+  toast(message, {
+    type: severity,
+    autoClose: duration,
+  })
+}
 
 export function ConnectionForm() {
   const [input, setInput] = useState("")
   const { dispatch } = useAppState()
 
-  const mutation = useMutation(QueryKey.getMyProfile, {
+  const loginMutation = useMutation(QueryKey.getMyProfile, {
     mutationFn: (token: string) => spaceTraderService.getMyProfile(token),
+
     onSuccess: (data) => {
       const { username, accountId, credits, headquarters, shipCount, startingFaction } = data
 
@@ -20,16 +32,11 @@ export function ConnectionForm() {
     },
 
     onError: (error) => {
-      dispatch({
-        type: ActionType.openSnackbar,
-        payload: { severity: "warning", message: "error login" },
-      })
-
-      setTimeout(() => {
-        dispatch({
-          type: ActionType.closeSnackbar,
-        })
-      }, 3000)
+      if (error instanceof FeedbackError) {
+        displayFeedback(new Feedback({ message: error.message, severity: error.severity }))
+      } else {
+        displayFeedback(feedback.unexpected_feedback)
+      }
     },
   })
 
@@ -42,7 +49,7 @@ export function ConnectionForm() {
       <h2>Log in</h2>
       <p>Provide the token associated to your account to log in.</p>
       <input type="text" aria-label="login input" placeholder="Token" value={input} onChange={handleInputChange} />
-      <button onClick={() => mutation.mutate(input)}>Log in</button>
+      <button onClick={() => loginMutation.mutate(input)}>Log in</button>
     </div>
   )
 }

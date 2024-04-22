@@ -1,13 +1,9 @@
 import { Dispatch, ReactElement, createContext, useContext, useReducer } from "react"
-import { Severity } from "#domain"
 
 type Page = "home" | "game"
 
 type AppState = {
   page: Page
-  snackbarOpened: boolean
-  snackbarSeverity: Severity
-  snackbarMessage: string
   accountId: string
   username: string
   faction: string
@@ -18,9 +14,6 @@ type AppState = {
 
 const initialAppState: AppState = {
   page: "home",
-  snackbarOpened: false,
-  snackbarSeverity: "info",
-  snackbarMessage: "",
   accountId: "",
   username: "",
   faction: "",
@@ -32,8 +25,6 @@ const initialAppState: AppState = {
 export enum ActionType {
   changePage = "change_page",
   login = "log_in",
-  openSnackbar = "open_snackbar",
-  closeSnackbar = "close_snackbar",
 }
 
 export enum QueryKey {
@@ -41,16 +32,9 @@ export enum QueryKey {
   getServerStatus = "get_server_status",
 }
 
-type OpenSnackbarAction = {
-  type: ActionType.openSnackbar
-  payload: {
-    severity: Severity
-    message: string
-  }
-}
-
-type CloseSnackbarAction = {
-  type: ActionType.closeSnackbar
+type ChangePageAction = {
+  type: ActionType.changePage
+  payload: Page
 }
 
 type LoginAction = {
@@ -66,19 +50,10 @@ type LoginAction = {
   }
 }
 
-type Action = LoginAction | OpenSnackbarAction | CloseSnackbarAction
+export type Action = LoginAction | ChangePageAction
 
 export function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case ActionType.openSnackbar: {
-      const { severity, message } = action.payload
-      return { ...state, snackbarOpened: true, snackbarSeverity: severity, snackbarMessage: message }
-    }
-
-    case ActionType.closeSnackbar: {
-      return { ...state, snackbarOpened: false }
-    }
-
     case ActionType.login: {
       return { ...state, ...action.payload }
     }
