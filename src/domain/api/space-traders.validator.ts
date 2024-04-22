@@ -7,6 +7,7 @@ import { SpaceTradersApiErrorSchema, getMyProfileSchema, getServerStatusSchema }
 import { TypeCompiler } from "@sinclair/typebox/compiler"
 
 const spaceTradersErrorValidator = TypeCompiler.Compile(SpaceTradersApiErrorSchema)
+const getServerStatusValidator = TypeCompiler.Compile(getServerStatusSchema)
 export class SpaceTraderValidator implements ISpaceTraderValidator {
   private logger: ILogger
 
@@ -24,8 +25,8 @@ export class SpaceTraderValidator implements ISpaceTraderValidator {
   }
 
   public getServerStatus(payload: unknown) {
-    if (!Value.Check(getServerStatusSchema, payload)) {
-      this.logErrorIterator(Value.Errors(getServerStatusSchema, payload), this.getServerStatus.name)
+    if (!getServerStatusValidator.Check(payload)) {
+      this.logErrorIterator(getServerStatusValidator.Errors(payload), this.getServerStatus.name)
       throw new InvalidPayloadError(this.getServerStatus.name)
     }
 

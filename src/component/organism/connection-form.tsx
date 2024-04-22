@@ -4,16 +4,7 @@ import { useMutation } from "react-query"
 import { spaceTraderService } from "#service/space-traders.service"
 import { ActionType, QueryKey, useAppState } from "../../store"
 import { Feedback, feedback, FeedbackError } from "#domain"
-import { toast } from "react-toastify"
-
-function displayFeedback(feedback: Feedback) {
-  const { severity, duration, message } = feedback
-
-  toast(message, {
-    type: severity,
-    autoClose: duration,
-  })
-}
+import { displayFeedback } from "#helper/display-feedback"
 
 export function ConnectionForm() {
   const [input, setInput] = useState("")

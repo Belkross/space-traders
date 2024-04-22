@@ -1,7 +1,7 @@
 import { ISpaceTraderApi } from "../api/space-traders.api"
 import { GetMyProfileDTO } from "../api/space-traders.schema"
 import { SpaceTraderValidator } from "../api/space-traders.validator"
-import { SpaceTradersApiError, UnexpectedError } from "../error/error"
+import { SpaceTradersApiError } from "../error/error"
 import { ILogger } from "../logger"
 
 export class SpaceTradersFetcher implements ISpaceTraderApi {
@@ -19,10 +19,13 @@ export class SpaceTradersFetcher implements ISpaceTraderApi {
 
   public async getServerStatus() {
     const response = await fetch(this.origin)
+    const payload = await response.json()
 
-    if (!response.ok) throw new UnexpectedError(this.getServerStatus.name)
+    if (!response.ok) {
+      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+    }
 
-    return this.validator.getServerStatus(await response.json())
+    return this.validator.getServerStatus(payload)
   }
 
   /**
@@ -37,7 +40,9 @@ export class SpaceTradersFetcher implements ISpaceTraderApi {
     })
     const payload = await response.json()
 
-    if (!response.ok) throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+    if (!response.ok) {
+      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+    }
 
     this.token = token
     return this.validator.getMyProfile(payload)

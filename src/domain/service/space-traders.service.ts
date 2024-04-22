@@ -30,9 +30,19 @@ export class SpaceTraderService implements ISpaceTraderService {
 
   public async getServerStatus() {
     try {
+      await new Promise<void>((resolve) => {
+        setTimeout(() => resolve(), 1000)
+      })
       return await this.spaceTradersApi.getServerStatus()
     } catch (error) {
-      this.logger.error(this.getServerStatus.name)
+      if (error instanceof SpaceTradersApiError) {
+        throw new FeedbackError({ severity: "error", message: error.message })
+      }
+
+      if (error instanceof InvalidPayloadError) {
+        throw error
+      }
+
       throw new UnexpectedError()
     }
   }
