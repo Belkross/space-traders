@@ -1,21 +1,20 @@
-import { ISpaceTraderApi, ISpaceTraderFormatter } from "../api/space-traders.api"
-import { GetServerStatusDTO } from "../api/space-traders.schema"
-import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../error/error"
-import { ILogger } from "../logger"
-import { Agent } from "../model/agent.model"
-import { feedback } from "../model/feedback"
+import { sleep } from "#helper/index"
+import { ISpaceTraderApi, ISpaceTraderFormatter } from "../../api/space-traders.api"
+import { GetServerStatusDTO } from "./space-traders.schema"
+import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../../error"
+import { ILogger } from "../../logger"
+import { Agent } from "../../model/agent.model"
+import { feedback } from "../../model/feedback"
 
 export interface ISpaceTraderService {
   getServerStatus: () => Promise<GetServerStatusDTO>
   getMyProfile: (token: string) => Promise<Agent>
 }
 export class SpaceTraderService implements ISpaceTraderService {
-  private logger: ILogger
   private spaceTradersApi: ISpaceTraderApi
   private formatter: ISpaceTraderFormatter
 
   constructor({
-    logger,
     spaceTradersApi,
     formatter,
   }: {
@@ -24,15 +23,12 @@ export class SpaceTraderService implements ISpaceTraderService {
     formatter: ISpaceTraderFormatter
   }) {
     this.spaceTradersApi = spaceTradersApi
-    this.logger = logger
     this.formatter = formatter
   }
 
   public async getServerStatus() {
     try {
-      await new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 1000)
-      })
+      await sleep(1000)
       return await this.spaceTradersApi.getServerStatus()
     } catch (error) {
       if (error instanceof SpaceTradersApiError) {

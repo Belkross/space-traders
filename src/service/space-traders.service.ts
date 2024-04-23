@@ -1,5 +1,5 @@
 import { SpaceTraderService, ILogger, SpaceTraderValidator, SpaceTradersFetcher } from "#domain"
-import { SpaceTraderFormatter } from "../domain/service/space-trader.formatter"
+import { SpaceTraderFormatter } from "../domain/service/space-traders/space-traders.formatter"
 
 const logger: ILogger = {
   info(message) {

@@ -1,4 +1,4 @@
-import { SpaceTradersErrorDTO } from "../api/space-traders.schema"
+import { SpaceTradersErrorDTO } from "../service/space-traders/space-traders.schema"
 import { Feedback, Severity } from "../model/feedback"
 
 export class FeedbackError extends Error {

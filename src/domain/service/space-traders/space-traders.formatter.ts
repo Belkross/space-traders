@@ -1,6 +1,6 @@
-import { ISpaceTraderFormatter } from "../api/space-traders.api"
-import { GetMyProfileDTO } from "../api/space-traders.schema"
-import { Agent } from "../model/agent.model"
+import { ISpaceTraderFormatter } from "../../api/space-traders.api"
+import { GetMyProfileDTO } from "./space-traders.schema"
+import { Agent } from "../../model/agent.model"
 
 export class SpaceTraderFormatter implements ISpaceTraderFormatter {
   public constructor() {}
