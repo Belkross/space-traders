@@ -17,9 +17,12 @@ export default defineConfig({
     alias: {
       "#component": path.resolve(__dirname, "./src/component"),
       "#constant": path.resolve(__dirname, "./src/constant"),
+      "#context": path.resolve(__dirname, "./src/context"),
       "#helper": path.resolve(__dirname, "./src/helper"),
       "#service": path.resolve(__dirname, "./src/service"),
+      "#store": path.resolve(__dirname, "./src/store"),
       "#styled-system": path.resolve(__dirname, "./src/styled-system"),
+      "#type": path.resolve(__dirname, "./src/type"),
     },
   },
 })

@@ -1,4 +1,4 @@
-import { useAppState } from "../../store"
+import { useAppState } from "#context"
 
 export function GamePage() {
   const { state } = useAppState()

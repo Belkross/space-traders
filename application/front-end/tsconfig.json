@@ -23,9 +23,12 @@
     "paths": {
       "#component/*": ["./src/component/*"],
       "#constant": ["./src/constant"],
+      "#context": ["./src/context"],
       "#helper/*": ["../../library/domain/src/helper/*"],
       "#service/*": ["./src/service/*"],
-      "#styled-system/*": ["./src/styled-system/*"]
+      "#store/*": ["./src/store/*"],
+      "#styled-system/*": ["./src/styled-system/*"],
+      "#type": ["./src/type"]
     }
   },
   "include": ["src", "test"],

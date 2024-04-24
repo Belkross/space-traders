@@ -3,7 +3,7 @@ import { APP_NAME, TOKEN } from "#constant"
 import { spaceTraderService } from "#service/space-traders.service"
 import { css } from "#styled-system/css"
 import { ConnectionForm } from "#component/organism/connection-form"
-import { QueryKey } from "../../store"
+import { QueryKey } from "#type"
 
 export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert

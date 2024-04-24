@@ -1,4 +1,3 @@
-import { sleep } from "../../helper/index.js"
 import { ISpaceTradersRepository, ISpaceTraderFormatter } from "../../repository/space-traders.repository.js"
 import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../../error/index.js"
 import { ILogger } from "../../logger.js"
@@ -6,25 +5,24 @@ import { Agent } from "../../model/agent.model.js"
 import { feedback } from "../../model/feedback.js"
 
 export class SpaceTraderService {
-  private spaceTradersApi: ISpaceTradersRepository
+  private spaceTradersRepository: ISpaceTradersRepository
   private formatter: ISpaceTraderFormatter
 
   constructor({
-    spaceTradersApi,
+    spaceTradersRepository,
     formatter,
   }: {
     logger: ILogger
-    spaceTradersApi: ISpaceTradersRepository
+    spaceTradersRepository: ISpaceTradersRepository
     formatter: ISpaceTraderFormatter
   }) {
-    this.spaceTradersApi = spaceTradersApi
+    this.spaceTradersRepository = spaceTradersRepository
     this.formatter = formatter
   }
 
   public async getServerStatus() {
     try {
-      await sleep(1000)
-      return await this.spaceTradersApi.getServerStatus()
+      return await this.spaceTradersRepository.getServerStatus()
     } catch (error) {
       if (error instanceof SpaceTradersApiError) {
         throw new FeedbackError({ severity: "error", message: error.message })
@@ -40,7 +38,7 @@ export class SpaceTraderService {
 
   public async getMyProfile(token: string): Promise<Agent> {
     try {
-      const payload = await this.spaceTradersApi.getMyProfile(token)
+      const payload = await this.spaceTradersRepository.getMyProfile(token)
       return this.formatter.getMyProfile(payload)
     } catch (error) {
       if (error instanceof SpaceTradersApiError) {

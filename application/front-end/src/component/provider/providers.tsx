@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "react-query"
 import React from "react"
-import { AppStateProvider } from "../store"
+import { AppStateProvider } from "./app-state.provider"
 
 /* every time I refocus a tab, it refetch */
 const queryClient = new QueryClient({

@@ -2,9 +2,10 @@ import { css } from "#styled-system/css"
 import { ChangeEvent, useState } from "react"
 import { useMutation } from "react-query"
 import { spaceTraderService } from "#service/space-traders.service"
-import { ActionType, QueryKey, useAppState } from "../../store"
+import { ActionType, QueryKey } from "#type"
 import { Feedback, feedback, FeedbackError } from "@library/domain"
 import { displayFeedback } from "../../helper/display-feedback"
+import { useAppState } from "#context"
 
 export function ConnectionForm() {
   const [input, setInput] = useState("")

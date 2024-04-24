@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react"
 import { act, render, RenderOptions } from "@testing-library/react"
-import { Providers } from "#component/providers"
+import { Providers } from "#component/provider/providers"
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return <Providers>{children}</Providers>
