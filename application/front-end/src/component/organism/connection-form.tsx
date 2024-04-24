@@ -19,7 +19,7 @@ export function ConnectionForm() {
 
       dispatch({
         type: ActionType.login,
-        payload: { page: "game", username, accountId, credits, headquarters, shipCount, faction: startingFaction },
+        payload: { username, accountId, credits, headquarters, shipCount, faction: startingFaction },
       })
     },
 

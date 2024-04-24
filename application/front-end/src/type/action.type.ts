@@ -15,7 +15,6 @@ export type ChangePageAction = {
 export type LoginAction = {
   type: ActionType.login
   payload: {
-    page: Page
     accountId: string
     username: string
     faction: string
