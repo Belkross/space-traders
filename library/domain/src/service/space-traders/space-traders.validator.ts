@@ -2,7 +2,7 @@ import { ValueErrorIterator } from "@sinclair/typebox/errors"
 import { Value } from "@sinclair/typebox/value"
 import { InvalidPayloadError } from "../../error/index.js"
 import { ILogger } from "../../logger.js"
-import { ISpaceTraderValidator } from "../../repostitory/space-traders.repository.js"
+import { ISpaceTraderValidator } from "../../repository/space-traders.repository.js"
 import { SpaceTradersApiErrorSchema, getMyProfileSchema, getServerStatusSchema } from "./space-traders.schema.js"
 import { TypeCompiler } from "@sinclair/typebox/compiler"
 

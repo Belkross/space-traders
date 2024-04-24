@@ -1,4 +1,4 @@
-import { ISpaceTradersRepository } from "../../repostitory/space-traders.repository.js"
+import { ISpaceTradersRepository } from "../../repository/space-traders.repository.js"
 import { GetMyProfileDTO } from "./space-traders.schema.js"
 import { SpaceTraderValidator } from "./space-traders.validator.js"
 import { SpaceTradersApiError } from "../../error/index.js"

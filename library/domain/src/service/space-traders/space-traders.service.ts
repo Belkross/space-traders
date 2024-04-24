@@ -1,6 +1,5 @@
 import { sleep } from "../../helper/index.js"
-import { ISpaceTradersRepository, ISpaceTraderFormatter } from "../../repostitory/space-traders.repository.js"
-import { GetServerStatusDTO } from "./space-traders.schema.js"
+import { ISpaceTradersRepository, ISpaceTraderFormatter } from "../../repository/space-traders.repository.js"
 import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../../error/index.js"
 import { ILogger } from "../../logger.js"
 import { Agent } from "../../model/agent.model.js"

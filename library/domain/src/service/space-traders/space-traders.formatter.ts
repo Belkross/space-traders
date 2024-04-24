@@ -1,4 +1,4 @@
-import { ISpaceTraderFormatter } from "../../repostitory/space-traders.repository.js"
+import { ISpaceTraderFormatter } from "../../repository/space-traders.repository.js"
 import { GetMyProfileDTO } from "./space-traders.schema.js"
 import { Agent } from "../../model/agent.model.js"
 
