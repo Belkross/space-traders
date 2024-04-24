@@ -1,47 +1,22 @@
 {
   "name": "space_traders",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "vite",
-    "test": "vitest run",
-    "test_watch": "vitest",
-    "build": "tsc && vite build",
-    "build:style": "panda codegen",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "start": "pnpm run --parallel /^start_watch:/",
+    "test": "pnpm --filter ./application/front-end run test",
+    "start_watch:front": "pnpm --filter ./application/front-end run start_watch",
     "prepare": "husky && panda codegen"
   },
-  "dependencies": {
-    "@fontsource/roboto": "^5.0.12",
-    "@sinclair/typebox": "^0.32.20",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-query": "^3.39.3",
-    "react-toastify": "^10.0.5"
-  },
+  "keywords": [],
+  "author": "belkross",
+  "license": "ISC",
   "devDependencies": {
     "@belkross/commitlint-config": "^1.0.3",
     "@belkross/prettier-config": "^1.0.3",
-    "@pandacss/dev": "^0.37.2",
-    "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^15.0.2",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "@vitejs/plugin-react-swc": "^3.5.0",
-    "commitlint": "^19.2.2",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "husky": "^9.0.11",
-    "jsdom": "^24.0.0",
-    "postcss": "^8.4.38",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "vitest": "^1.5.0"
+    "commitlint": "^19.3.0",
+    "husky": "^9.0.11"
   },
   "prettier": "@belkross/prettier-config"
 }
