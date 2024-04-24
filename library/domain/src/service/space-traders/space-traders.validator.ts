@@ -1,9 +1,9 @@
 import { ValueErrorIterator } from "@sinclair/typebox/errors"
 import { Value } from "@sinclair/typebox/value"
-import { InvalidPayloadError } from "../../error"
-import { ILogger } from "../../logger"
-import { ISpaceTraderValidator } from "../../api/space-traders.api"
-import { SpaceTradersApiErrorSchema, getMyProfileSchema, getServerStatusSchema } from "./space-traders.schema"
+import { InvalidPayloadError } from "../../error/index.js"
+import { ILogger } from "../../logger.js"
+import { ISpaceTraderValidator } from "../../repostitory/space-traders.repository.js"
+import { SpaceTradersApiErrorSchema, getMyProfileSchema, getServerStatusSchema } from "./space-traders.schema.js"
 import { TypeCompiler } from "@sinclair/typebox/compiler"
 
 const spaceTradersErrorValidator = TypeCompiler.Compile(SpaceTradersApiErrorSchema)

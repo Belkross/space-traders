@@ -1,5 +1,10 @@
-import { SpaceTraderService, ILogger, SpaceTraderValidator, SpaceTradersFetcher } from "#domain"
-import { SpaceTraderFormatter } from "../domain/service/space-traders/space-traders.formatter"
+import {
+  SpaceTraderService,
+  ILogger,
+  SpaceTraderValidator,
+  SpaceTradersRepository,
+  SpaceTraderFormatter,
+} from "@library/domain"
 
 const logger: ILogger = {
   info(message) {
@@ -15,5 +20,5 @@ const logger: ILogger = {
 
 const validator = new SpaceTraderValidator(logger)
 const formatter = new SpaceTraderFormatter()
-const spaceTradersApi = new SpaceTradersFetcher({ logger, validator })
+const spaceTradersApi = new SpaceTradersRepository({ logger, validator })
 export const spaceTraderService = new SpaceTraderService({ logger, spaceTradersApi, formatter })

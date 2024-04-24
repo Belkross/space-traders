@@ -1,5 +1,5 @@
 import { HomePage } from "#component/page/home.page"
-import { APP_NAME } from "#domain"
+import { APP_NAME } from "#constant"
 import { render, screen } from "./test-util"
 
 test("initial test", () => {

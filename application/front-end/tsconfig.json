@@ -22,8 +22,8 @@
     "types": ["vitest/globals"],
     "paths": {
       "#component/*": ["./src/component/*"],
-      "#domain": ["./src/domain"],
-      "#helper/*": ["./src/helper/*"],
+      "#constant": ["./src/constant"],
+      "#helper/*": ["../../library/domain/src/helper/*"],
       "#service/*": ["./src/service/*"],
       "#styled-system/*": ["./src/styled-system/*"]
     }

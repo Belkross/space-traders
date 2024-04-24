@@ -1,17 +1,13 @@
-import { sleep } from "#helper/index"
-import { ISpaceTraderApi, ISpaceTraderFormatter } from "../../api/space-traders.api"
-import { GetServerStatusDTO } from "./space-traders.schema"
-import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../../error"
-import { ILogger } from "../../logger"
-import { Agent } from "../../model/agent.model"
-import { feedback } from "../../model/feedback"
+import { sleep } from "../../helper/index.js"
+import { ISpaceTradersRepository, ISpaceTraderFormatter } from "../../repostitory/space-traders.repository.js"
+import { GetServerStatusDTO } from "./space-traders.schema.js"
+import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../../error/index.js"
+import { ILogger } from "../../logger.js"
+import { Agent } from "../../model/agent.model.js"
+import { feedback } from "../../model/feedback.js"
 
-export interface ISpaceTraderService {
-  getServerStatus: () => Promise<GetServerStatusDTO>
-  getMyProfile: (token: string) => Promise<Agent>
-}
-export class SpaceTraderService implements ISpaceTraderService {
-  private spaceTradersApi: ISpaceTraderApi
+export class SpaceTraderService {
+  private spaceTradersApi: ISpaceTradersRepository
   private formatter: ISpaceTraderFormatter
 
   constructor({
@@ -19,7 +15,7 @@ export class SpaceTraderService implements ISpaceTraderService {
     formatter,
   }: {
     logger: ILogger
-    spaceTradersApi: ISpaceTraderApi
+    spaceTradersApi: ISpaceTradersRepository
     formatter: ISpaceTraderFormatter
   }) {
     this.spaceTradersApi = spaceTradersApi

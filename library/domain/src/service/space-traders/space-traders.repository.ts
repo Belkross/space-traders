@@ -1,10 +1,10 @@
-import { ISpaceTraderApi } from "../../api/space-traders.api"
-import { GetMyProfileDTO } from "./space-traders.schema"
-import { SpaceTraderValidator } from "./space-traders.validator"
-import { SpaceTradersApiError } from "../../error"
-import { ILogger } from "../../logger"
+import { ISpaceTradersRepository } from "../../repostitory/space-traders.repository.js"
+import { GetMyProfileDTO } from "./space-traders.schema.js"
+import { SpaceTraderValidator } from "./space-traders.validator.js"
+import { SpaceTradersApiError } from "../../error/index.js"
+import { ILogger } from "../../logger.js"
 
-export class SpaceTradersFetcher implements ISpaceTraderApi {
+export class SpaceTradersRepository implements ISpaceTradersRepository {
   readonly origin: string
   private validator: SpaceTraderValidator
   private token: string

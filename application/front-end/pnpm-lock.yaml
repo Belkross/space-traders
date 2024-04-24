@@ -11,6 +11,9 @@ importers:
       '@fontsource/roboto':
         specifier: ^5.0.12
         version: 5.0.12
+      '@library/domain':
+        specifier: workspace:^
+        version: link:../../library/domain
       '@sinclair/typebox':
         specifier: ^0.32.20
         version: 0.32.20

@@ -1,5 +1,5 @@
 import { useQuery } from "react-query"
-import { APP_NAME, TOKEN } from "#domain"
+import { APP_NAME, TOKEN } from "#constant"
 import { spaceTraderService } from "#service/space-traders.service"
 import { css } from "#styled-system/css"
 import { ConnectionForm } from "#component/organism/connection-form"
