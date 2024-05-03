@@ -13,7 +13,7 @@ export function NewAgentForm() {
     setInput(event.target.value)
   }
 
-  const handleCreateAgent = useMutation(QueryKey.postAgent, {
+  const handleCreateAgent = useMutation(QueryKey.createAgent, {
     mutationFn: (username: string) => spaceTraderService.createAgent(username),
 
     onSuccess: (data) => {

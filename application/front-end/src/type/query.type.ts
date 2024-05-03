@@ -1,5 +1,5 @@
 export enum QueryKey {
-  retrieveMyAgent = "get_my_profile",
-  retrieveServerState = "get_server_status",
-  postAgent = "post_agent",
+  retrieveMyAgent = "retriev_my_profile",
+  retrieveServerState = "retrieve_server_status",
+  createAgent = "create_agent",
 }
