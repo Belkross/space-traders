@@ -7,8 +7,8 @@ import { GetServerStatusDTO, PostAgentDTO } from "../../repository/space-traders
 import { ISpaceTraderFormatter } from "../../formatter/space-traders.formatter.js"
 
 interface ISpaceTradersService {
-  getServerStatus(): Promise<GetServerStatusDTO>
-  getMyProfile(token: string): Promise<Agent>
+  retrieveServerState(): Promise<GetServerStatusDTO>
+  retrieveMyAgent(token: string): Promise<Agent>
   createAgent(username: string): Promise<PostAgentDTO>
 }
 
@@ -53,9 +53,9 @@ export class SpaceTraderService implements ISpaceTradersService {
     }
   }
 
-  public async getServerStatus() {
+  public async retrieveServerState() {
     try {
-      return await this.spaceTradersRepository.getServerStatus()
+      return await this.spaceTradersRepository.getServerState()
     } catch (error) {
       if (error instanceof SpaceTradersApiError) {
         throw new FeedbackError({ severity: "error", message: error.message })
@@ -69,10 +69,10 @@ export class SpaceTraderService implements ISpaceTradersService {
     }
   }
 
-  public async getMyProfile(token: string): Promise<Agent> {
+  public async retrieveMyAgent(token: string): Promise<Agent> {
     try {
-      const payload = await this.spaceTradersRepository.getMyProfile(token)
-      return this.formatter.getMyProfile(payload)
+      const payload = await this.spaceTradersRepository.getMyAgent(token)
+      return this.formatter.getMyAgent(payload)
     } catch (error) {
       if (error instanceof SpaceTradersApiError) {
         const { code, message } = error

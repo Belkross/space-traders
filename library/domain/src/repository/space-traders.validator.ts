@@ -37,18 +37,18 @@ export class SpaceTraderValidator implements ISpaceTraderValidator {
     return payload
   }
 
-  public getServerStatus(payload: unknown) {
+  public getServerState(payload: unknown) {
     if (!getServerStatusValidator.Check(payload)) {
-      this.logErrorIterator(getServerStatusValidator.Errors(payload), this.getServerStatus.name)
-      throw new InvalidPayloadError(this.getServerStatus.name)
+      this.logErrorIterator(getServerStatusValidator.Errors(payload), this.getServerState.name)
+      throw new InvalidPayloadError(this.getServerState.name)
     }
     return payload
   }
 
-  public getMyProfile(payload: unknown) {
+  public getMyAgent(payload: unknown) {
     if (!Value.Check(getMyProfileSchema, payload)) {
-      this.logErrorIterator(Value.Errors(getMyProfileSchema, payload), this.getMyProfile.name)
-      throw new InvalidPayloadError(this.getMyProfile.name)
+      this.logErrorIterator(Value.Errors(getMyProfileSchema, payload), this.getMyAgent.name)
+      throw new InvalidPayloadError(this.getMyAgent.name)
     }
     return payload
   }

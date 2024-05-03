@@ -10,7 +10,9 @@ export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert
   //Si la requête foire, on met le statu en rouge
   //Si elle charge, on met une animation de loading
-  const { data, isLoading, isError } = useQuery(QueryKey.getServerStatus, () => spaceTraderService.getServerStatus())
+  const { data, isLoading, isError } = useQuery(QueryKey.retrieveServerState, () =>
+    spaceTraderService.retrieveServerState()
+  )
 
   const announcements = data?.announcements ?? []
 

@@ -1,18 +1,17 @@
 import { SpaceTradersApiError } from "../error/index.js"
 import { ILogger } from "../logger.js"
-import { Agent } from "../model/agent.model.js"
 import { GetMyProfileDTO, GetServerStatusDTO, PostAgentDTO, SpaceTradersErrorDTO } from "./space-traders.schema.js"
 import { SpaceTraderValidator } from "./space-traders.validator.js"
 
 export interface ISpaceTradersRepository {
-  getServerStatus: () => Promise<GetServerStatusDTO>
-  getMyProfile: (token: string) => Promise<GetMyProfileDTO>
+  getServerState: () => Promise<GetServerStatusDTO>
+  getMyAgent: (token: string) => Promise<GetMyProfileDTO>
   postAgent: (username: string) => Promise<PostAgentDTO>
 }
 
 export interface ISpaceTraderValidator {
-  getServerStatus: (payload: unknown) => GetServerStatusDTO
-  getMyProfile: (payload: unknown) => GetMyProfileDTO
+  getServerState: (payload: unknown) => GetServerStatusDTO
+  getMyAgent: (payload: unknown) => GetMyProfileDTO
   postAgent: (payload: unknown) => PostAgentDTO
   spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO
 }
@@ -28,7 +27,7 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     this.token = ""
   }
 
-  public async getServerStatus() {
+  public async getServerState() {
     const response = await fetch(this.origin)
     const payload = await response.json()
 
@@ -36,14 +35,14 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
       throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
     }
 
-    return this.validator.getServerStatus(payload)
+    return this.validator.getServerState(payload)
   }
 
   /**
    * We use this request to authenticate the user.
    * That’s why the token need to be set if the request succeed
    */
-  public async getMyProfile(token: string): Promise<GetMyProfileDTO> {
+  public async getMyAgent(token: string): Promise<GetMyProfileDTO> {
     const response = await fetch(this.origin + "/my/agent", {
       headers: {
         authorization: `Bearer ${token}`,
@@ -56,7 +55,7 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     }
 
     this.token = token
-    return this.validator.getMyProfile(payload)
+    return this.validator.getMyAgent(payload)
   }
 
   public async postAgent(username: string): Promise<PostAgentDTO> {

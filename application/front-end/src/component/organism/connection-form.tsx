@@ -11,8 +11,8 @@ export function ConnectionForm() {
   const [input, setInput] = useState("")
   const { dispatch } = useAppState()
 
-  const loginMutation = useMutation(QueryKey.getMyProfile, {
-    mutationFn: (token: string) => spaceTraderService.getMyProfile(token),
+  const loginMutation = useMutation(QueryKey.retrieveMyAgent, {
+    mutationFn: (token: string) => spaceTraderService.retrieveMyAgent(token),
 
     onSuccess: (data) => {
       const { username, accountId, credits, headquarters, shipCount, startingFaction } = data
