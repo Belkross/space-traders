@@ -1,5 +1,8 @@
-import React, { ReactElement } from "react"
+/* eslint-disable react-refresh/only-export-components*/
+
+import { ReactElement } from "react"
 import { act, render, RenderOptions } from "@testing-library/react"
+
 import { Providers } from "#component/provider/providers"
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
