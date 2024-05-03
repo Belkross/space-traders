@@ -34,8 +34,6 @@ export class SpaceTraderService implements ISpaceTradersService {
     //4111: username already taken
     //422: username invalid
     //refaire la sauvegarde du token
-    //refactor le systèmes d’erreur
-    //refactor les domain / infra
     // faire un bouton qui permet d’utiliser le token sauvegardé
 
     try {
