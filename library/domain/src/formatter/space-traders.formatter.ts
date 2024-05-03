@@ -1,6 +1,10 @@
-import { ISpaceTraderFormatter } from "../../repository/space-traders.repository.js"
-import { GetMyProfileDTO } from "./space-traders.schema.js"
-import { Agent } from "../../model/agent.model.js"
+import { GetMyProfileDTO } from "../repository/space-traders.schema.js"
+import { Agent } from "../model/agent.model.js"
+
+export interface ISpaceTraderFormatter {
+  //  getServerStatus: (dto: GetServerStatusDTO) => object
+  getMyProfile: (dto: GetMyProfileDTO) => Agent
+}
 
 export class SpaceTraderFormatter implements ISpaceTraderFormatter {
   public constructor() {}

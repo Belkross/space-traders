@@ -2,15 +2,16 @@
 export * from "./model/agent.model.js"
 export * from "./model/feedback.js"
 
-//service
-export * from "./service/space-traders/space-traders.service.js"
-export * from "./service/space-traders/space-traders.repository.js"
-export * from "./service/space-traders/space-traders.validator.js"
-export * from "./service/space-traders/space-traders.formatter.js"
-
 //repository
 export * from "./repository/space-traders.repository.js"
+export * from "./repository/space-traders.validator.js"
 
-export * from "./constant.js"
+//service
+export * from "./service/space-traders/space-traders.service.js"
+
+//formatter
+export * from "./formatter/space-traders.formatter.js"
+
+//miscellaneous
 export * from "./logger.js"
 export * from "./error/index.js"

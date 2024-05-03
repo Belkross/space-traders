@@ -1,22 +1,5 @@
-import {
-  SpaceTraderService,
-  ILogger,
-  SpaceTraderValidator,
-  SpaceTradersRepository,
-  SpaceTraderFormatter,
-} from "@library/domain"
-
-const logger: ILogger = {
-  info(message) {
-    console.log(message)
-  },
-  warn(message) {
-    console.warn(message)
-  },
-  error(message) {
-    console.error(message)
-  },
-}
+import { SpaceTraderService, SpaceTraderValidator, SpaceTradersRepository, SpaceTraderFormatter } from "@library/domain"
+import { logger } from "./logger.service"
 
 const validator = new SpaceTraderValidator(logger)
 const spaceTradersRepository = new SpaceTradersRepository({ logger, validator })

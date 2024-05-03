@@ -1,9 +1,10 @@
-import { ISpaceTradersRepository, ISpaceTraderFormatter } from "../../repository/space-traders.repository.js"
+import { ISpaceTradersRepository } from "../../repository/space-traders.repository.js"
 import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../../error/index.js"
 import { ILogger } from "../../logger.js"
 import { Agent } from "../../model/agent.model.js"
 import { feedback } from "../../model/feedback.js"
-import { GetServerStatusDTO, PostAgentDTO } from "./space-traders.schema.js"
+import { GetServerStatusDTO, PostAgentDTO } from "../../repository/space-traders.schema.js"
+import { ISpaceTraderFormatter } from "../../formatter/space-traders.formatter.js"
 
 interface ISpaceTradersService {
   getServerStatus(): Promise<GetServerStatusDTO>
@@ -33,6 +34,9 @@ export class SpaceTraderService implements ISpaceTradersService {
     //4111: username already taken
     //422: username invalid
     //refaire la sauvegarde du token
+    //refactor le systèmes d’erreur
+    //refactor les domain / infra
+    // faire un bouton qui permet d’utiliser le token sauvegardé
 
     try {
       const data = await this.spaceTradersRepository.postAgent(username)

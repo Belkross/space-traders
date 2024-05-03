@@ -1,8 +1,8 @@
 import { ValueErrorIterator } from "@sinclair/typebox/errors"
 import { Value } from "@sinclair/typebox/value"
-import { InvalidPayloadError } from "../../error/index.js"
-import { ILogger } from "../../logger.js"
-import { ISpaceTraderValidator } from "../../repository/space-traders.repository.js"
+import { InvalidPayloadError } from "../error/index.js"
+import { ILogger } from "../logger.js"
+import { ISpaceTraderValidator } from "./space-traders.repository.js"
 import {
   SpaceTradersApiErrorSchema,
   getMyProfileSchema,
