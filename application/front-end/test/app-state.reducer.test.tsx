@@ -14,7 +14,7 @@ test("changing page", () => {
 })
 
 describe("logging in", () => {
-  test("it should drive to game page", () => {
+  test("it should drives to game page", () => {
     const action: Action = {
       type: ActionType.login,
       payload: { accountId: "", credits: 0, faction: "", headquarters: "", shipCount: 0, username: "" },

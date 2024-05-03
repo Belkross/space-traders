@@ -4,6 +4,7 @@ import { spaceTraderService } from "#service/space-traders.service"
 import { css } from "#styled-system/css"
 import { ConnectionForm } from "#component/organism/connection-form"
 import { QueryKey } from "#type"
+import { NewAgentForm } from "#component/organism/new-agent-form"
 
 export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert
@@ -18,6 +19,7 @@ export function HomePage() {
       <h1>{APP_NAME}</h1>
       <p>{`Status: ${isLoading || isError ? "OFF" : "ON"}`}</p>
 
+      <NewAgentForm />
       <ConnectionForm />
 
       <p data-testid="description">{data?.description}</p>
