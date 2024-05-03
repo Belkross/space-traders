@@ -1,10 +1,10 @@
-import { ISpaceTradersRepository } from "../../repository/space-traders.repository.js"
-import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../../error/index.js"
-import { ILogger } from "../../logger.js"
-import { Agent } from "../../model/agent.model.js"
-import { feedback } from "../../model/feedback.js"
-import { GetServerStatusDTO, PostAgentDTO } from "../../repository/space-traders.schema.js"
-import { ISpaceTraderFormatter } from "../../formatter/space-traders.formatter.js"
+import { ISpaceTradersRepository } from "../repository/space-traders.repository.js"
+import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadError } from "../error/index.js"
+import { ILogger } from "../logger.js"
+import { Agent } from "../model/agent.model.js"
+import { feedback } from "../model/feedback.js"
+import { GetServerStatusDTO, PostAgentDTO } from "../repository/space-traders.schema.js"
+import { ISpaceTraderFormatter } from "../formatter/space-traders.formatter.js"
 
 interface ISpaceTradersService {
   retrieveServerState(): Promise<GetServerStatusDTO>

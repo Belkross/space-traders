@@ -7,7 +7,7 @@ export * from "./repository/space-traders.repository.js"
 export * from "./repository/space-traders.validator.js"
 
 //service
-export * from "./service/space-traders/space-traders.service.js"
+export * from "./service/space-traders.service.js"
 
 //formatter
 export * from "./formatter/space-traders.formatter.js"
