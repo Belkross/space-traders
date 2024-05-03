@@ -1,5 +1,5 @@
 import { ISpaceTradersRepository } from "../../repository/space-traders.repository.js"
-import { GetMyProfileDTO } from "./space-traders.schema.js"
+import { GetMyProfileDTO, PostAgentDTO } from "./space-traders.schema.js"
 import { SpaceTraderValidator } from "./space-traders.validator.js"
 import { SpaceTradersApiError } from "../../error/index.js"
 import { ILogger } from "../../logger.js"
@@ -44,5 +44,30 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
 
     this.token = token
     return this.validator.getMyProfile(payload)
+  }
+
+  public async postAgent(username: string): Promise<PostAgentDTO> {
+    const body = JSON.stringify({
+      faction: "COSMIC",
+      symbol: username,
+      email: "",
+    })
+
+    const response = await fetch(this.origin + "/register", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+      },
+      body,
+    })
+
+    const payload = await response.json()
+
+    if (!response.ok) {
+      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+    }
+
+    return this.validator.postAgent(payload)
   }
 }

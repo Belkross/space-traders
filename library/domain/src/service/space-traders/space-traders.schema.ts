@@ -3,6 +3,7 @@ import { Type, Static } from "@sinclair/typebox"
 export type GetServerStatusDTO = Static<typeof getServerStatusSchema>
 export type GetMyProfileDTO = Static<typeof getMyProfileSchema>
 export type SpaceTradersErrorDTO = Static<typeof SpaceTradersApiErrorSchema>
+export type PostAgentDTO = Static<typeof postAgentSchema>
 
 export const SpaceTradersApiErrorSchema = Type.Object({
   error: Type.Object({
@@ -42,5 +43,57 @@ export const getMyProfileSchema = Type.Object({
     startingFaction: Type.String(),
     credits: Type.Number(),
     shipCount: Type.Number(),
+  }),
+})
+
+export const postAgentSchema = Type.Object({
+  data: Type.Object({
+    agent: Type.Object({
+      accountId: Type.String(),
+      symbol: Type.String(),
+      headquarters: Type.String(),
+      credits: Type.Number(),
+      startingFaction: Type.String(),
+      shipCount: Type.Number(),
+    }),
+    contract: Type.Object({
+      id: Type.String(),
+      factionSymbol: Type.String(),
+      type: Type.String(),
+      terms: Type.Object({
+        deadline: Type.String(),
+        payment: Type.Object({
+          onAccepted: Type.Number(),
+          onFulfilled: Type.Number(),
+        }),
+        deliver: Type.Array(
+          Type.Object({
+            tradeSymbol: Type.String(),
+            destinationSymbol: Type.String(),
+            unitsRequired: Type.Number(),
+            unitsFulfilled: Type.Number(),
+          })
+        ),
+      }),
+      accepted: Type.Boolean(),
+      fulfilled: Type.Boolean(),
+      expiration: Type.String(),
+      deadlineToAccept: Type.String(),
+    }),
+    faction: Type.Object({
+      symbol: Type.String(),
+      name: Type.String(),
+      description: Type.String(),
+      headquarters: Type.String(),
+      traits: Type.Array(
+        Type.Object({
+          symbol: Type.String(),
+          name: Type.String(),
+          description: Type.String(),
+        })
+      ),
+      isRecruiting: Type.Boolean(),
+    }),
+    token: Type.String(),
   }),
 })

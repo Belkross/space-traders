@@ -3,8 +3,15 @@ import { SpaceTradersApiError, FeedbackError, UnexpectedError, InvalidPayloadErr
 import { ILogger } from "../../logger.js"
 import { Agent } from "../../model/agent.model.js"
 import { feedback } from "../../model/feedback.js"
+import { GetServerStatusDTO, PostAgentDTO } from "./space-traders.schema.js"
 
-export class SpaceTraderService {
+interface ISpaceTradersService {
+  getServerStatus(): Promise<GetServerStatusDTO>
+  getMyProfile(token: string): Promise<Agent>
+  createAgent(username: string): Promise<PostAgentDTO>
+}
+
+export class SpaceTraderService implements ISpaceTradersService {
   private spaceTradersRepository: ISpaceTradersRepository
   private formatter: ISpaceTraderFormatter
 
@@ -18,6 +25,30 @@ export class SpaceTraderService {
   }) {
     this.spaceTradersRepository = spaceTradersRepository
     this.formatter = formatter
+  }
+
+  public async createAgent(username: string) {
+    //vérifier que le username est bien une string entre 3 et 14 caractères
+    //affiner la gestion des erreurs
+    //4111: username already taken
+    //422: username invalid
+    //refaire la sauvegarde du token
+
+    try {
+      const data = await this.spaceTradersRepository.postAgent(username)
+
+      return data
+    } catch (error) {
+      if (error instanceof SpaceTradersApiError) {
+        throw new FeedbackError({ severity: "error", message: error.message })
+      }
+
+      if (error instanceof InvalidPayloadError) {
+        throw error
+      }
+
+      throw new UnexpectedError()
+    }
   }
 
   public async getServerStatus() {
