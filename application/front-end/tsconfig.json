@@ -24,8 +24,9 @@
       "#component/*": ["./src/component/*"],
       "#constant": ["./src/constant"],
       "#context": ["./src/context"],
-      "#helper/*": ["../../library/domain/src/helper/*"],
-      "#service/*": ["./src/service/*"],
+      "#helper": ["./src/helper"],
+      "#repository": ["./src/repository"],
+      "#service": ["./src/service"],
       "#store/*": ["./src/store/*"],
       "#styled-system/*": ["./src/styled-system/*"],
       "#type": ["./src/type"]

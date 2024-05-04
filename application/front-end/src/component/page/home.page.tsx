@@ -1,10 +1,10 @@
 import { useQuery } from "react-query"
 import { APP_NAME, TOKEN } from "#constant"
-import { spaceTraderService } from "#service/space-traders.service"
+import { spaceTraderService } from "#service"
 import { css } from "#styled-system/css"
-import { ConnectionForm } from "#component/organism/connection-form"
+import { SignInForm } from "#component/organism/sign-in-form"
 import { QueryKey } from "#type"
-import { NewAgentForm } from "#component/organism/new-agent-form"
+import { SignUpForm } from "#component/organism/sign-up-form"
 
 export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert
@@ -21,8 +21,8 @@ export function HomePage() {
       <h1>{APP_NAME}</h1>
       <p>{`Status: ${isLoading || isError ? "OFF" : "ON"}`}</p>
 
-      <NewAgentForm />
-      <ConnectionForm />
+      <SignUpForm />
+      <SignInForm />
 
       <p data-testid="description">{data?.description}</p>
       <div>

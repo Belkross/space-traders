@@ -14,7 +14,7 @@ export class Feedback {
 }
 
 type Feedbacks = Record<FeedbackKey, Feedback>
-type FeedbackKey = "no_token_provided" | "invalid_token" | "unexpected_feedback"
+type FeedbackKey = "no_token_provided" | "invalid_token" | "unexpected" | "no_saved_token"
 
 export const feedback: Feedbacks = {
   no_token_provided: new Feedback({
@@ -25,8 +25,12 @@ export const feedback: Feedbacks = {
     severity: "warning",
     message: "The provided token is invalid.",
   }),
-  unexpected_feedback: new Feedback({
+  unexpected: new Feedback({
     severity: "error",
     message: "Something unexpected happened !",
+  }),
+  no_saved_token: new Feedback({
+    severity: "info",
+    message: "You have no saved token.",
   }),
 }

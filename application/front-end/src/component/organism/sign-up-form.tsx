@@ -2,31 +2,30 @@ import { css } from "#styled-system/css"
 import { useState, ChangeEvent } from "react"
 import { useMutation } from "react-query"
 import { QueryKey } from "../../type/query.type"
-import { spaceTraderService } from "#service/space-traders.service"
-import { FeedbackError, Feedback, feedback } from "@library/domain"
+import { spaceTraderService, userService } from "#service"
+import { CustomError, Feedback, feedback } from "@library/domain"
 import { displayFeedback } from "../../helper/display-feedback"
 
-export function NewAgentForm() {
+export function SignUpForm() {
   const [input, setInput] = useState("")
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value)
+    setInput(event.target.value.toUpperCase())
   }
 
   const handleCreateAgent = useMutation(QueryKey.createAgent, {
     mutationFn: (username: string) => spaceTraderService.createAgent(username),
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await userService.saveToken(data.data.token)
       displayFeedback(new Feedback({ message: `Agent ${data.data.agent.symbol} created.`, severity: "success" }))
-
-      localStorage.setItem("token", data.data.token)
     },
 
     onError: (error) => {
-      if (error instanceof FeedbackError) {
+      if (error instanceof CustomError) {
         displayFeedback(new Feedback({ message: error.message, severity: error.severity }))
       } else {
-        displayFeedback(feedback.unexpected_feedback)
+        displayFeedback(feedback.unexpected)
       }
     },
   })

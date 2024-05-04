@@ -19,6 +19,7 @@ export default defineConfig({
       "#constant": path.resolve(__dirname, "./src/constant"),
       "#context": path.resolve(__dirname, "./src/context"),
       "#helper": path.resolve(__dirname, "./src/helper"),
+      "#repository": path.resolve(__dirname, "./src/repository"),
       "#service": path.resolve(__dirname, "./src/service"),
       "#store": path.resolve(__dirname, "./src/store"),
       "#styled-system": path.resolve(__dirname, "./src/styled-system"),
