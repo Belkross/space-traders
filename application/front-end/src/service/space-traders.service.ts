@@ -2,7 +2,7 @@ import { SpaceTraderService, SpaceTraderValidator, SpaceTradersRepository, Space
 import { logger } from "./logger.service"
 
 const validator = new SpaceTraderValidator(logger)
-const spaceTradersRepository = new SpaceTradersRepository({ logger, validator })
+const spaceTradersRepository = new SpaceTradersRepository({ validator })
 
 const formatter = new SpaceTraderFormatter()
-export const spaceTraderService = new SpaceTraderService({ logger, spaceTradersRepository, formatter })
+export const spaceTraderService = new SpaceTraderService({ spaceTradersRepository, formatter })

@@ -1,6 +1,6 @@
 import { ISpaceTradersRepository } from "../repository/space-traders.repository.js"
 import { SpaceTradersApiError, CustomError, UnexpectedError, InvalidPayloadError } from "../error/index.js"
-import { ILogger } from "../logger.js"
+
 import { Agent } from "../model/agent.model.js"
 import { feedback } from "../model/feedback.js"
 import { GetServerStatusDTO, PostAgentDTO } from "../repository/space-traders.schema.js"
@@ -20,7 +20,6 @@ export class SpaceTraderService implements ISpaceTradersService {
     spaceTradersRepository,
     formatter,
   }: {
-    logger: ILogger
     spaceTradersRepository: ISpaceTradersRepository
     formatter: ISpaceTraderFormatter
   }) {
@@ -29,6 +28,7 @@ export class SpaceTraderService implements ISpaceTradersService {
   }
 
   public async createAgent(username: string) {
+    const usernameIsValid = /[A-Z|\d ]/.test(username)
     //vérifier que le username est bien une string entre 3 et 14 caractères
     //affiner la gestion des erreurs
     //4111: username already taken

@@ -1,5 +1,4 @@
 import { SpaceTradersApiError } from "../error/index.js"
-import { ILogger } from "../logger.js"
 import { GetMyProfileDTO, GetServerStatusDTO, PostAgentDTO, SpaceTradersErrorDTO } from "./space-traders.schema.js"
 import { SpaceTraderValidator } from "./space-traders.validator.js"
 
@@ -21,7 +20,7 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
   private validator: SpaceTraderValidator
   private token: string
 
-  constructor({ validator }: { logger: ILogger; validator: SpaceTraderValidator }) {
+  constructor({ validator }: { validator: SpaceTraderValidator }) {
     this.origin = "https://api.spacetraders.io/v2"
     this.validator = validator
     this.token = ""
