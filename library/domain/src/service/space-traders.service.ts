@@ -1,10 +1,18 @@
 import { ISpaceTradersRepository } from "../repository/space-traders.repository.js"
-import { SpaceTradersApiError, CustomError, UnexpectedError, InvalidPayloadError } from "../error/index.js"
+import {
+  SpaceTradersApiError,
+  CustomError,
+  UnexpectedError,
+  InvalidPayloadError,
+  InvalidUsernameError,
+  UsernameAlreadyTakenError,
+} from "../error/index.js"
 
 import { Agent } from "../model/agent.model.js"
 import { feedback } from "../model/feedback.js"
 import { GetServerStatusDTO, PostAgentDTO } from "../repository/space-traders.schema.js"
 import { ISpaceTraderFormatter } from "../formatter/space-traders.formatter.js"
+import { usernamePattern } from "../constant.js"
 
 interface ISpaceTradersService {
   retrieveServerState(): Promise<GetServerStatusDTO>
@@ -28,22 +36,22 @@ export class SpaceTraderService implements ISpaceTradersService {
   }
 
   public async createAgent(username: string) {
-    const usernameIsValid = /[A-Z|\d ]/.test(username)
-    //vérifier que le username est bien une string entre 3 et 14 caractères
-    //affiner la gestion des erreurs
-    //4111: username already taken
-    //422: username invalid
-
     try {
+      const usernameIsValid = usernamePattern.test(username)
+      if (!usernameIsValid) throw new InvalidUsernameError()
+
       const data = await this.spaceTradersRepository.postAgent(username)
 
       return data
     } catch (error) {
       if (error instanceof SpaceTradersApiError) {
-        throw new CustomError({ severity: "error", message: error.message })
+        if (error.code === 422) throw new InvalidUsernameError()
+        if (error.code === 4111) throw new UsernameAlreadyTakenError()
+
+        throw new CustomError({ severity: "warning", message: error.message })
       }
 
-      if (error instanceof InvalidPayloadError) {
+      if (error instanceof InvalidPayloadError || error instanceof InvalidUsernameError) {
         throw error
       }
 

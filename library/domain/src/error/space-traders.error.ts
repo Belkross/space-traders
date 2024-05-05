@@ -10,3 +10,17 @@ export class SpaceTradersApiError extends CustomError {
     this.name = SpaceTradersApiError.name
   }
 }
+
+export class InvalidUsernameError extends CustomError {
+  constructor() {
+    super({ message: "Invalid username.", severity: "info" })
+    this.name = InvalidUsernameError.name
+  }
+}
+
+export class UsernameAlreadyTakenError extends CustomError {
+  constructor() {
+    super({ message: "Username already taken.", severity: "info" })
+    this.name = UsernameAlreadyTakenError.name
+  }
+}
