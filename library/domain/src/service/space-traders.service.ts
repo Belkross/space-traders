@@ -21,19 +21,7 @@ interface ISpaceTradersService {
 }
 
 export class SpaceTraderService implements ISpaceTradersService {
-  private spaceTradersRepository: ISpaceTradersRepository
-  private formatter: ISpaceTraderFormatter
-
-  constructor({
-    spaceTradersRepository,
-    formatter,
-  }: {
-    spaceTradersRepository: ISpaceTradersRepository
-    formatter: ISpaceTraderFormatter
-  }) {
-    this.spaceTradersRepository = spaceTradersRepository
-    this.formatter = formatter
-  }
+  constructor(private spaceTradersRepository: ISpaceTradersRepository, private formatter: ISpaceTraderFormatter) {}
 
   public async createAgent(username: string) {
     try {

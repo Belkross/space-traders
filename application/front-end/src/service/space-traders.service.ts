@@ -5,4 +5,4 @@ const validator = new SpaceTraderValidator(logger)
 const spaceTradersRepository = new SpaceTradersRepository({ validator })
 
 const formatter = new SpaceTraderFormatter()
-export const spaceTraderService = new SpaceTraderService({ spaceTradersRepository, formatter })
+export const spaceTraderService = new SpaceTraderService(spaceTradersRepository, formatter)

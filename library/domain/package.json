@@ -5,7 +5,8 @@
   "type": "module",
   "main": "./dist/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test_watch": "jest --watch",
     "build": "tsc",
     "start_watch": "tsc -w"
   },
@@ -13,6 +14,10 @@
   "author": "belkross",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
