@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "pnpm run --parallel /^start_watch:/",
-    "test": "pnpm --filter ./application/front-end run test",
+    "test": "pnpm --filter ./application/front-end --filter ./library/domain run test",
+    "test:domain": "pnpm --filter ./library/domain run test",
     "test_watch:front": "pnpm --filter ./application/front-end run test_watch",
     "test_watch:domain": "pnpm --filter ./library/domain run test_watch",
     "start_watch:front": "pnpm --filter ./application/front-end run start_watch",
