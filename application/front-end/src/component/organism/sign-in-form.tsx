@@ -1,11 +1,11 @@
+import { useAppState } from "#context"
+import { displayFeedback } from "#helper"
+import { userService } from "#service"
 import { css } from "#styled-system/css"
+import { ActionType, QueryKey } from "#type"
+import { CustomError, Feedback, spaceTradersUC } from "@library/domain"
 import { ChangeEvent, useState } from "react"
 import { useMutation } from "react-query"
-import { userService } from "#service"
-import { ActionType, QueryKey } from "#type"
-import { Feedback, feedback, CustomError, NoSavedTokenError, spaceTradersUC } from "@library/domain"
-import { displayFeedback } from "#helper"
-import { useAppState } from "#context"
 
 export function SignInForm() {
   const [input, setInput] = useState("")
@@ -24,11 +24,8 @@ export function SignInForm() {
     },
 
     onError: (error) => {
-      if (error instanceof CustomError) {
-        displayFeedback(new Feedback({ message: error.message, severity: error.severity }))
-      } else {
-        displayFeedback(feedback.unexpected)
-      }
+      const { message, severity, duration } = error as CustomError
+      displayFeedback(new Feedback({ message, severity, duration }))
     },
   })
 
@@ -40,8 +37,8 @@ export function SignInForm() {
     try {
       setInput(await userService.retrieveToken())
     } catch (error) {
-      if (error instanceof NoSavedTokenError) displayFeedback(feedback.no_saved_token)
-      else displayFeedback(feedback.unexpected)
+      const { message, severity, duration } = error as CustomError
+      displayFeedback(new Feedback({ message, severity, duration }))
     }
   }
 

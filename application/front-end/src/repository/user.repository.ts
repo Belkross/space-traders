@@ -1,4 +1,4 @@
-import { IUserRepository, NoSavedTokenError } from "@library/domain"
+import { IUserRepository, NoTokenProvidedError } from "@library/domain"
 class UserRepository implements IUserRepository {
   private static instance: UserRepository | undefined
   private readonly KEY_TOKEN = "space_traders_token"
@@ -26,7 +26,7 @@ class UserRepository implements IUserRepository {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem(this.KEY_TOKEN)
 
-      if (token === null) reject(new NoSavedTokenError())
+      if (token === null) reject(new NoTokenProvidedError())
       else resolve(token)
     })
   }

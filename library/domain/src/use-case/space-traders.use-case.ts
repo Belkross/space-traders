@@ -3,6 +3,7 @@ import { spaceTradersRepository } from "../repository/space-traders.repository.j
 import { GetServerStateDTO, PostAgentDTO } from "#schema"
 import { spaceTradersService } from "../service/space-traders.service.js"
 import { createAgentUC } from "./create-agent.use-case.js"
+import { formatter } from "../index.js"
 
 interface ISpaceTradersUC {
   createAgent: (username: string) => Promise<PostAgentDTO>
@@ -24,8 +25,8 @@ export async function retrieveServerStateUC() {
 }
 
 export async function loginUC(token: string) {
-  const response = await spaceTradersService.retrieveMyAgent(token)
+  const response = await spaceTradersService.retrieveMyAgent(token, spaceTradersRepository.getMyAgent)
 
   if (response instanceof Error) throw response
-  else return response
+  else return formatter.getMyAgent(response)
 }

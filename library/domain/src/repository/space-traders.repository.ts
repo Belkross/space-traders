@@ -1,16 +1,16 @@
 import { SingletonNotInitializedError, SpaceTradersApiError } from "#error"
-import { GetMyProfileDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "#schema"
+import { GetMyAgentDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "#schema"
 import { SpaceTraderValidator, spaceTraderValidator } from "#validator"
 
 export interface ISpaceTradersRepository {
   getServerState: () => Promise<GetServerStateDTO>
-  getMyAgent: (token: string) => Promise<GetMyProfileDTO>
+  getMyAgent: (token: string) => Promise<GetMyAgentDTO>
   postAgent: (username: string) => Promise<PostAgentDTO>
 }
 
 export interface ISpaceTraderValidator {
   getServerState: (payload: unknown) => GetServerStateDTO
-  getMyAgent: (payload: unknown) => GetMyProfileDTO
+  getMyAgent: (payload: unknown) => GetMyAgentDTO
   postAgent: (payload: unknown) => PostAgentDTO
   spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO
 }
@@ -56,7 +56,7 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
    * We use this request to authenticate the user.
    * That’s why the token need to be set if the request succeed
    */
-  public async getMyAgent(token: string): Promise<GetMyProfileDTO> {
+  public getMyAgent = async (token: string): Promise<GetMyAgentDTO> => {
     const response = await fetch(this.origin + "/my/agent", {
       headers: {
         authorization: `Bearer ${token}`,

@@ -6,7 +6,7 @@ export class SpaceTradersApiError extends CustomError {
     super({
       severity: "info",
       message: errorDTO.error.message,
-      code: String(errorDTO),
+      code: String(errorDTO.error.code),
     })
     this.name = SpaceTradersApiError.name
   }
@@ -23,5 +23,19 @@ export class UsernameAlreadyTakenError extends CustomError {
   constructor() {
     super({ message: "Username already taken.", severity: "info" })
     this.name = UsernameAlreadyTakenError.name
+  }
+}
+
+export class NoTokenProvidedError extends CustomError {
+  constructor() {
+    super({ message: "No token provided.", severity: "info" })
+    this.name = NoTokenProvidedError.name
+  }
+}
+
+export class UnrecognizedTokenError extends CustomError {
+  constructor() {
+    super({ message: "Unrecognized token.", severity: "warning" })
+    this.name = UnrecognizedTokenError.name
   }
 }

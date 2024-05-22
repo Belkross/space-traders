@@ -1,19 +1,14 @@
-import { GetMyProfileDTO } from "#schema"
+import { GetMyAgentDTO } from "#schema"
 import { Agent } from "#model"
 
 export interface ISpaceTraderFormatter {
-  //  retrieveServerState: (dto: GetServerStateDTO) => object
-  getMyAgent: (dto: GetMyProfileDTO) => Agent
+  getMyAgent: (dto: GetMyAgentDTO) => Agent
 }
 
 export class SpaceTraderFormatter implements ISpaceTraderFormatter {
   public constructor() {}
 
-  /* public retrieveServerState(dto: GetServerStateDTO) {
-    throw new Error(dto)
-  } */
-
-  public getMyAgent(dto: GetMyProfileDTO): Agent {
+  public getMyAgent(dto: GetMyAgentDTO): Agent {
     const { accountId, symbol, credits, headquarters, shipCount, startingFaction } = dto.data
 
     return {
