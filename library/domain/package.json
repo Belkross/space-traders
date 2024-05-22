@@ -22,5 +22,8 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.32.23"
+  },
+  "imports": {
+    "#error": "./src/error/index.error.ts"
   }
 }

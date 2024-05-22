@@ -1,4 +1,4 @@
-import { CustomError, InvalidPayloadError, UnexpectedError } from "../error/index.js"
+import { CustomError, InvalidPayloadError, UnexpectedError } from "#error"
 import { formatter } from "../formatter/space-traders.formatter.js"
 import { Agent } from "../model/agent.model.js"
 import { feedback } from "../model/feedback.js"

@@ -1,5 +1,5 @@
 import { ValueErrorIterator } from "@sinclair/typebox/errors"
-import { InvalidPayloadError, SingletonNotInitializedError } from "../error/index.js"
+import { InvalidPayloadError, SingletonNotInitializedError } from "#error"
 import { ISpaceTraderValidator } from "./space-traders.repository.js"
 import {
   SpaceTradersApiErrorSchema,

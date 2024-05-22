@@ -17,4 +17,4 @@ export * from "./formatter/space-traders.formatter.js"
 
 //miscellaneous
 export * from "./logger.js"
-export * from "./error/index.js"
+export * from "./error/index.error.js"

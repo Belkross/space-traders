@@ -1,6 +1,10 @@
-import { CustomError } from "../error/error-builder.js"
-import { InvalidPayloadError, UnexpectedError } from "../error/general.error.js"
-import { UsernameAlreadyTakenError, InvalidUsernameError } from "../error/index.js"
+import {
+  UsernameAlreadyTakenError,
+  InvalidUsernameError,
+  CustomError,
+  InvalidPayloadError,
+  UnexpectedError,
+} from "#error"
 import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js"
 import { PostAgentDTO } from "../repository/space-traders.schema.js"
 

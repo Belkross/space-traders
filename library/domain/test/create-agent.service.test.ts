@@ -4,7 +4,7 @@ import {
   InvalidUsernameError,
   UnexpectedError,
   UsernameAlreadyTakenError,
-} from "../src/error/index.js"
+} from "#error"
 import { CreateAgentService } from "../src/service/create-agent.service.js"
 
 describe(CreateAgentService.name, () => {

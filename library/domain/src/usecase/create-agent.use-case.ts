@@ -1,5 +1,4 @@
-import { CustomError } from "../error/error-builder.js"
-import { InvalidUsernameError } from "../error/space-traders.error.js"
+import { CustomError, InvalidUsernameError } from "#error"
 import { PostAgentDTO } from "../repository/space-traders.schema.js"
 import { ISpaceTradersService, spaceTradersService } from "../service/space-traders.service.js"
 

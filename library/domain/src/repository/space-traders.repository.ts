@@ -1,4 +1,4 @@
-import { SingletonNotInitializedError, SpaceTradersApiError } from "../error/index.js"
+import { SingletonNotInitializedError, SpaceTradersApiError } from "#error"
 import { GetMyProfileDTO, GetServerStatusDTO, PostAgentDTO, SpaceTradersErrorDTO } from "./space-traders.schema.js"
 import { SpaceTraderValidator, spaceTraderValidator } from "./space-traders.validator.js"
 

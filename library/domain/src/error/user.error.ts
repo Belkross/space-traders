@@ -1,4 +1,4 @@
-import { CustomError } from "./index.js"
+import { CustomError } from "#error"
 
 export class NoSavedTokenError extends CustomError {
   constructor() {
