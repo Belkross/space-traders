@@ -1,9 +1,9 @@
 import { css } from "#styled-system/css"
 import { ChangeEvent, useState } from "react"
 import { useMutation } from "react-query"
-import { spaceTraderService, userService } from "#service"
+import { userService } from "#service"
 import { ActionType, QueryKey } from "#type"
-import { Feedback, feedback, CustomError, NoSavedTokenError } from "@library/domain"
+import { Feedback, feedback, CustomError, NoSavedTokenError, agentUC } from "@library/domain"
 import { displayFeedback } from "#helper"
 import { useAppState } from "#context"
 
@@ -12,7 +12,7 @@ export function SignInForm() {
   const { dispatch } = useAppState()
 
   const loginMutation = useMutation(QueryKey.retrieveMyAgent, {
-    mutationFn: (token: string) => spaceTraderService.retrieveMyAgent(token),
+    mutationFn: (token: string) => agentUC.login(token),
 
     onSuccess: (data) => {
       const { username, accountId, credits, headquarters, shipCount, startingFaction } = data

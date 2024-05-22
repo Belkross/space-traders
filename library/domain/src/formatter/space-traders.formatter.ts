@@ -26,3 +26,5 @@ export class SpaceTraderFormatter implements ISpaceTraderFormatter {
     }
   }
 }
+
+export const formatter = new SpaceTraderFormatter()

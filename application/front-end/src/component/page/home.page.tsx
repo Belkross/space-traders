@@ -4,6 +4,7 @@ import { css } from "#styled-system/css"
 import { QueryKey } from "#type"
 import { SignUpForm } from "#component/organism/sign-up-form"
 import { agentUC } from "@library/domain"
+import { SignInForm } from "#component/organism/sign-in-form"
 
 export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert
@@ -19,7 +20,7 @@ export function HomePage() {
       <p>{`Status: ${isLoading || isError ? "OFF" : "ON"}`}</p>
 
       <SignUpForm />
-      {/* <SignInForm /> */}
+      <SignInForm />
 
       <p data-testid="description">{data?.description}</p>
       <div>
