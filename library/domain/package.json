@@ -8,7 +8,7 @@
     "test": "jest",
     "test_watch": "jest --watch",
     "build": "tsc",
-    "start_watch": "tsc -w"
+    "start_watch": "tsc --watch"
   },
   "keywords": [],
   "author": "belkross",

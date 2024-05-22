@@ -1,7 +1,7 @@
 import { Type, Static } from "@sinclair/typebox"
 
 export type GetServerStatusDTO = Static<typeof getServerStatusSchema>
-export type GetMyProfileDTO = Static<typeof getMyProfileSchema>
+export type GetMyProfileDTO = Static<typeof getMyAgentSchema>
 export type SpaceTradersErrorDTO = Static<typeof SpaceTradersApiErrorSchema>
 export type PostAgentDTO = Static<typeof postAgentSchema>
 
@@ -35,7 +35,7 @@ export const getServerStatusSchema = Type.Object({
   }),
 })
 
-export const getMyProfileSchema = Type.Object({
+export const getMyAgentSchema = Type.Object({
   data: Type.Object({
     accountId: Type.String(),
     symbol: Type.String(),

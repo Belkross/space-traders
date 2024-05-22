@@ -1,6 +1,6 @@
-import { SpaceTradersApiError } from "../error/index.js"
+import { SingletonNotInitializedError, SpaceTradersApiError } from "../error/index.js"
 import { GetMyProfileDTO, GetServerStatusDTO, PostAgentDTO, SpaceTradersErrorDTO } from "./space-traders.schema.js"
-import { SpaceTraderValidator } from "./space-traders.validator.js"
+import { SpaceTraderValidator, spaceTraderValidator } from "./space-traders.validator.js"
 
 export interface ISpaceTradersRepository {
   getServerState: () => Promise<GetServerStatusDTO>
@@ -16,14 +16,29 @@ export interface ISpaceTraderValidator {
 }
 
 export class SpaceTradersRepository implements ISpaceTradersRepository {
+  private static instance: SpaceTradersRepository | undefined
   readonly origin: string
   private validator: SpaceTraderValidator
   private token: string
 
-  constructor({ validator }: { validator: SpaceTraderValidator }) {
+  private constructor({ validator }: { validator: SpaceTraderValidator }) {
     this.origin = "https://api.spacetraders.io/v2"
     this.validator = validator
     this.token = ""
+  }
+
+  public static initialize(validator: SpaceTraderValidator) {
+    if (SpaceTradersRepository.instance === undefined) {
+      SpaceTradersRepository.instance = new SpaceTradersRepository({ validator })
+    }
+  }
+
+  public static getInstance() {
+    if (SpaceTradersRepository.instance === undefined) {
+      throw new SingletonNotInitializedError(SpaceTradersRepository.name)
+    }
+
+    return SpaceTradersRepository.instance
   }
 
   public async getServerState() {
@@ -57,7 +72,7 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     return this.validator.getMyAgent(payload)
   }
 
-  public async postAgent(username: string): Promise<PostAgentDTO> {
+  public postAgent = async (username: string): Promise<PostAgentDTO> => {
     const body = JSON.stringify({
       faction: "COSMIC",
       symbol: username,
@@ -82,3 +97,6 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     return this.validator.postAgent(payload)
   }
 }
+
+SpaceTradersRepository.initialize(spaceTraderValidator)
+export const spaceTradersRepository = SpaceTradersRepository.getInstance()

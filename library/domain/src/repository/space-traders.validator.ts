@@ -1,11 +1,9 @@
 import { ValueErrorIterator } from "@sinclair/typebox/errors"
-import { Value } from "@sinclair/typebox/value"
-import { InvalidPayloadError } from "../error/index.js"
-import { ILogger } from "../logger.js"
+import { InvalidPayloadError, SingletonNotInitializedError } from "../error/index.js"
 import { ISpaceTraderValidator } from "./space-traders.repository.js"
 import {
   SpaceTradersApiErrorSchema,
-  getMyProfileSchema,
+  getMyAgentSchema,
   getServerStatusSchema,
   postAgentSchema,
 } from "./space-traders.schema.js"
@@ -13,49 +11,71 @@ import { TypeCompiler } from "@sinclair/typebox/compiler"
 
 const spaceTradersErrorValidator = TypeCompiler.Compile(SpaceTradersApiErrorSchema)
 const getServerStatusValidator = TypeCompiler.Compile(getServerStatusSchema)
+const getMyAgentValidator = TypeCompiler.Compile(getMyAgentSchema)
 const postAgentValidator = TypeCompiler.Compile(postAgentSchema)
-export class SpaceTraderValidator implements ISpaceTraderValidator {
-  private logger: ILogger
 
-  public constructor(logger: ILogger) {
-    this.logger = logger
+export class SpaceTraderValidator implements ISpaceTraderValidator {
+  private static instance: SpaceTraderValidator | undefined
+
+  private constructor() {}
+
+  public static initialize() {
+    if (SpaceTraderValidator.instance === undefined) {
+      SpaceTraderValidator.instance = new SpaceTraderValidator()
+    }
+  }
+
+  public static getInstance() {
+    if (SpaceTraderValidator.instance === undefined) {
+      throw new SingletonNotInitializedError()
+    }
+
+    return SpaceTraderValidator.instance
   }
 
   public spaceTraderError(payload: unknown) {
     if (!spaceTradersErrorValidator.Check(payload)) {
-      this.logErrorIterator(spaceTradersErrorValidator.Errors(payload), this.spaceTraderError.name)
-      throw new InvalidPayloadError(this.spaceTraderError.name)
+      const detail = this.createDetailError(this.spaceTraderError.name, spaceTradersErrorValidator.Errors(payload))
+      throw new InvalidPayloadError(detail)
     }
     return payload
   }
 
   public postAgent(payload: unknown) {
     if (!postAgentValidator.Check(payload)) {
-      this.logErrorIterator(postAgentValidator.Errors(payload), this.postAgent.name)
-      throw new InvalidPayloadError(this.postAgent.name)
+      const detail = this.createDetailError(this.postAgent.name, postAgentValidator.Errors(payload))
+      throw new InvalidPayloadError(detail)
     }
     return payload
   }
 
   public getServerState(payload: unknown) {
     if (!getServerStatusValidator.Check(payload)) {
-      this.logErrorIterator(getServerStatusValidator.Errors(payload), this.getServerState.name)
-      throw new InvalidPayloadError(this.getServerState.name)
+      const detail = this.createDetailError(this.getServerState.name, getServerStatusValidator.Errors(payload))
+      throw new InvalidPayloadError(detail)
     }
     return payload
   }
 
   public getMyAgent(payload: unknown) {
-    if (!Value.Check(getMyProfileSchema, payload)) {
-      this.logErrorIterator(Value.Errors(getMyProfileSchema, payload), this.getMyAgent.name)
-      throw new InvalidPayloadError(this.getMyAgent.name)
+    if (!getMyAgentValidator.Check(payload)) {
+      const detail = this.createDetailError(this.getMyAgent.name, getMyAgentValidator.Errors(payload))
+      throw new InvalidPayloadError(detail)
     }
     return payload
   }
 
-  private logErrorIterator(errors: ValueErrorIterator, from?: string): void {
+  private createDetailError(from: string, errors: ValueErrorIterator): string {
+    let problems = `${from}\n`
+
     for (const error of errors) {
-      this.logger.info(`InvalidPayloadError ${from}, path: ${error.path}, message: ${error.message}`)
+      const string = `path: ${error.path}, message: ${error.message}\n`
+      problems += string
     }
+
+    return problems
   }
 }
+
+SpaceTraderValidator.initialize()
+export const spaceTraderValidator = SpaceTraderValidator.getInstance()

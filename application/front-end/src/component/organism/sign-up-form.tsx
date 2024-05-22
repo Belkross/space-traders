@@ -2,8 +2,8 @@ import { css } from "#styled-system/css"
 import { useState, ChangeEvent } from "react"
 import { useMutation } from "react-query"
 import { QueryKey } from "../../type/query.type"
-import { spaceTraderService, userService } from "#service"
-import { CustomError, Feedback, feedback } from "@library/domain"
+import { userService } from "#service"
+import { CustomError, Feedback, agentUC, feedback } from "@library/domain"
 import { displayFeedback } from "../../helper/display-feedback"
 
 export function SignUpForm() {
@@ -14,7 +14,7 @@ export function SignUpForm() {
   }
 
   const handleCreateAgent = useMutation(QueryKey.createAgent, {
-    mutationFn: (username: string) => spaceTraderService.createAgent(username),
+    mutationFn: (username: string) => agentUC.createAgent(username),
 
     onSuccess: async (data) => {
       await userService.saveToken(data.data.token)

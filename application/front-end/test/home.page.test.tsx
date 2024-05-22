@@ -13,7 +13,7 @@ describe("HomePage", () => {
     expect(appName).toBeVisible()
   })
 
-  test("the page has a login form", () => {
+  test.skip("the page has a login form", () => {
     const title = screen.getByRole("heading", { name: "Log in" })
     const input = screen.getByRole("textbox", { name: "login input" })
     const buttonSubmit = screen.getByRole("button", { name: "Log in" })

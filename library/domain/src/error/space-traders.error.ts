@@ -2,18 +2,19 @@ import { SpaceTradersErrorDTO } from "../repository/space-traders.schema.js"
 import { CustomError } from "./index.js"
 
 export class SpaceTradersApiError extends CustomError {
-  code: number
-
   constructor(errorDTO: SpaceTradersErrorDTO) {
-    super({ severity: "info", message: errorDTO.error.message })
-    this.code = errorDTO.error.code
+    super({
+      severity: "info",
+      message: errorDTO.error.message,
+      code: String(errorDTO),
+    })
     this.name = SpaceTradersApiError.name
   }
 }
 
 export class InvalidUsernameError extends CustomError {
-  constructor() {
-    super({ message: "Invalid username.", severity: "info" })
+  constructor(input?: { detail?: string }) {
+    super({ message: "Invalid username.", severity: "info", detail: input?.detail })
     this.name = InvalidUsernameError.name
   }
 }

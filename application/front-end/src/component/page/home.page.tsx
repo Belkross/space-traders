@@ -1,18 +1,15 @@
 import { useQuery } from "react-query"
 import { APP_NAME, TOKEN } from "#constant"
-import { spaceTraderService } from "#service"
 import { css } from "#styled-system/css"
-import { SignInForm } from "#component/organism/sign-in-form"
 import { QueryKey } from "#type"
 import { SignUpForm } from "#component/organism/sign-up-form"
+import { agentUC } from "@library/domain"
 
 export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert
   //Si la requête foire, on met le statu en rouge
   //Si elle charge, on met une animation de loading
-  const { data, isLoading, isError } = useQuery(QueryKey.retrieveServerState, () =>
-    spaceTraderService.retrieveServerState()
-  )
+  const { data, isLoading, isError } = useQuery(QueryKey.retrieveServerState, () => agentUC.retrieveServerState())
 
   const announcements = data?.announcements ?? []
 
@@ -22,7 +19,7 @@ export function HomePage() {
       <p>{`Status: ${isLoading || isError ? "OFF" : "ON"}`}</p>
 
       <SignUpForm />
-      <SignInForm />
+      {/* <SignInForm /> */}
 
       <p data-testid="description">{data?.description}</p>
       <div>

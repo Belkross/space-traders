@@ -10,6 +10,7 @@ export * from "./repository/space-traders.validator.js"
 //service
 export * from "./service/user.service.js"
 export * from "./service/space-traders.service.js"
+export * from "./usecase/space-traders.usecase.js"
 
 //formatter
 export * from "./formatter/space-traders.formatter.js"
