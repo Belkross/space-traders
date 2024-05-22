@@ -1,5 +1,5 @@
-import { GetMyProfileDTO } from "../repository/space-traders.schema.js"
-import { Agent } from "../model/agent.model.js"
+import { GetMyProfileDTO } from "#schema"
+import { Agent } from "#model"
 
 export interface ISpaceTraderFormatter {
   //  retrieveServerState: (dto: GetServerStateDTO) => object

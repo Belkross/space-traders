@@ -1,6 +1,6 @@
 import { SingletonNotInitializedError, SpaceTradersApiError } from "#error"
-import { GetMyProfileDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "./space-traders.schema.js"
-import { SpaceTraderValidator, spaceTraderValidator } from "./space-traders.validator.js"
+import { GetMyProfileDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "#schema"
+import { SpaceTraderValidator, spaceTraderValidator } from "#validator"
 
 export interface ISpaceTradersRepository {
   getServerState: () => Promise<GetServerStateDTO>
@@ -41,7 +41,7 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     return SpaceTradersRepository.instance
   }
 
-  public async getServerState() {
+  public getServerState = async () => {
     const response = await fetch(this.origin)
     const payload = await response.json()
 

@@ -1,4 +1,4 @@
-import { SpaceTradersErrorDTO } from "../repository/space-traders.schema.js"
+import { SpaceTradersErrorDTO } from "#schema"
 import { CustomError } from "#error"
 
 export class SpaceTradersApiError extends CustomError {

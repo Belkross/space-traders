@@ -1,13 +1,8 @@
-import { ValueErrorIterator } from "@sinclair/typebox/errors"
 import { InvalidPayloadError, SingletonNotInitializedError } from "#error"
-import { ISpaceTraderValidator } from "./space-traders.repository.js"
-import {
-  SpaceTradersApiErrorSchema,
-  getMyAgentSchema,
-  getServerStatusSchema,
-  postAgentSchema,
-} from "./space-traders.schema.js"
+import { ISpaceTraderValidator } from "#repository"
+import { SpaceTradersApiErrorSchema, getMyAgentSchema, getServerStatusSchema, postAgentSchema } from "#schema"
 import { TypeCompiler } from "@sinclair/typebox/compiler"
+import { ValueErrorIterator } from "@sinclair/typebox/errors"
 
 const spaceTradersErrorValidator = TypeCompiler.Compile(SpaceTradersApiErrorSchema)
 const getServerStatusValidator = TypeCompiler.Compile(getServerStatusSchema)

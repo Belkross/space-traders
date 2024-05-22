@@ -1,11 +1,37 @@
-import { CustomError, InvalidPayloadError, UnexpectedError } from "#error"
-import { formatter } from "../formatter/space-traders.formatter.js"
-import { Agent } from "../model/agent.model.js"
-import { feedback } from "../model/feedback.js"
+import {
+  CustomError,
+  InvalidPayloadError,
+  InvalidUsernameError,
+  UnexpectedError,
+  UsernameAlreadyTakenError,
+} from "#error"
+import { formatter } from "#formatter"
+import { Agent, feedback } from "#model"
 import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js"
-import { GetServerStateDTO, PostAgentDTO } from "../repository/space-traders.schema.js"
-import { createAgentService } from "./create-agent.service.js"
+import { GetServerStateDTO, PostAgentDTO } from "#schema"
 
+export class CreateAgentService {
+  constructor(private request: ISpaceTradersRepository["postAgent"]) {}
+
+  public do = async (username: string): Promise<PostAgentDTO | CustomError> => {
+    try {
+      return await this.request(username)
+    } catch (error) {
+      if (error instanceof CustomError) {
+        if (error.code === "4111") return new UsernameAlreadyTakenError()
+        if (error.code === "422") return new InvalidUsernameError({ detail: "from SpaceTraders’s api" })
+        if (error instanceof InvalidUsernameError) return error
+        if (error instanceof InvalidPayloadError) return error
+
+        return new CustomError({ severity: "warning", message: error.message })
+      }
+
+      return new UnexpectedError()
+    }
+  }
+}
+
+export const createAgentService = new CreateAgentService(spaceTradersRepository.postAgent).do
 export interface ISpaceTradersService {
   retrieveServerState(request: ISpaceTradersRepository["getServerState"]): Promise<GetServerStateDTO | CustomError>
   retrieveMyAgent(token: string): Promise<Agent | CustomError>

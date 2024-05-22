@@ -1,4 +1,4 @@
-import { Severity, Feedback } from "../model/feedback.js"
+import { Severity, Feedback } from "#model"
 
 export class CustomError extends Error {
   severity: Severity

@@ -5,7 +5,7 @@ import {
   UnexpectedError,
   UsernameAlreadyTakenError,
 } from "#error"
-import { CreateAgentService } from "../src/service/create-agent.service.js"
+import { CreateAgentService } from "#service"
 
 describe(CreateAgentService.name, () => {
   test("should return the result of the request when success", async () => {

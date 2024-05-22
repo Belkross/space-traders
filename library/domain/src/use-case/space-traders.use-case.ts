@@ -1,7 +1,7 @@
-import { Agent } from "../model/agent.model.js"
+import { Agent } from "#model"
 import { spaceTradersRepository } from "../repository/space-traders.repository.js"
-import { GetServerStateDTO, PostAgentDTO } from "../repository/space-traders.schema.js"
-import { spaceTradersService } from "#service"
+import { GetServerStateDTO, PostAgentDTO } from "#schema"
+import { spaceTradersService } from "../service/space-traders.service.js"
 import { createAgentUC } from "./create-agent.use-case.js"
 
 interface ISpaceTradersUC {
@@ -12,11 +12,11 @@ interface ISpaceTradersUC {
 
 export const spaceTradersUC: ISpaceTradersUC = {
   createAgent: createAgentUC,
-  retrieveServerState,
+  retrieveServerState: retrieveServerStateUC,
   login: loginUC,
 }
 
-export async function retrieveServerState() {
+export async function retrieveServerStateUC() {
   const response = await spaceTradersService.retrieveServerState(spaceTradersRepository.getServerState)
 
   if (response instanceof Error) throw response

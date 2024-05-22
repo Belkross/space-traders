@@ -1,5 +1,5 @@
 import { CustomError, InvalidUsernameError } from "#error"
-import { PostAgentDTO } from "../repository/space-traders.schema.js"
+import { PostAgentDTO } from "#schema"
 import { ISpaceTradersService, spaceTradersService } from "../service/space-traders.service.js"
 
 const USERNAME_MIN_LENGTH = 3

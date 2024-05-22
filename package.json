@@ -12,6 +12,7 @@
     "test_watch:domain": "pnpm --filter ./library/domain run test_watch",
     "start_watch:front": "pnpm --filter ./application/front-end run start_watch",
     "start_watch:domain": "pnpm --filter ./library/domain run start_watch",
+    "build:domain": "pnpm --filter ./library/domain run build",
     "prepare": "husky && panda codegen"
   },
   "keywords": [],
