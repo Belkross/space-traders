@@ -1,15 +1,15 @@
 import { SingletonNotInitializedError, SpaceTradersApiError } from "#error"
-import { GetMyProfileDTO, GetServerStatusDTO, PostAgentDTO, SpaceTradersErrorDTO } from "./space-traders.schema.js"
+import { GetMyProfileDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "./space-traders.schema.js"
 import { SpaceTraderValidator, spaceTraderValidator } from "./space-traders.validator.js"
 
 export interface ISpaceTradersRepository {
-  getServerState: () => Promise<GetServerStatusDTO>
+  getServerState: () => Promise<GetServerStateDTO>
   getMyAgent: (token: string) => Promise<GetMyProfileDTO>
   postAgent: (username: string) => Promise<PostAgentDTO>
 }
 
 export interface ISpaceTraderValidator {
-  getServerState: (payload: unknown) => GetServerStatusDTO
+  getServerState: (payload: unknown) => GetServerStateDTO
   getMyAgent: (payload: unknown) => GetMyProfileDTO
   postAgent: (payload: unknown) => PostAgentDTO
   spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO

@@ -24,6 +24,7 @@
     "@sinclair/typebox": "^0.32.23"
   },
   "imports": {
-    "#error": "./src/error/index.error.ts"
+    "#error": "./src/error/index.error.ts",
+    "#service": "./src/service/index.service.ts"
   }
 }

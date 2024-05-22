@@ -2,14 +2,14 @@ import { GetMyProfileDTO } from "../repository/space-traders.schema.js"
 import { Agent } from "../model/agent.model.js"
 
 export interface ISpaceTraderFormatter {
-  //  retrieveServerState: (dto: GetServerStatusDTO) => object
+  //  retrieveServerState: (dto: GetServerStateDTO) => object
   getMyAgent: (dto: GetMyProfileDTO) => Agent
 }
 
 export class SpaceTraderFormatter implements ISpaceTraderFormatter {
   public constructor() {}
 
-  /* public retrieveServerState(dto: GetServerStatusDTO) {
+  /* public retrieveServerState(dto: GetServerStateDTO) {
     throw new Error(dto)
   } */
 

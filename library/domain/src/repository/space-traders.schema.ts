@@ -1,6 +1,6 @@
 import { Type, Static } from "@sinclair/typebox"
 
-export type GetServerStatusDTO = Static<typeof getServerStatusSchema>
+export type GetServerStateDTO = Static<typeof getServerStatusSchema>
 export type GetMyProfileDTO = Static<typeof getMyAgentSchema>
 export type SpaceTradersErrorDTO = Static<typeof SpaceTradersApiErrorSchema>
 export type PostAgentDTO = Static<typeof postAgentSchema>
