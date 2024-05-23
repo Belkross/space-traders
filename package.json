@@ -1,8 +1,10 @@
 {
   "name": "space_traders",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "author": "belkross",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "pnpm run --parallel /^start_watch:/",
     "test": "pnpm --filter ./application/front-end --filter ./library/domain run test",
@@ -15,9 +17,6 @@
     "build:domain": "pnpm --filter ./library/domain run build",
     "prepare": "husky && panda codegen"
   },
-  "keywords": [],
-  "author": "belkross",
-  "license": "ISC",
   "devDependencies": {
     "@belkross/commitlint-config": "^1.0.3",
     "@belkross/prettier-config": "^1.0.3",
