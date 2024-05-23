@@ -1,5 +1,5 @@
 import { useQuery } from "react-query"
-import { APP_NAME, TOKEN } from "#constant"
+import { APP_NAME } from "#constant"
 import { css } from "#styled-system/css"
 import { QueryKey } from "#type"
 import { SignUpForm } from "#component/organism/sign-up-form"
@@ -46,7 +46,6 @@ export function HomePage() {
       })}
 
       <p>{`Version: ${data?.version}`}</p>
-      <p>{TOKEN}</p>
     </div>
   )
 }

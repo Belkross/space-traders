@@ -1,4 +1,4 @@
-import { SingletonNotInitializedError, SpaceTradersApiError } from "#error"
+import { SpaceTradersApiError } from "#error"
 import { GetMyAgentDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "#schema"
 import { SpaceTraderValidator, spaceTraderValidator } from "#validator"
 
@@ -16,29 +16,14 @@ export interface ISpaceTraderValidator {
 }
 
 export class SpaceTradersRepository implements ISpaceTradersRepository {
-  private static instance: SpaceTradersRepository | undefined
-  readonly origin: string
-  private validator: SpaceTraderValidator
+  private readonly origin: string
+  private readonly validator: SpaceTraderValidator
   private token: string
 
-  private constructor({ validator }: { validator: SpaceTraderValidator }) {
+  public constructor(validator: SpaceTraderValidator) {
     this.origin = "https://api.spacetraders.io/v2"
     this.validator = validator
     this.token = ""
-  }
-
-  public static initialize(validator: SpaceTraderValidator) {
-    if (SpaceTradersRepository.instance === undefined) {
-      SpaceTradersRepository.instance = new SpaceTradersRepository({ validator })
-    }
-  }
-
-  public static getInstance() {
-    if (SpaceTradersRepository.instance === undefined) {
-      throw new SingletonNotInitializedError(SpaceTradersRepository.name)
-    }
-
-    return SpaceTradersRepository.instance
   }
 
   public getServerState = async () => {
@@ -98,5 +83,4 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
   }
 }
 
-SpaceTradersRepository.initialize(spaceTraderValidator)
-export const spaceTradersRepository = SpaceTradersRepository.getInstance()
+export const spaceTradersRepository = new SpaceTradersRepository(spaceTraderValidator)
