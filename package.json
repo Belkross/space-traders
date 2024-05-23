@@ -15,7 +15,8 @@
     "start_watch:front": "pnpm --filter ./application/front-end run start_watch",
     "start_watch:domain": "pnpm --filter ./library/domain run start_watch",
     "build:domain": "pnpm --filter ./library/domain run build",
-    "prepare": "husky && panda codegen"
+    "prepare": "husky && panda codegen",
+    "clear:dist": "rm -rf ./library/domain/dist"
   },
   "devDependencies": {
     "@belkross/commitlint-config": "^1.0.3",
