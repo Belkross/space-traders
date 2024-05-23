@@ -51,7 +51,6 @@ export async function retrieveMyAgent(token: string, request: ISpaceTradersRepos
     return await request(token)
   } catch (error) {
     if (error instanceof CustomError) {
-      console.log(error, error.code)
       if (error.code === "4103") return new NoTokenProvidedError()
       if (error.code === "4100") return new UnrecognizedTokenError()
 
