@@ -1,18 +1,20 @@
 import { SpaceTradersApiError } from "#error"
-import { GetMyAgentDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "#schema"
+import { GetMyContractsDTO, GetMyAgentDTO, GetServerStateDTO, PostAgentDTO, SpaceTradersErrorDTO } from "#schema"
 import { SpaceTraderValidator, spaceTraderValidator } from "#validator"
 
 export interface ISpaceTradersRepository {
   getServerState: () => Promise<GetServerStateDTO>
   getMyAgent: (token: string) => Promise<GetMyAgentDTO>
   postAgent: (username: string) => Promise<PostAgentDTO>
+  getMyContracts: () => Promise<GetMyContractsDTO>
 }
 
 export interface ISpaceTraderValidator {
+  spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO
   getServerState: (payload: unknown) => GetServerStateDTO
   getMyAgent: (payload: unknown) => GetMyAgentDTO
   postAgent: (payload: unknown) => PostAgentDTO
-  spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO
+  getMyContracts: (payload: unknown) => GetMyContractsDTO
 }
 
 export class SpaceTradersRepository implements ISpaceTradersRepository {
@@ -24,6 +26,26 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     this.origin = "https://api.spacetraders.io/v2"
     this.validator = validator
     this.token = ""
+  }
+
+  public setToken = (token: string) => {
+    this.token = token
+  }
+
+  public getMyContracts = async () => {
+    const response = await fetch(this.origin + "/my/contracts", {
+      headers: {
+        authorization: `Bearer ${this.token}`,
+      },
+    })
+
+    const payload = await response.json()
+
+    if (!response.ok) {
+      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+    }
+
+    return this.validator.getMyContracts(payload)
   }
 
   public getServerState = async () => {

@@ -1,6 +1,12 @@
-import { InvalidPayloadError, SingletonNotInitializedError } from "#error"
+import { InvalidPayloadError } from "#error"
 import { ISpaceTraderValidator } from "#repository"
-import { SpaceTradersApiErrorSchema, getMyAgentSchema, getServerStatusSchema, postAgentSchema } from "#schema"
+import {
+  GetMyContractsSchema,
+  SpaceTradersApiErrorSchema,
+  getMyAgentSchema,
+  getServerStatusSchema,
+  postAgentSchema,
+} from "#schema"
 import { TypeCompiler } from "@sinclair/typebox/compiler"
 import { ValueErrorIterator } from "@sinclair/typebox/errors"
 
@@ -8,24 +14,18 @@ const spaceTradersErrorValidator = TypeCompiler.Compile(SpaceTradersApiErrorSche
 const getServerStatusValidator = TypeCompiler.Compile(getServerStatusSchema)
 const getMyAgentValidator = TypeCompiler.Compile(getMyAgentSchema)
 const postAgentValidator = TypeCompiler.Compile(postAgentSchema)
+const getMyContractsValidator = TypeCompiler.Compile(GetMyContractsSchema)
 
 export class SpaceTraderValidator implements ISpaceTraderValidator {
-  private static instance: SpaceTraderValidator | undefined
+  public constructor() {}
 
-  private constructor() {}
-
-  public static initialize() {
-    if (SpaceTraderValidator.instance === undefined) {
-      SpaceTraderValidator.instance = new SpaceTraderValidator()
-    }
-  }
-
-  public static getInstance() {
-    if (SpaceTraderValidator.instance === undefined) {
-      throw new SingletonNotInitializedError()
+  public getMyContracts = (payload: unknown) => {
+    if (!getMyContractsValidator.Check(payload)) {
+      const detail = this.createDetailError(this.getMyContracts.name, getMyContractsValidator.Errors(payload))
+      throw new InvalidPayloadError(detail)
     }
 
-    return SpaceTraderValidator.instance
+    return payload
   }
 
   public spaceTraderError(payload: unknown) {
@@ -72,5 +72,4 @@ export class SpaceTraderValidator implements ISpaceTraderValidator {
   }
 }
 
-SpaceTraderValidator.initialize()
-export const spaceTraderValidator = SpaceTraderValidator.getInstance()
+export const spaceTraderValidator = new SpaceTraderValidator()

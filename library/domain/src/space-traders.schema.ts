@@ -4,6 +4,41 @@ export type GetServerStateDTO = Static<typeof getServerStatusSchema>
 export type GetMyAgentDTO = Static<typeof getMyAgentSchema>
 export type SpaceTradersErrorDTO = Static<typeof SpaceTradersApiErrorSchema>
 export type PostAgentDTO = Static<typeof postAgentSchema>
+export type GetMyContractsDTO = Static<typeof GetMyContractsSchema>
+
+export const GetMyContractsSchema = Type.Object({
+  data: Type.Array(
+    Type.Object({
+      id: Type.String(),
+      factionSymbol: Type.String(),
+      type: Type.String(),
+      terms: Type.Object({
+        deadline: Type.String(),
+        payment: Type.Object({
+          onAccepted: Type.Number(),
+          onFulfilled: Type.Number(),
+        }),
+        deliver: Type.Array(
+          Type.Object({
+            tradeSymbol: Type.String(),
+            destinationSymbol: Type.String(),
+            unitsRequired: Type.Number(),
+            unitsFulfilled: Type.Number(),
+          })
+        ),
+      }),
+      accepted: Type.Boolean(),
+      fulfilled: Type.Boolean(),
+      expiration: Type.String(),
+      deadlineToAccept: Type.String(),
+    })
+  ),
+  meta: Type.Object({
+    total: Type.Number(),
+    page: Type.Number(),
+    limit: Type.Number(),
+  }),
+})
 
 export const SpaceTradersApiErrorSchema = Type.Object({
   error: Type.Object({
