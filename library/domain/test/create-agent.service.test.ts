@@ -5,16 +5,15 @@ import {
   UnexpectedError,
   UsernameAlreadyTakenError,
 } from "#error"
-import { CreateAgentService } from "#service"
+import { createAgent } from "#service"
 
-describe(CreateAgentService.name, () => {
+describe(createAgent.name, () => {
   test("should return the result of the request when success", async () => {
     const dumyUsername = "dumyUsername"
     const dumyRequestPayload = "dumyRequestPayload"
     const request = jest.fn().mockReturnValue(dumyRequestPayload)
-    const createAgentService = new CreateAgentService(request)
 
-    const result = await createAgentService.do(dumyUsername)
+    const result = await createAgent(dumyUsername, request)
 
     expect(result).toBe(dumyRequestPayload)
   })
@@ -22,9 +21,8 @@ describe(CreateAgentService.name, () => {
   test("should return an unexpected error when the error is unknown", async () => {
     const dumyUsername = "dumyUsername"
     const request = jest.fn().mockRejectedValue("dumyError")
-    const createAgentService = new CreateAgentService(request)
 
-    const result = await createAgentService.do(dumyUsername)
+    const result = await createAgent(dumyUsername, request)
 
     expect(result).toBeInstanceOf(UnexpectedError)
   })
@@ -32,9 +30,8 @@ describe(CreateAgentService.name, () => {
   test("should return a fallback error when the error known but not handled", async () => {
     const dumyUsername = "dumyUsername"
     const request = jest.fn().mockRejectedValue(new CustomError({ code: "dumyUnhandledCode", message: "dumyMessage" }))
-    const createAgentService = new CreateAgentService(request)
 
-    const result = await createAgentService.do(dumyUsername)
+    const result = await createAgent(dumyUsername, request)
 
     expect(result).toBeInstanceOf(CustomError)
     expect(result).toHaveProperty("severity", "warning")
@@ -43,9 +40,8 @@ describe(CreateAgentService.name, () => {
   test("should return an error when the username don’t pass SpaceTradersAPI’s validator", async () => {
     const dumyUsername = "dumyUsername"
     const request = jest.fn().mockRejectedValue(new CustomError({ code: "422", message: "dumyMessage" }))
-    const createAgentService = new CreateAgentService(request)
 
-    const result = await createAgentService.do(dumyUsername)
+    const result = await createAgent(dumyUsername, request)
 
     expect(result).toBeInstanceOf(InvalidUsernameError)
   })
@@ -53,9 +49,8 @@ describe(CreateAgentService.name, () => {
   test("should return an error when username already taken", async () => {
     const dumyUsername = "dumyUsername"
     const request = jest.fn().mockRejectedValue(new CustomError({ code: "4111", message: "" }))
-    const createAgentService = new CreateAgentService(request)
 
-    const result = await createAgentService.do(dumyUsername)
+    const result = await createAgent(dumyUsername, request)
 
     expect(result).toBeInstanceOf(UsernameAlreadyTakenError)
   })
@@ -63,9 +58,8 @@ describe(CreateAgentService.name, () => {
   test("should return an error when request payload is invalid", async () => {
     const dumyUsername = "dumyUsername"
     const request = jest.fn().mockRejectedValue(new InvalidPayloadError())
-    const createAgentService = new CreateAgentService(request)
 
-    const result = await createAgentService.do(dumyUsername)
+    const result = await createAgent(dumyUsername, request)
 
     expect(result).toBeInstanceOf(InvalidPayloadError)
   })

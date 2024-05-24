@@ -1,9 +1,8 @@
 import { Agent } from "#model"
-import { spaceTradersRepository } from "../repository/space-traders.repository.js"
+import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js"
 import { GetServerStateDTO, PostAgentDTO } from "#schema"
-import { spaceTradersService } from "../service/space-traders.service.js"
-import { createAgentUC } from "./create-agent.use-case.js"
-import { formatter } from "../index.js"
+import { ISpaceTradersService, spaceTradersService } from "../service/space-traders.service.js"
+import { CustomError, InvalidUsernameError, formatter } from "../index.js"
 
 interface ISpaceTradersUC {
   createAgent: (username: string) => Promise<PostAgentDTO>
@@ -11,22 +10,61 @@ interface ISpaceTradersUC {
   login: (token: string) => Promise<Agent>
 }
 
-export const spaceTradersUC: ISpaceTradersUC = {
-  createAgent: createAgentUC,
-  retrieveServerState: retrieveServerStateUC,
-  login: loginUC,
-}
-
-export async function retrieveServerStateUC() {
+export async function retrieveServerState() {
   const response = await spaceTradersService.retrieveServerState(spaceTradersRepository.getServerState)
 
   if (response instanceof Error) throw response
   else return response
 }
 
-export async function loginUC(token: string) {
+export async function login(token: string) {
   const response = await spaceTradersService.retrieveMyAgent(token, spaceTradersRepository.getMyAgent)
 
   if (response instanceof Error) throw response
   else return formatter.getMyAgent(response)
+}
+
+export class CreateAgentUC {
+  static USERNAME_MIN_LENGTH = 3
+  static USERNAME_MAX_LENGTH = 14
+
+  validator: (username: string) => boolean
+  service: ISpaceTradersService["createAgent"]
+  request: ISpaceTradersRepository["postAgent"]
+
+  constructor(
+    private input: {
+      validator: (username: string) => boolean
+      service: ISpaceTradersService["createAgent"]
+      request: ISpaceTradersRepository["postAgent"]
+    }
+  ) {
+    this.validator = input.validator
+    this.service = input.service
+    this.request = input.request
+  }
+
+  public do = async (username: string): Promise<PostAgentDTO> => {
+    if (!this.input.validator(username)) throw new InvalidUsernameError()
+
+    const result = await this.service(username, this.request)
+
+    if (result instanceof CustomError) throw result
+    else return result
+  }
+
+  static validateUsername = (username: string) =>
+    new RegExp(`^[A-Z\d]{${CreateAgentUC.USERNAME_MIN_LENGTH},${CreateAgentUC.USERNAME_MAX_LENGTH}}$`).test(username)
+}
+
+const createAgent = new CreateAgentUC({
+  validator: CreateAgentUC.validateUsername,
+  service: spaceTradersService.createAgent,
+  request: spaceTradersRepository.postAgent,
+}).do
+
+export const spaceTradersUC: ISpaceTradersUC = {
+  createAgent,
+  retrieveServerState,
+  login,
 }
