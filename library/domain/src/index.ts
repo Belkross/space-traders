@@ -1,6 +1,5 @@
 //model
-export * from "./model/agent.model.js"
-export * from "./model/feedback.model.js"
+export * from "./model/index.model.js"
 
 //repository
 export * from "./repository/user.repository.js"

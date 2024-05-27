@@ -11,6 +11,10 @@ export function appStateReducer(state: AppState, action: Action): AppState {
       return { ...state, ...action.payload, page: "game" }
     }
 
+    case ActionType.updateContracts: {
+      return { ...state, contracts: action.payload }
+    }
+
     default:
       return state
   }

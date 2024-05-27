@@ -1,10 +1,17 @@
+import { Contract } from "@library/domain"
 import { Page } from "./app-state.type"
 
-export type Action = LoginAction | ChangePageAction
+export type Action = LoginAction | ChangePageAction | UpdateContracts
 
 export enum ActionType {
   changePage = "change_page",
   login = "log_in",
+  updateContracts = "update_contracts",
+}
+
+export type UpdateContracts = {
+  type: ActionType.updateContracts
+  payload: Array<Contract>
 }
 
 export type ChangePageAction = {

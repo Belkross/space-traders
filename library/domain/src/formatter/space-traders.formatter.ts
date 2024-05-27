@@ -1,8 +1,9 @@
-import { GetMyAgentDTO } from "#schema"
-import { Agent } from "#model"
+import { GetMyAgentDTO, GetMyContractsDTO } from "#schema"
+import { Agent, Contract } from "#model"
 
 export interface ISpaceTraderFormatter {
   getMyAgent: (dto: GetMyAgentDTO) => Agent
+  retrieveMyContracts: (dto: GetMyContractsDTO) => Array<Contract>
 }
 
 export class SpaceTraderFormatter implements ISpaceTraderFormatter {
@@ -19,6 +20,10 @@ export class SpaceTraderFormatter implements ISpaceTraderFormatter {
       shipCount,
       startingFaction,
     }
+  }
+
+  public retrieveMyContracts(dto: GetMyContractsDTO): Array<Contract> {
+    return dto.data
   }
 }
 

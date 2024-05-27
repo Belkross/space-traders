@@ -10,4 +10,5 @@ export const initialAppState: AppState = {
   headquarters: "",
   credits: NaN,
   shipCount: NaN,
+  contracts: [],
 } as const

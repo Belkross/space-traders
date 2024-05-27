@@ -1,4 +1,4 @@
-import { Agent } from "#model"
+import { Agent, Contract } from "#model"
 import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js"
 import { GetServerStateDTO, PostAgentDTO } from "#schema"
 import { ISpaceTradersService, spaceTradersService } from "../service/space-traders.service.js"
@@ -8,6 +8,14 @@ interface ISpaceTradersUC {
   createAgent: (username: string) => Promise<PostAgentDTO>
   retrieveServerState: () => Promise<GetServerStateDTO>
   login: (token: string) => Promise<Agent>
+  retrieveMyContracts: () => Promise<Array<Contract>>
+}
+
+export async function retrieveMyContracts() {
+  const response = await spaceTradersService.retrieveMyContracts(spaceTradersRepository.getMyContracts)
+
+  if (response instanceof Error) throw response
+  else return formatter.retrieveMyContracts(response)
 }
 
 export async function retrieveServerState() {
@@ -67,4 +75,5 @@ export const spaceTradersUC: ISpaceTradersUC = {
   createAgent,
   retrieveServerState,
   login,
+  retrieveMyContracts,
 }

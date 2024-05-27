@@ -1,3 +1,5 @@
+import { Contract } from "@library/domain"
+
 export type AppState = {
   page: Page
   accountId: string
@@ -6,6 +8,7 @@ export type AppState = {
   headquarters: string
   credits: number
   shipCount: number
+  contracts: Array<Contract>
 }
 
 export type Page = "home" | "game"
