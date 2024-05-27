@@ -3,7 +3,6 @@ import { css } from "#styled-system/css"
 import { useMutation } from "react-query"
 import { queryKey } from "../../type/query.type"
 import { CustomError, Feedback, spaceTradersUC } from "@library/domain"
-import { ActionType } from "../../type/action.type"
 import { displayFeedback } from "../../helper/display-feedback"
 
 export function GamePage() {
@@ -31,7 +30,7 @@ export function GamePage() {
 
     onSuccess: (data) => {
       dispatch({
-        type: ActionType.updateContracts,
+        type: "update_contracts",
         payload: data,
       })
     },

@@ -2,7 +2,7 @@ import { useAppState } from "#context"
 import { displayFeedback } from "#helper"
 import { userService } from "#service"
 import { css } from "#styled-system/css"
-import { ActionType, queryKey } from "#type"
+import { queryKey } from "#type"
 import { CustomError, Feedback, spaceTradersUC } from "@library/domain"
 import { ChangeEvent, useState } from "react"
 import { useMutation } from "react-query"
@@ -18,7 +18,7 @@ export function SignInForm() {
       const { username, accountId, credits, headquarters, shipCount, startingFaction } = data
 
       dispatch({
-        type: ActionType.login,
+        type: "log_in",
         payload: { username, accountId, credits, headquarters, shipCount, faction: startingFaction },
       })
     },

@@ -1,5 +1,5 @@
 import { createContext, Dispatch, useContext } from "react"
-import { AppState, Action } from "#type"
+import { AppState, StateAction } from "#type"
 
 class OutOfProviderContextError extends Error {
   constructor() {
@@ -7,7 +7,9 @@ class OutOfProviderContextError extends Error {
   }
 }
 
-export const AppStateContext = createContext<{ state: AppState; dispatch: Dispatch<Action> } | undefined>(undefined)
+export const AppStateContext = createContext<{ state: AppState; dispatch: Dispatch<StateAction> } | undefined>(
+  undefined
+)
 
 export const useAppState = () => {
   const context = useContext(AppStateContext)

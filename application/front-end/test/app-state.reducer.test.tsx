@@ -1,10 +1,10 @@
 import { initialAppState } from "#constant"
 import { appStateReducer } from "#store/app-state.reducer"
-import { Action, ActionType } from "../src/type/action.type"
+import { StateAction } from "../src/type/action.type"
 
 test("changing page", () => {
-  const action: Action = {
-    type: ActionType.changePage,
+  const action: StateAction = {
+    type: "change_page",
     payload: "game",
   }
 
@@ -15,8 +15,8 @@ test("changing page", () => {
 
 describe("logging in", () => {
   test("it should drives to game page", () => {
-    const action: Action = {
-      type: ActionType.login,
+    const action: StateAction = {
+      type: "log_in",
       payload: { accountId: "", credits: 0, faction: "", headquarters: "", shipCount: 0, username: "" },
     }
 

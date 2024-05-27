@@ -1,17 +1,17 @@
-import { Action, ActionType } from "../type/action.type"
+import { StateAction } from "../type/action.type"
 import { AppState } from "../type/app-state.type"
 
-export function appStateReducer(state: AppState, action: Action): AppState {
+export function appStateReducer(state: AppState, action: StateAction): AppState {
   switch (action.type) {
-    case ActionType.changePage: {
+    case "change_page": {
       return { ...state, page: action.payload }
     }
 
-    case ActionType.login: {
+    case "log_in": {
       return { ...state, ...action.payload, page: "game" }
     }
 
-    case ActionType.updateContracts: {
+    case "update_contracts": {
       return { ...state, contracts: action.payload }
     }
 
