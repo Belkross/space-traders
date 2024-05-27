@@ -9,14 +9,6 @@ export interface ISpaceTradersRepository {
   getMyContracts: () => Promise<GetMyContractsDTO>
 }
 
-export interface ISpaceTraderValidator {
-  spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO
-  getServerState: (payload: unknown) => GetServerStateDTO
-  getMyAgent: (payload: unknown) => GetMyAgentDTO
-  postAgent: (payload: unknown) => PostAgentDTO
-  getMyContracts: (payload: unknown) => GetMyContractsDTO
-}
-
 export class SpaceTradersRepository implements ISpaceTradersRepository {
   private readonly origin: string
   private readonly validator: SpaceTraderValidator

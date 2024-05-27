@@ -1,14 +1,26 @@
 import { InvalidPayloadError } from "#error"
-import { ISpaceTraderValidator } from "#repository"
 import {
+  GetMyAgentDTO,
+  GetMyContractsDTO,
   GetMyContractsSchema,
+  GetServerStateDTO,
+  PostAgentDTO,
   SpaceTradersApiErrorSchema,
+  SpaceTradersErrorDTO,
   getMyAgentSchema,
   getServerStatusSchema,
   postAgentSchema,
 } from "#schema"
 import { TypeCompiler } from "@sinclair/typebox/compiler"
 import { ValueErrorIterator } from "@sinclair/typebox/errors"
+
+interface ISpaceTraderValidator {
+  spaceTraderError: (payload: unknown) => SpaceTradersErrorDTO
+  getServerState: (payload: unknown) => GetServerStateDTO
+  getMyAgent: (payload: unknown) => GetMyAgentDTO
+  postAgent: (payload: unknown) => PostAgentDTO
+  getMyContracts: (payload: unknown) => GetMyContractsDTO
+}
 
 const spaceTradersErrorValidator = TypeCompiler.Compile(SpaceTradersApiErrorSchema)
 const getServerStatusValidator = TypeCompiler.Compile(getServerStatusSchema)
