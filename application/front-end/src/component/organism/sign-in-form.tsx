@@ -15,12 +15,10 @@ export function SignInForm() {
   const loginMutation = useMutation(queryKey.retrieveMyAgent, {
     mutationFn: (token: string) => spaceTradersUC.login(token),
 
-    onSuccess: (data) => {
-      const { username, accountId, credits, headquarters, shipCount, startingFaction } = data
-
+    onSuccess: (payload) => {
       dispatch({
         type: "log_in",
-        payload: { username, accountId, credits, headquarters, shipCount, faction: startingFaction },
+        payload,
       })
     },
 

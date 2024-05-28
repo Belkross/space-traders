@@ -49,7 +49,7 @@ export function GamePage() {
 
     onSuccess: (payload) => {
       dispatch({
-        type: "update_contracts",
+        type: "update_contract_list",
         payload,
       })
     },

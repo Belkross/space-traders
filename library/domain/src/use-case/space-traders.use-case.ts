@@ -73,7 +73,7 @@ export class LoginUC {
       throw response
     }
 
-    return this.spaceTradersFormatter.getMyAgent(response)
+    return this.spaceTradersFormatter.login(response)
   }
 }
 

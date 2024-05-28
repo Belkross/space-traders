@@ -11,7 +11,7 @@ export function appStateReducer(state: AppState, action: StateAction): AppState 
       return { ...state, ...action.payload, page: "game" }
     }
 
-    case "update_contracts": {
+    case "update_contract_list": {
       return { ...state, contracts: action.payload }
     }
 

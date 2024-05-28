@@ -2,7 +2,7 @@ import { GetMyAgentDTO, GetMyContractsDTO, PostContractAcceptationDTO } from "#s
 import { Agent, Contract } from "#model"
 
 export interface ISpaceTraderFormatter {
-  getMyAgent: (dto: GetMyAgentDTO) => Agent
+  login: (dto: GetMyAgentDTO) => Agent
   retrieveMyContracts: (dto: GetMyContractsDTO) => Array<Contract>
   acceptContract: (dto: PostContractAcceptationDTO) => Contract
 }
@@ -14,7 +14,7 @@ export class SpaceTraderFormatter implements ISpaceTraderFormatter {
     return dto.data.contract
   }
 
-  public getMyAgent(dto: GetMyAgentDTO): Agent {
+  public login(dto: GetMyAgentDTO): Agent {
     const { accountId, symbol, credits, headquarters, shipCount, startingFaction } = dto.data
 
     return {
@@ -23,7 +23,7 @@ export class SpaceTraderFormatter implements ISpaceTraderFormatter {
       credits,
       headquarters,
       shipCount,
-      startingFaction,
+      faction: startingFaction,
     }
   }
 

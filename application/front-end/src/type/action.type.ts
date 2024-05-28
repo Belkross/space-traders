@@ -1,31 +1,16 @@
-import { Contract } from "@library/domain"
+import { Agent, Contract } from "@library/domain"
 import { Page } from "#type"
 
-export type StateAction = UpdateContractsAction | UpdateContractAction | ChangePageAction | LoginAction
+export type StateAction = UpdateContractListAction | UpdateContractAction | ChangePageAction | LoginAction
 
-export type UpdateContractsAction = {
-  type: "update_contracts"
-  payload: Array<Contract>
+type ActionKey = "update_contract_list" | "update_contract" | "log_in" | "change_page"
+
+type Action<Key extends ActionKey, PayloadType> = {
+  type: Key
+  payload: PayloadType
 }
 
-export type UpdateContractAction = {
-  type: "update_contract"
-  payload: Contract
-}
-
-export type ChangePageAction = {
-  type: "change_page"
-  payload: Page
-}
-
-export type LoginAction = {
-  type: "log_in"
-  payload: {
-    accountId: string
-    username: string
-    faction: string
-    headquarters: string
-    credits: number
-    shipCount: number
-  }
-}
+type UpdateContractListAction = Action<"update_contract_list", Array<Contract>>
+type UpdateContractAction = Action<"update_contract", Contract>
+type ChangePageAction = Action<"change_page", Page>
+type LoginAction = Action<"log_in", Agent>
