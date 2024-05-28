@@ -3,4 +3,5 @@ export const queryKey = {
   retrieveServerState: "retrieve_server_status",
   createAgent: "create_agent",
   retrieveMyContracts: "retrieve_my_contracts",
+  acceptContract: "accept_contract",
 } as const

@@ -9,6 +9,14 @@ interface ISpaceTradersUC {
   retrieveServerState: () => Promise<GetServerStateDTO>
   login: (token: string) => Promise<Agent>
   retrieveMyContracts: () => Promise<Array<Contract>>
+  acceptContract: (contractId: string) => Promise<Contract>
+}
+
+export async function acceptContract(contractId: string) {
+  const response = await spaceTradersService.acceptContract(contractId, spaceTradersRepository.postContractAcceptation)
+
+  if (response instanceof Error) throw response
+  else return formatter.acceptContract(response)
 }
 
 export async function retrieveMyContracts() {
@@ -76,4 +84,5 @@ export const spaceTradersUC: ISpaceTradersUC = {
   retrieveServerState,
   login,
   retrieveMyContracts,
+  acceptContract,
 }

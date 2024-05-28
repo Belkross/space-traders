@@ -9,13 +9,20 @@ describe.skip(SpaceTradersRepository.name, () => {
   const validator = new SpaceTraderValidator()
   const spaceTradersRepository = new SpaceTradersRepository(spaceTraderValidator)
   const TEST_TOKEN =
-    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiQVpVUiIsInZlcnNpb24iOiJ2Mi4yLjAiLCJyZXNldF9kYXRlIjoiMjAyNC0wNS0xOSIsImlhdCI6MTcxNjU3OTE3NSwic3ViIjoiYWdlbnQtdG9rZW4ifQ.DliC_tY0ZJgrhmEysKdE-JucShDxDZLdSdBrctivzKT4Akpj2Iz1i8papMjCq74ifq3OwwDiuAI6XdYuhjk1wfKwjizocj3VZ5sz59VWv90LdE6YCvlViyjxPTKo7kW2FFl_FLw7YC-P1M4TS_8w2s7c8fc4Sv1t9V20UIIu6L2vkX2LaFU70RzEntUW3oBet38chuwQcojmWM6w7XuaUnUv1I4wBDCdAyPLcwjoYLkwvtdidSvaWNgio7Ohu4ZqeHl0qW4iIxQl3yA1LfY5JW8PospIDeVZpqAyF_GcVtc7AUNcYe8GxIRMhV3GBcr414XZbLXFdI8I705EpVdTag"
-  spaceTradersRepository.setToken(TEST_TOKEN)
+    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiSU9VIiwidmVyc2lvbiI6InYyLjIuMCIsInJlc2V0X2RhdGUiOiIyMDI0LTA1LTE5IiwiaWF0IjoxNzE2ODkwMDQwLCJzdWIiOiJhZ2VudC10b2tlbiJ9.EZYwFObQ437Ts4dIqyjWt6D_3uGjE277p2khwxvZYGwHmLjqpwrWayYikQZUqOiNhMrUbEX5ro9q-jMa30PmjFSaYTy3t4Co_JZacjsyy_JOJDH6TIkJ044hA9xaBADzmAVZZZSTryFJDykRjJlGw0VnUK_iHCCQvYg3B8gg4CYmRF0yOVy9gRZ8oT-LygW7aVb6qxnBF7fK5JwM8TJfaQD1USAWNuYANQ4FuSwPuAhoNOZFDQ0xgHXMfKmDkTL5t1kHfrnXUSUbAUzF99HRPoovMQv3WIFcs1x9nQOOkfQijxNCPFdixgn9pUmEGbmSfkm3vWwJIt2GO307tCk0uQ"
+  spaceTradersRepository.setToken(TEST_TOKEN),
+    test(spaceTradersRepository.getMyContracts.name, async () => {
+      const response = await spaceTradersRepository.getMyContracts()
+      logPayload(response)
 
-  test(spaceTradersRepository.getMyContracts.name, async () => {
-    const response = await spaceTradersRepository.getMyContracts()
+      expect(() => validator.getMyContracts(response)).not.toThrow()
+    })
+
+  test(spaceTradersRepository.postContractAcceptation.name, async () => {
+    const contractId = "clwq801sw076ls60c13jotq3g"
+    const response = await spaceTradersRepository.postContractAcceptation(contractId)
     logPayload(response)
 
-    expect(() => validator.getMyContracts(response)).not.toThrow()
+    expect(() => validator.postContractAcceptation(response)).not.toThrow()
   })
 })

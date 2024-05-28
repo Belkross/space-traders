@@ -1,11 +1,16 @@
 import { Contract } from "@library/domain"
 import { Page } from "#type"
 
-export type StateAction = UpdateContractsAction | ChangePageAction | LoginAction
+export type StateAction = UpdateContractsAction | UpdateContractAction | ChangePageAction | LoginAction
 
 export type UpdateContractsAction = {
   type: "update_contracts"
   payload: Array<Contract>
+}
+
+export type UpdateContractAction = {
+  type: "update_contract"
+  payload: Contract
 }
 
 export type ChangePageAction = {

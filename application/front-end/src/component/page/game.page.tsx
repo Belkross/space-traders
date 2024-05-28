@@ -8,6 +8,23 @@ import { displayFeedback } from "../../helper/display-feedback"
 export function GamePage() {
   const { state, dispatch } = useAppState()
 
+  const acceptContractMutation = useMutation(queryKey.acceptContract, {
+    mutationFn: (contractId: string) => spaceTradersUC.acceptContract(contractId),
+
+    onSuccess: (payload) => {
+      dispatch({
+        type: "update_contract",
+        payload,
+      })
+      displayFeedback(new Feedback({ message: "Contract accepted" }))
+    },
+
+    onError: (error) => {
+      const { message, severity, duration } = error as CustomError
+      displayFeedback(new Feedback({ message, severity, duration }))
+    },
+  })
+
   const contracts = state.contracts.map((contract) => {
     return (
       <article key={contract.id}>
@@ -21,6 +38,7 @@ export function GamePage() {
         <p>{`on fulfilled money: ${contract.terms.payment.onFulfilled}`}</p>
         <p>{`deadline: ${contract.terms.deadline}`}</p>
         <p>{`deliver: ${JSON.stringify(contract.terms.deliver, null, 1)}`}</p>
+        <button onClick={() => acceptContractMutation.mutate(contract.id)}>Accept</button>
       </article>
     )
   })
@@ -28,10 +46,10 @@ export function GamePage() {
   const contractsMutation = useMutation(queryKey.retrieveMyContracts, {
     mutationFn: () => spaceTradersUC.retrieveMyContracts(),
 
-    onSuccess: (data) => {
+    onSuccess: (payload) => {
       dispatch({
         type: "update_contracts",
-        payload: data,
+        payload,
       })
     },
 
