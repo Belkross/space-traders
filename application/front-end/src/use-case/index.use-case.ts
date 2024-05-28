@@ -1,19 +1,46 @@
 import {
   ISpaceTradersUC,
-  RetrieveContractsUC,
+  RetrieveMyContractsUC,
   spaceTradersFormatter,
   spaceTradersRepository,
-  createAgentUC,
-  retrieveServerStateUC,
-  loginUC,
-  acceptContractUC,
   spaceTradersService,
+  CreateAgentUC,
+  AcceptContractUC,
+  LoginUC,
+  RetrieveServerStateUC,
 } from "@library/domain"
 import { logger } from "../service/logger.service"
 
-const retrieveMyContractsUC = new RetrieveContractsUC({
+const retrieveMyContractsUC = new RetrieveMyContractsUC({
   logger: logger,
   spaceTradersFormatter: spaceTradersFormatter,
+  spaceTradersRepository: spaceTradersRepository,
+  spaceTradersService: spaceTradersService,
+}).do
+
+const createAgentUC = new CreateAgentUC({
+  logger: logger,
+  validator: CreateAgentUC.validateUsername,
+  service: spaceTradersService.createAgent,
+  request: spaceTradersRepository.postAgent,
+}).do
+
+const acceptContractUC = new AcceptContractUC({
+  logger: logger,
+  spaceTradersFormatter: spaceTradersFormatter,
+  spaceTradersRepository: spaceTradersRepository,
+  spaceTradersService: spaceTradersService,
+}).do
+
+const loginUC = new LoginUC({
+  logger: logger,
+  spaceTradersFormatter: spaceTradersFormatter,
+  spaceTradersRepository: spaceTradersRepository,
+  spaceTradersService: spaceTradersService,
+}).do
+
+const retrieveServerStateUC = new RetrieveServerStateUC({
+  logger: logger,
   spaceTradersRepository: spaceTradersRepository,
   spaceTradersService: spaceTradersService,
 }).do

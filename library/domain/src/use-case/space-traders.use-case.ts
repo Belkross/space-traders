@@ -1,8 +1,10 @@
 import { Agent, Contract } from "#model"
-import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js"
+import { ISpaceTradersRepository } from "#repository"
 import { GetServerStateDTO, PostAgentDTO } from "#schema"
-import { ISpaceTradersService, spaceTradersService } from "../service/space-traders.service.js"
-import { CustomError, ILogger, ISpaceTraderFormatter, InvalidUsernameError, spaceTradersFormatter } from "../index.js"
+import { ISpaceTradersService } from "#service"
+import { CustomError, InvalidUsernameError } from "#error"
+import { ISpaceTraderFormatter } from "#formatter"
+import { ILogger } from "#logger"
 
 export interface ISpaceTradersUC {
   createAgent: (username: string) => Promise<PostAgentDTO>
@@ -12,21 +14,70 @@ export interface ISpaceTradersUC {
   acceptContract: (contractId: string) => Promise<Contract>
 }
 
-export async function acceptContractUC(contractId: string) {
-  const response = await spaceTradersService.acceptContract(contractId, spaceTradersRepository.postContractAcceptation)
+export class AcceptContractUC {
+  private logger: ILogger
+  private spaceTradersFormatter: ISpaceTraderFormatter
+  private spaceTradersService: ISpaceTradersService
+  private spaceTradersRepository: ISpaceTradersRepository
 
-  if (response instanceof Error) throw response
-  else return spaceTradersFormatter.acceptContract(response)
+  constructor(input: {
+    logger: ILogger
+    spaceTradersFormatter: ISpaceTraderFormatter
+    spaceTradersService: ISpaceTradersService
+    spaceTradersRepository: ISpaceTradersRepository
+  }) {
+    this.logger = input.logger
+    this.spaceTradersFormatter = input.spaceTradersFormatter
+    this.spaceTradersService = input.spaceTradersService
+    this.spaceTradersRepository = input.spaceTradersRepository
+  }
+
+  public do = async (contractId: string) => {
+    const response = await this.spaceTradersService.acceptContract(
+      contractId,
+      this.spaceTradersRepository.postContractAcceptation
+    )
+
+    if (response instanceof Error) {
+      this.logger.debug(JSON.stringify(response, null, 2))
+      throw response
+    }
+
+    return this.spaceTradersFormatter.acceptContract(response)
+  }
 }
 
-export async function retrieveMyContractsUCPrev() {
-  const response = await spaceTradersService.retrieveMyContracts(spaceTradersRepository.getMyContracts)
+export class LoginUC {
+  private logger: ILogger
+  private spaceTradersFormatter: ISpaceTraderFormatter
+  private spaceTradersService: ISpaceTradersService
+  private spaceTradersRepository: ISpaceTradersRepository
 
-  if (response instanceof Error) throw response
-  else return spaceTradersFormatter.retrieveMyContracts(response)
+  constructor(input: {
+    logger: ILogger
+    spaceTradersFormatter: ISpaceTraderFormatter
+    spaceTradersService: ISpaceTradersService
+    spaceTradersRepository: ISpaceTradersRepository
+  }) {
+    this.logger = input.logger
+    this.spaceTradersFormatter = input.spaceTradersFormatter
+    this.spaceTradersService = input.spaceTradersService
+    this.spaceTradersRepository = input.spaceTradersRepository
+  }
+
+  public do = async (token: string) => {
+    const response = await this.spaceTradersService.retrieveMyAgent(token, this.spaceTradersRepository.getMyAgent)
+
+    if (response instanceof Error) {
+      this.logger.debug(JSON.stringify(response, null, 2))
+      throw response
+    }
+
+    return this.spaceTradersFormatter.getMyAgent(response)
+  }
 }
 
-export class RetrieveContractsUC {
+export class RetrieveMyContractsUC {
   private logger: ILogger
   private spaceTradersFormatter: ISpaceTraderFormatter
   private spaceTradersService: ISpaceTradersService
@@ -56,30 +107,45 @@ export class RetrieveContractsUC {
   }
 }
 
-export async function retrieveServerStateUC() {
-  const response = await spaceTradersService.retrieveServerState(spaceTradersRepository.getServerState)
+export class RetrieveServerStateUC {
+  private logger: ILogger
+  private spaceTradersService: ISpaceTradersService
+  private spaceTradersRepository: ISpaceTradersRepository
 
-  if (response instanceof Error) throw response
-  else return response
-}
+  constructor(input: {
+    logger: ILogger
+    spaceTradersService: ISpaceTradersService
+    spaceTradersRepository: ISpaceTradersRepository
+  }) {
+    this.logger = input.logger
+    this.spaceTradersService = input.spaceTradersService
+    this.spaceTradersRepository = input.spaceTradersRepository
+  }
 
-export async function loginUC(token: string) {
-  const response = await spaceTradersService.retrieveMyAgent(token, spaceTradersRepository.getMyAgent)
+  public do = async () => {
+    const response = await this.spaceTradersService.retrieveServerState(this.spaceTradersRepository.getServerState)
 
-  if (response instanceof Error) throw response
-  else return spaceTradersFormatter.getMyAgent(response)
+    if (response instanceof Error) {
+      this.logger.debug(JSON.stringify(response, null, 2))
+      throw response
+    }
+
+    return response
+  }
 }
 
 export class CreateAgentUC {
   static USERNAME_MIN_LENGTH = 3
   static USERNAME_MAX_LENGTH = 14
 
+  logger: ILogger
   validator: (username: string) => boolean
   service: ISpaceTradersService["createAgent"]
   request: ISpaceTradersRepository["postAgent"]
 
   constructor(
     private input: {
+      logger: ILogger
       validator: (username: string) => boolean
       service: ISpaceTradersService["createAgent"]
       request: ISpaceTradersRepository["postAgent"]
@@ -88,23 +154,23 @@ export class CreateAgentUC {
     this.validator = input.validator
     this.service = input.service
     this.request = input.request
+    this.logger = input.logger
   }
 
   public do = async (username: string): Promise<PostAgentDTO> => {
-    if (!this.input.validator(username)) throw new InvalidUsernameError()
+    try {
+      if (!this.input.validator(username)) throw new InvalidUsernameError()
 
-    const result = await this.service(username, this.request)
+      const result = await this.service(username, this.request)
 
-    if (result instanceof CustomError) throw result
-    else return result
+      if (result instanceof CustomError) throw result
+      else return result
+    } catch (error) {
+      this.logger.debug(JSON.stringify(error, null, 2))
+      throw error
+    }
   }
 
   static validateUsername = (username: string) =>
     new RegExp(`^[A-Z\d]{${CreateAgentUC.USERNAME_MIN_LENGTH},${CreateAgentUC.USERNAME_MAX_LENGTH}}$`).test(username)
 }
-
-export const createAgentUC = new CreateAgentUC({
-  validator: CreateAgentUC.validateUsername,
-  service: spaceTradersService.createAgent,
-  request: spaceTradersRepository.postAgent,
-}).do

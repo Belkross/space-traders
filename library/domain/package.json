@@ -30,6 +30,7 @@
     "#model": "./src/model/index.model.ts",
     "#schema": "./src/schema/index.schema.ts",
     "#validator": "./src/space-traders.validator.ts",
-    "#formatter": "./src/formatter/space-traders.formatter.ts"
+    "#formatter": "./src/formatter/space-traders.formatter.ts",
+    "#logger": "./src/logger.ts"
   }
 }
