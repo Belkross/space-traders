@@ -2,11 +2,11 @@ import { InvalidPayloadError } from "#error"
 import {
   GetMyAgentDTO,
   GetMyContractsDTO,
-  GetMyContractsSchema,
+  getMyContractsSchema,
   GetServerStateDTO,
   PostAgentDTO,
   PostContractAcceptationDTO,
-  SpaceTradersApiErrorSchema,
+  spaceTradersApiErrorSchema,
   SpaceTradersErrorDTO,
   getMyAgentSchema,
   getServerStatusSchema,
@@ -25,11 +25,11 @@ interface ISpaceTraderValidator {
   postContractAcceptation: (payload: unknown) => PostContractAcceptationDTO
 }
 
-const spaceTradersErrorValidator = TypeCompiler.Compile(SpaceTradersApiErrorSchema)
+const spaceTradersErrorValidator = TypeCompiler.Compile(spaceTradersApiErrorSchema)
 const getServerStatusValidator = TypeCompiler.Compile(getServerStatusSchema)
 const getMyAgentValidator = TypeCompiler.Compile(getMyAgentSchema)
 const postAgentValidator = TypeCompiler.Compile(postAgentSchema)
-const getMyContractsValidator = TypeCompiler.Compile(GetMyContractsSchema)
+const getMyContractsValidator = TypeCompiler.Compile(getMyContractsSchema)
 const postContractAcceptationValidator = TypeCompiler.Compile(postContractAcceptationSchema)
 
 export class SpaceTraderValidator implements ISpaceTraderValidator {

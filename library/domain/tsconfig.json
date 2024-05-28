@@ -110,7 +110,7 @@
       "#repository": ["./src/repository/index.repository.ts"],
       "#service": ["./src/service/index.service.ts"],
       "#model": ["./src/model/index.model.ts"],
-      "#schema": ["./src/space-traders.schema.ts"],
+      "#schema": ["./src/schema/index.schema.ts"],
       "#validator": ["./src/space-traders.validator.ts"],
       "#formatter": ["./src/formatter/space-traders.formatter.ts"]
     }
