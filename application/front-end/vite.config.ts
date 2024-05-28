@@ -24,6 +24,7 @@ export default defineConfig({
       "#store": path.resolve(__dirname, "./src/store"),
       "#styled-system": path.resolve(__dirname, "./src/styled-system"),
       "#type": path.resolve(__dirname, "./src/type"),
+      "#use-case": path.resolve(__dirname, "./src/use-case/index.use-case"),
     },
   },
 })

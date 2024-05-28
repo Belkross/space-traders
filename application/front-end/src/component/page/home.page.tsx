@@ -3,7 +3,7 @@ import { APP_NAME } from "#constant"
 import { css } from "#styled-system/css"
 import { queryKey } from "#type"
 import { SignUpForm } from "#component/organism/sign-up-form"
-import { spaceTradersUC } from "@library/domain"
+import { spaceTradersUC } from "#use-case"
 import { SignInForm } from "#component/organism/sign-in-form"
 
 export function HomePage() {

@@ -2,8 +2,9 @@ import { useAppState } from "#context"
 import { css } from "#styled-system/css"
 import { useMutation } from "react-query"
 import { queryKey } from "../../type/query.type"
-import { CustomError, Feedback, spaceTradersUC } from "@library/domain"
+import { CustomError, Feedback } from "@library/domain"
 import { displayFeedback } from "../../helper/display-feedback"
+import { spaceTradersUC } from "#use-case"
 
 export function GamePage() {
   const { state, dispatch } = useAppState()

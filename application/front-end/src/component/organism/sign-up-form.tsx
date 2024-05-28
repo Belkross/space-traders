@@ -3,8 +3,9 @@ import { useState, ChangeEvent } from "react"
 import { useMutation } from "react-query"
 import { queryKey } from "../../type/query.type"
 import { userService } from "#service"
-import { CustomError, Feedback, spaceTradersUC, feedback } from "@library/domain"
+import { CustomError, Feedback, feedback } from "@library/domain"
 import { displayFeedback } from "../../helper/display-feedback"
+import { spaceTradersUC } from "#use-case"
 
 export function SignUpForm() {
   const [input, setInput] = useState("")

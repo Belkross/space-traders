@@ -32,4 +32,4 @@ export class SpaceTraderFormatter implements ISpaceTraderFormatter {
   }
 }
 
-export const formatter = new SpaceTraderFormatter()
+export const spaceTradersFormatter = new SpaceTraderFormatter()

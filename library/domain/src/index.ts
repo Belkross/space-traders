@@ -2,10 +2,10 @@
 export * from "./model/index.model.js"
 
 //repository
-export * from "./repository/user.repository.js"
+export * from "./repository/index.repository.js"
 
 //service
-export * from "./service/user.service.js"
+export * from "./service/index.service.js"
 
 //usecase
 export * from "./use-case/space-traders.use-case.js"

@@ -10,4 +10,7 @@ export const logger: ILogger = {
   error(message) {
     console.error(message)
   },
+  debug: (message) => {
+    console.log(`DEBUG: ${message}`)
+  },
 }
