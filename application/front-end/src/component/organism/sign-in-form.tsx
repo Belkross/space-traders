@@ -1,6 +1,6 @@
 import { useAppState } from "#context"
 import { displayFeedback } from "#helper"
-import { userService } from "#service"
+import { userService } from "../../service/index.service"
 import { css } from "#styled-system/css"
 import { RQueryEnum } from "#type"
 import { spaceTradersUC } from "#use-case"

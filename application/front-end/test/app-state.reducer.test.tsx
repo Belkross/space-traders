@@ -1,6 +1,6 @@
 import { initialAppState } from "#constant"
-import { appStateReducer } from "#store/app-state.reducer"
-import { StateAction } from "../src/type/action.type"
+import { StateAction } from "#type"
+import { appStateReducer } from "#store"
 
 test("changing page", () => {
   const action: StateAction = {

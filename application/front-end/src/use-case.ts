@@ -10,7 +10,7 @@ import {
   RetrieveServerStateUC,
   RetrieveMyShipsUC,
 } from "@library/domain"
-import { logger } from "../service/logger.service"
+import { logger } from "./service/logger.service"
 
 const retrieveMyContractsUC = new RetrieveMyContractsUC({
   logger: logger,

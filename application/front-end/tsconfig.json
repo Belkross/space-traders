@@ -22,15 +22,15 @@
     "types": ["vitest/globals"],
     "paths": {
       "#component": ["./src/component/index.component.ts"],
-      "#constant": ["./src/constant"],
-      "#context": ["./src/context"],
-      "#helper": ["./src/helper"],
-      "#repository": ["./src/repository"],
-      "#service": ["./src/service"],
-      "#store/*": ["./src/store/*"],
+      "#constant": ["./src/constant.ts"],
+      "#context": ["./src/context.ts"],
+      "#helper": ["./src/helper/index.helper.ts"],
+      "#repository": ["./src/repository/index.repository.ts"],
+      "#service": ["./src/service/index.service.ts"],
+      "#store": ["./src/store/index.store.ts"],
       "#styled-system/*": ["./src/styled-system/*"],
-      "#type": ["./src/type"],
-      "#use-case": ["./src/use-case/index.use-case.ts"]
+      "#type": ["./src/type/index.type.ts"],
+      "#use-case": ["./src/use-case.ts"]
     }
   },
   "include": ["src", "test"],

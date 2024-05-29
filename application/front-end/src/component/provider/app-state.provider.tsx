@@ -1,5 +1,5 @@
 import { ReactElement, useReducer } from "react"
-import { appStateReducer } from "#store/app-state.reducer"
+import { appStateReducer } from "#store"
 import { AppStateContext } from "#context"
 import { initialAppState } from "#constant"
 
