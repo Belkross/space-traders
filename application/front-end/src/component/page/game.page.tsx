@@ -1,21 +1,38 @@
 import { useAppState } from "#context"
 import { css } from "#styled-system/css"
 import { useMutation } from "react-query"
-import { queryKey } from "#type"
+import { QueryKey } from "#type"
 import { CustomError, Feedback } from "@library/domain"
 import { displayFeedback } from "#helper"
 import { spaceTradersUC } from "#use-case"
-import { ContractList } from "../organism/contract-list"
+import { ContractList } from "#component"
+import { ShipList } from "../organism/ship-list"
 
 export function GamePage() {
   const { state, dispatch } = useAppState()
 
-  const contractsMutation = useMutation(queryKey.retrieveMyContracts, {
+  const contractsMutation = useMutation(QueryKey.retrieveMyContracts, {
     mutationFn: () => spaceTradersUC.retrieveMyContracts(),
 
     onSuccess: (payload) => {
       dispatch({
         type: "update_contract_list",
+        payload,
+      })
+    },
+
+    onError: (error) => {
+      const { message, severity, duration } = error as CustomError
+      displayFeedback(new Feedback({ message, severity, duration }))
+    },
+  })
+
+  const shipsMutation = useMutation(QueryKey.retrieve_my_ships, {
+    mutationFn: () => spaceTradersUC.retrieveMyShips(),
+
+    onSuccess: (payload) => {
+      dispatch({
+        type: "update_ship_list",
         payload,
       })
     },
@@ -34,8 +51,10 @@ export function GamePage() {
       <p>{`Ship count: ${state.shipCount}`}</p>
       <p>{`Headquarters: ${state.headquarters}`}</p>
 
-      <button onClick={() => contractsMutation.mutate()}>Contracts</button>
+      <button onClick={() => shipsMutation.mutate()}>Ships</button>
+      <ShipList ships={state.ships} />
 
+      <button onClick={() => contractsMutation.mutate()}>Contracts</button>
       <ContractList contracts={state.contracts} />
     </div>
   )

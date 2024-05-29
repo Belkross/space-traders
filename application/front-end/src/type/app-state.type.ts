@@ -1,4 +1,4 @@
-import { Contract } from "@library/domain"
+import { Contract, Ship } from "@library/domain"
 
 export type AppState = {
   page: Page
@@ -9,6 +9,7 @@ export type AppState = {
   credits: number
   shipCount: number
   contracts: Array<Contract>
+  ships: Array<Ship>
 }
 
 export type Page = "home" | "game"

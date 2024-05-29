@@ -1,4 +1,4 @@
-import { Agent, Contract } from "#model"
+import { Agent, Contract, Ship } from "#model"
 import { ISpaceTradersRepository } from "#repository"
 import { GetServerStateDTO, PostAgentDTO } from "#schema"
 import { ISpaceTradersService } from "#service"
@@ -12,8 +12,38 @@ export interface ISpaceTradersUC {
   login: (token: string) => Promise<Agent>
   retrieveMyContracts: () => Promise<Array<Contract>>
   acceptContract: (contractId: string) => Promise<{ contract: Contract; credits: number }>
+  retrieveMyShips: () => Promise<Array<Ship>>
 }
 
+export class RetrieveMyShipsUC {
+  private logger: ILogger
+  private spaceTradersFormatter: ISpaceTraderFormatter
+  private spaceTradersService: ISpaceTradersService
+  private spaceTradersRepository: ISpaceTradersRepository
+
+  constructor(input: {
+    logger: ILogger
+    spaceTradersFormatter: ISpaceTraderFormatter
+    spaceTradersService: ISpaceTradersService
+    spaceTradersRepository: ISpaceTradersRepository
+  }) {
+    this.logger = input.logger
+    this.spaceTradersFormatter = input.spaceTradersFormatter
+    this.spaceTradersService = input.spaceTradersService
+    this.spaceTradersRepository = input.spaceTradersRepository
+  }
+
+  public do = async () => {
+    const response = await this.spaceTradersService.getMyShips(this.spaceTradersRepository.getMyShips)
+
+    if (response instanceof Error) {
+      this.logger.debug(JSON.stringify(response, null, 2))
+      throw response
+    }
+
+    return this.spaceTradersFormatter.retrieveMyShips(response)
+  }
+}
 export class AcceptContractUC {
   private logger: ILogger
   private spaceTradersFormatter: ISpaceTraderFormatter

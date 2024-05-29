@@ -1,7 +1,7 @@
 import { SignInForm, SignUpForm } from "#component"
 import { APP_NAME } from "#constant"
 import { css } from "#styled-system/css"
-import { queryKey } from "#type"
+import { QueryKey } from "#type"
 import { spaceTradersUC } from "#use-case"
 import { useQuery } from "react-query"
 
@@ -9,7 +9,7 @@ export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert
   //Si la requête foire, on met le statu en rouge
   //Si elle charge, on met une animation de loading
-  const { data, isLoading, isError } = useQuery(queryKey.retrieveServerState, () =>
+  const { data, isLoading, isError } = useQuery(QueryKey.retrieveServerState, () =>
     spaceTradersUC.retrieveServerState()
   )
 

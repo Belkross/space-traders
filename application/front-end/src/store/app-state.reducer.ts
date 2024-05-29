@@ -26,6 +26,10 @@ export function appStateReducer(state: AppState, action: StateAction): AppState 
       return { ...state, contracts, credits }
     }
 
+    case "update_ship_list": {
+      return { ...state, ships: action.payload }
+    }
+
     default:
       return state
   }

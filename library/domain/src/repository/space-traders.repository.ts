@@ -1,5 +1,12 @@
 import { SpaceTradersApiError } from "#error"
-import { GetMyContractsDTO, GetMyAgentDTO, GetServerStateDTO, PostAgentDTO, PostContractAcceptationDTO } from "#schema"
+import {
+  GetMyContractsDTO,
+  GetMyAgentDTO,
+  GetServerStateDTO,
+  PostAgentDTO,
+  PostContractAcceptationDTO,
+  GetMyShipsDTO,
+} from "#schema"
 import { SpaceTraderValidator, spaceTraderValidator } from "#validator"
 
 export interface ISpaceTradersRepository {
@@ -8,6 +15,7 @@ export interface ISpaceTradersRepository {
   postAgent: (username: string) => Promise<PostAgentDTO>
   getMyContracts: () => Promise<GetMyContractsDTO>
   postContractAcceptation: (contractId: string) => Promise<PostContractAcceptationDTO>
+  getMyShips: () => Promise<GetMyShipsDTO>
 }
 
 export class SpaceTradersRepository implements ISpaceTradersRepository {
@@ -25,7 +33,23 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     this.token = token
   }
 
-  postContractAcceptation = async (contractId: string) => {
+  public getMyShips = async () => {
+    const response = await fetch(`${this.origin}/my/ships`, {
+      method: "GET",
+      headers: { accept: "application/json", authorization: `Bearer ${this.token}` },
+    })
+
+    const payload = await response.json()
+
+    if (!response.ok) {
+      const validError = this.validator.spaceTraderError(payload)
+      throw new SpaceTradersApiError(validError)
+    }
+
+    return this.validator.getMyShips(payload)
+  }
+
+  public postContractAcceptation = async (contractId: string) => {
     const url = `${this.origin}/my/contracts/${contractId}/accept`
     const response = await fetch(url, {
       method: "POST",
@@ -37,7 +61,8 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     const payload = await response.json()
 
     if (!response.ok) {
-      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+      const validError = this.validator.spaceTraderError(payload)
+      throw new SpaceTradersApiError(validError)
     }
 
     return this.validator.postContractAcceptation(payload)
@@ -53,7 +78,8 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     const payload = await response.json()
 
     if (!response.ok) {
-      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+      const validError = this.validator.spaceTraderError(payload)
+      throw new SpaceTradersApiError(validError)
     }
 
     return this.validator.getMyContracts(payload)
@@ -64,7 +90,8 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     const payload = await response.json()
 
     if (!response.ok) {
-      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+      const validError = this.validator.spaceTraderError(payload)
+      throw new SpaceTradersApiError(validError)
     }
 
     return this.validator.getServerState(payload)
@@ -83,7 +110,8 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     const payload = await response.json()
 
     if (!response.ok) {
-      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+      const validError = this.validator.spaceTraderError(payload)
+      throw new SpaceTradersApiError(validError)
     }
 
     this.token = token
@@ -109,7 +137,8 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     const payload = await response.json()
 
     if (!response.ok) {
-      throw new SpaceTradersApiError(this.validator.spaceTraderError(payload))
+      const validError = this.validator.spaceTraderError(payload)
+      throw new SpaceTradersApiError(validError)
     }
 
     return this.validator.postAgent(payload)

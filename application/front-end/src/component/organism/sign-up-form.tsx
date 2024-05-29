@@ -1,7 +1,7 @@
 import { css } from "#styled-system/css"
 import { useState, ChangeEvent } from "react"
 import { useMutation } from "react-query"
-import { queryKey } from "#type"
+import { QueryKey } from "#type"
 import { userService } from "#service"
 import { CustomError, Feedback, feedback } from "@library/domain"
 import { displayFeedback } from "#helper"
@@ -14,7 +14,7 @@ export function SignUpForm() {
     setInput(event.target.value.toUpperCase())
   }
 
-  const handleCreateAgent = useMutation(queryKey.createAgent, {
+  const handleCreateAgent = useMutation(QueryKey.createAgent, {
     mutationFn: (username: string) => spaceTradersUC.createAgent(username),
 
     onSuccess: async (data) => {

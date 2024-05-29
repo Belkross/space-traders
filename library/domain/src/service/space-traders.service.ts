@@ -7,8 +7,15 @@ import {
   UnrecognizedTokenError,
   UsernameAlreadyTakenError,
 } from "#error"
-import { ISpaceTradersRepository } from "../repository/space-traders.repository.js" //the app crashes when using alias
-import { GetMyAgentDTO, GetMyContractsDTO, GetServerStateDTO, PostAgentDTO, PostContractAcceptationDTO } from "#schema"
+import { ISpaceTradersRepository } from "#repository"
+import {
+  GetMyAgentDTO,
+  GetMyContractsDTO,
+  GetMyShipsDTO,
+  GetServerStateDTO,
+  PostAgentDTO,
+  PostContractAcceptationDTO,
+} from "#schema"
 
 export interface ISpaceTradersService {
   retrieveServerState(request: ISpaceTradersRepository["getServerState"]): Promise<GetServerStateDTO | CustomError>
@@ -19,6 +26,7 @@ export interface ISpaceTradersService {
     contractId: string,
     request: ISpaceTradersRepository["postContractAcceptation"]
   ) => Promise<PostContractAcceptationDTO | CustomError>
+  getMyShips: (request: ISpaceTradersRepository["getMyShips"]) => Promise<GetMyShipsDTO | CustomError>
 }
 
 export const spaceTradersService: ISpaceTradersService = {
@@ -27,6 +35,22 @@ export const spaceTradersService: ISpaceTradersService = {
   retrieveMyAgent,
   retrieveMyContracts,
   acceptContract,
+  getMyShips: getMyShipsService,
+}
+
+export async function getMyShipsService(request: ISpaceTradersRepository["getMyShips"]) {
+  try {
+    return await request()
+  } catch (error) {
+    if (error instanceof CustomError) {
+      if (error.code === "4103") return new NoTokenProvidedError()
+      if (error.code === "4100") return new UnrecognizedTokenError()
+
+      return error
+    }
+
+    return new UnexpectedError()
+  }
 }
 
 export async function acceptContract(contractId: string, request: ISpaceTradersRepository["postContractAcceptation"]) {

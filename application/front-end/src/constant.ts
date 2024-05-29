@@ -11,4 +11,5 @@ export const initialAppState: AppState = {
   credits: NaN,
   shipCount: NaN,
   contracts: [],
+  ships: [],
 } as const

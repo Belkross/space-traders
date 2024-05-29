@@ -1,5 +1,31 @@
 import { Type } from "@sinclair/typebox"
 
+export const shipSchema = Type.Object({
+  symbol: Type.String(),
+  registration: Type.Object({
+    name: Type.String(),
+    role: Type.Union(
+      [
+        Type.Literal("FABRICATOR"),
+        Type.Literal("HARVESTER"),
+        Type.Literal("HAULER"),
+        Type.Literal("INTERCEPTOR"),
+        Type.Literal("EXCAVATOR"),
+        Type.Literal("TRANSPORT"),
+        Type.Literal("REPAIR"),
+        Type.Literal("SURVEYOR"),
+        Type.Literal("COMMAND"),
+        Type.Literal("CARRIER"),
+        Type.Literal("PATROL"),
+        Type.Literal("SATELLITE"),
+        Type.Literal("EXPLORER"),
+        Type.Literal("REFINERY"),
+      ],
+      { description: "The registered role of the ship" }
+    ),
+  }),
+})
+
 export const factionSymbolSchema = Type.Union([
   Type.Literal("COSMIC"),
   Type.Literal("VOID"),
