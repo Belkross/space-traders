@@ -1,7 +1,7 @@
 import { useAppState } from "#context"
 import { css } from "#styled-system/css"
 import { useMutation } from "react-query"
-import { QueryKey } from "#type"
+import { RQueryEnum } from "#type"
 import { CustomError, Feedback } from "@library/domain"
 import { displayFeedback } from "#helper"
 import { spaceTradersUC } from "#use-case"
@@ -11,7 +11,7 @@ import { ShipList } from "../organism/ship-list"
 export function GamePage() {
   const { state, dispatch } = useAppState()
 
-  const contractsMutation = useMutation(QueryKey.retrieveMyContracts, {
+  const contractsMutation = useMutation(RQueryEnum.retrieve_my_contracts, {
     mutationFn: () => spaceTradersUC.retrieveMyContracts(),
 
     onSuccess: (payload) => {
@@ -27,7 +27,7 @@ export function GamePage() {
     },
   })
 
-  const shipsMutation = useMutation(QueryKey.retrieve_my_ships, {
+  const shipsMutation = useMutation(RQueryEnum.retrieve_my_ships, {
     mutationFn: () => spaceTradersUC.retrieveMyShips(),
 
     onSuccess: (payload) => {

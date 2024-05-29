@@ -1,6 +1,6 @@
 import { useAppState } from "#context"
 import { displayFeedback } from "#helper"
-import { QueryKey } from "#type"
+import { RQueryEnum } from "#type"
 import { spaceTradersUC } from "#use-case"
 import { Contract, CustomError, Feedback } from "@library/domain"
 import { useMutation } from "react-query"
@@ -12,7 +12,7 @@ type Props = {
 export function ContractList({ contracts }: Props) {
   const { dispatch } = useAppState()
 
-  const acceptContractMutation = useMutation(QueryKey.acceptContract, {
+  const acceptContractMutation = useMutation(RQueryEnum.accept_contract, {
     mutationFn: (contractId: string) => spaceTradersUC.acceptContract(contractId),
 
     onSuccess: (payload) => {
