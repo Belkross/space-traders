@@ -11,7 +11,7 @@ export interface ISpaceTraderFormatter {
 export class SpaceTraderFormatter implements ISpaceTraderFormatter {
   public constructor() {}
 
-  public retrieveMyShips(dto: GetMyShipsDTO): Array<Ship> {
+  public retrieveMyShips = (dto: GetMyShipsDTO): Array<Ship> => {
     return dto.data.map((ship) => {
       return {
         symbol: ship.symbol,
@@ -21,11 +21,11 @@ export class SpaceTraderFormatter implements ISpaceTraderFormatter {
     })
   }
 
-  public acceptContract(dto: PostContractAcceptationDTO) {
+  public acceptContract = (dto: PostContractAcceptationDTO) => {
     return { contract: dto.data.contract, credits: dto.data.agent.credits }
   }
 
-  public login(dto: GetMyAgentDTO): Agent {
+  public login = (dto: GetMyAgentDTO): Agent => {
     const { accountId, symbol, credits, headquarters, shipCount, startingFaction } = dto.data
 
     return {
@@ -38,7 +38,7 @@ export class SpaceTraderFormatter implements ISpaceTraderFormatter {
     }
   }
 
-  public retrieveMyContracts(dto: GetMyContractsDTO): Array<Contract> {
+  public retrieveMyContracts = (dto: GetMyContractsDTO): Array<Contract> => {
     return dto.data
   }
 }
