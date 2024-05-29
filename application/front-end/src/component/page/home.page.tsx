@@ -1,10 +1,9 @@
-import { useQuery } from "react-query"
+import { SignInForm, SignUpForm } from "#component"
 import { APP_NAME } from "#constant"
 import { css } from "#styled-system/css"
 import { queryKey } from "#type"
-import { SignUpForm } from "#component/organism/sign-up-form"
 import { spaceTradersUC } from "#use-case"
-import { SignInForm } from "#component/organism/sign-in-form"
+import { useQuery } from "react-query"
 
 export function HomePage() {
   //Faire la requête. Si elle réussit on met le status vert

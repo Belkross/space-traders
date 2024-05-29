@@ -1,8 +1,7 @@
-import { HomePage } from "#component/page/home.page"
-import { GamePage } from "#component/page/game.page"
-import { ToastContainer, Bounce } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { GamePage, HomePage } from "#component"
 import { useAppState } from "#context"
+import { Bounce, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export function App() {
   const { page } = useAppState().state

@@ -1,9 +1,9 @@
 import { useAppState } from "#context"
 import { css } from "#styled-system/css"
 import { useMutation } from "react-query"
-import { queryKey } from "../../type/query.type"
+import { queryKey } from "#type"
 import { CustomError, Feedback } from "@library/domain"
-import { displayFeedback } from "../../helper/display-feedback"
+import { displayFeedback } from "#helper"
 import { spaceTradersUC } from "#use-case"
 
 export function GamePage() {

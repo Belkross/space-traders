@@ -2,8 +2,7 @@
 
 import { ReactElement } from "react"
 import { act, render, RenderOptions } from "@testing-library/react"
-
-import { Providers } from "#component/provider/providers"
+import { Providers } from "#component"
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return <Providers>{children}</Providers>

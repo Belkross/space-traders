@@ -1,4 +1,4 @@
-import { GamePage } from "#component/page/game.page"
+import { GamePage } from "#component"
 import { render, screen } from "./test-util"
 
 test("a button to show my contracts should be visible", () => {

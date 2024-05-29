@@ -3,10 +3,10 @@ import { displayFeedback } from "#helper"
 import { userService } from "#service"
 import { css } from "#styled-system/css"
 import { queryKey } from "#type"
+import { spaceTradersUC } from "#use-case"
 import { CustomError, Feedback } from "@library/domain"
 import { ChangeEvent, useState } from "react"
 import { useMutation } from "react-query"
-import { spaceTradersUC } from "#use-case"
 
 export function SignInForm() {
   const [input, setInput] = useState("")

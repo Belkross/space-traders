@@ -1,10 +1,10 @@
 import { css } from "#styled-system/css"
 import { useState, ChangeEvent } from "react"
 import { useMutation } from "react-query"
-import { queryKey } from "../../type/query.type"
+import { queryKey } from "#type"
 import { userService } from "#service"
 import { CustomError, Feedback, feedback } from "@library/domain"
-import { displayFeedback } from "../../helper/display-feedback"
+import { displayFeedback } from "#helper"
 import { spaceTradersUC } from "#use-case"
 
 export function SignUpForm() {

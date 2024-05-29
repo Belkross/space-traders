@@ -21,7 +21,7 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["vitest/globals"],
     "paths": {
-      "#component/*": ["./src/component/*"],
+      "#component": ["./src/component/index.component.ts"],
       "#constant": ["./src/constant"],
       "#context": ["./src/context"],
       "#helper": ["./src/helper"],

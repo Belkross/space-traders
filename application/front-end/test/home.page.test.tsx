@@ -1,4 +1,4 @@
-import { HomePage } from "#component/page/home.page"
+import { HomePage } from "#component"
 import { APP_NAME } from "#constant"
 import { render, screen } from "./test-util"
 
