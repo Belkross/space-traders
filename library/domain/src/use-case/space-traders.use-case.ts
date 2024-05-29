@@ -11,7 +11,7 @@ export interface ISpaceTradersUC {
   retrieveServerState: () => Promise<GetServerStateDTO>
   login: (token: string) => Promise<Agent>
   retrieveMyContracts: () => Promise<Array<Contract>>
-  acceptContract: (contractId: string) => Promise<Contract>
+  acceptContract: (contractId: string) => Promise<{ contract: Contract; credits: number }>
 }
 
 export class AcceptContractUC {

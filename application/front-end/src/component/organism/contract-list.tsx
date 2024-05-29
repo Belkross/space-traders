@@ -17,7 +17,7 @@ export function ContractList({ contracts }: Props) {
 
     onSuccess: (payload) => {
       dispatch({
-        type: "update_contract",
+        type: "accept_contract",
         payload,
       })
       displayFeedback(new Feedback({ message: "Contract accepted" }))

@@ -14,8 +14,8 @@ export function appStateReducer(state: AppState, action: StateAction): AppState 
       return { ...state, contracts: action.payload }
     }
 
-    case "update_contract": {
-      const contractToUpdate = action.payload
+    case "accept_contract": {
+      const { contract: contractToUpdate, credits } = action.payload
 
       const contracts = state.contracts.map((item) => {
         if (item.id !== contractToUpdate.id) return item
@@ -23,7 +23,7 @@ export function appStateReducer(state: AppState, action: StateAction): AppState 
         return contractToUpdate
       })
 
-      return { ...state, contracts }
+      return { ...state, contracts, credits }
     }
 
     default:
