@@ -39,7 +39,9 @@ export function GamePage() {
         <p>{`on fulfilled money: ${contract.terms.payment.onFulfilled}`}</p>
         <p>{`deadline: ${contract.terms.deadline}`}</p>
         <p>{`deliver: ${JSON.stringify(contract.terms.deliver, null, 1)}`}</p>
-        <button onClick={() => acceptContractMutation.mutate(contract.id)}>Accept</button>
+        <button disabled={contract.accepted} onClick={() => acceptContractMutation.mutate(contract.id)}>
+          Accept
+        </button>
       </article>
     )
   })

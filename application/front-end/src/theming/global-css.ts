@@ -54,6 +54,14 @@ export const globalCss = defineGlobalStyles({
     "&:active": {
       backgroundColor: "*background.button.active",
     },
+    "&:disabled": {
+      backgroundColor: "*background.button.disabled",
+      color: "*font.base.disabled",
+      "&:hover": {
+        backgroundColor: "*background.button.disabled",
+        borderColor: "*border.base",
+      },
+    },
   },
 
   "input[type=text]": {

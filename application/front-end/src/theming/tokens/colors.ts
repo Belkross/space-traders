@@ -5,6 +5,7 @@ export const colors = defineTokens.colors({
     base: {
       light: { value: "rgba(255, 255, 255, .85)" },
       dark: { value: "rgba(0, 0, 0, .85)" },
+      disabled: { value: "rgba(255, 255, 255, .5)" },
     },
   },
   "*background": {
@@ -14,6 +15,7 @@ export const colors = defineTokens.colors({
     button: {
       base: { value: "{colors.*primary}" },
       active: { value: "hsl(215, 25%, 27%)" },
+      disabled: { value: "hsl(215, 25%, 27%)" },
     },
   },
   "*border": {
