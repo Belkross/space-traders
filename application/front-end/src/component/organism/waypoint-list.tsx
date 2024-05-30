@@ -20,7 +20,6 @@ export function WaypointList({ waypoints }: Props) {
         type: "update_shipyard_list",
         payload,
       })
-      displayFeedback(new Feedback({ message: "Contract accepted" }))
     },
 
     onError: (error) => {
