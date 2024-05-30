@@ -6,6 +6,7 @@ import {
   PostAgentDTO,
   PostContractAcceptationDTO,
   GetMyShipsDTO,
+  GetWaypointsInSystemDTO,
 } from "#schema"
 import { SpaceTraderValidator, spaceTraderValidator } from "#validator"
 
@@ -16,6 +17,7 @@ export interface ISpaceTradersRepository {
   getMyContracts: () => Promise<GetMyContractsDTO>
   postContractAcceptation: (contractId: string) => Promise<PostContractAcceptationDTO>
   getMyShips: () => Promise<GetMyShipsDTO>
+  getWaypointsInSystem: (input: { system: string; traits?: string }) => Promise<GetWaypointsInSystemDTO>
 }
 
 export class SpaceTradersRepository implements ISpaceTradersRepository {
@@ -31,6 +33,24 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
 
   public setToken = (token: string) => {
     this.token = token
+  }
+
+  public getWaypointsInSystem = async (input: { system: string; traits?: string }) => {
+    const queryParams = input.traits === undefined ? "" : `?traits=${input.traits}`
+    const url = `${this.origin}/systems/${input.system}/waypoints${queryParams}`
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { accept: "application/json" },
+    })
+
+    const payload = await response.json()
+
+    if (!response.ok) {
+      const validError = this.validator.spaceTraderError(payload)
+      throw new SpaceTradersApiError(validError)
+    }
+
+    return this.validator.getWaypointsInSystem(payload)
   }
 
   public getMyShips = async () => {

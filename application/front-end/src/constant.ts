@@ -12,4 +12,5 @@ export const initialAppState: AppState = {
   shipCount: NaN,
   contracts: [],
   ships: [],
+  shipsyards: [],
 } as const

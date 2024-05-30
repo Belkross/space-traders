@@ -1,5 +1,11 @@
 import { Type } from "@sinclair/typebox"
 
+export const paginationDetailsSchema = Type.Object({
+  total: Type.Integer({ minimum: 0 }),
+  page: Type.Integer({ minimum: 1, default: 1 }),
+  limit: Type.Integer({ minimum: 1, maximum: 20, default: 10 }),
+})
+
 export const shipSchema = Type.Object({
   symbol: Type.String(),
   registration: Type.Object({

@@ -30,6 +30,10 @@ export function appStateReducer(state: AppState, action: StateAction): AppState 
       return { ...state, ships: action.payload }
     }
 
+    case "update_shipyard_list": {
+      return { ...state, shipsyards: action.payload }
+    }
+
     default:
       return state
   }

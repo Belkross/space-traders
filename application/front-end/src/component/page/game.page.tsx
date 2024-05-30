@@ -7,6 +7,7 @@ import { displayFeedback } from "#helper"
 import { spaceTradersUC } from "#use-case"
 import { ContractList } from "#component"
 import { ShipList } from "../organism/ship-list"
+import { WaypointList } from "../organism/waypoint-list"
 
 export function GamePage() {
   const { state, dispatch } = useAppState()
@@ -50,6 +51,8 @@ export function GamePage() {
       <p>{`Credits: ${state.credits}`}</p>
       <p>{`Ship count: ${state.shipCount}`}</p>
       <p>{`Headquarters: ${state.headquarters}`}</p>
+
+      <WaypointList waypoints={state.shipsyards} />
 
       <button onClick={() => shipsMutation.mutate()}>Ships</button>
       <ShipList ships={state.ships} />
