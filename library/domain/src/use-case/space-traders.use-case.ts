@@ -1,4 +1,4 @@
-import { Agent, Contract, Ship, Waypoint } from "#model"
+import { Agent, Contract, Ship, Shipyard, Waypoint } from "#model"
 import { ISpaceTradersRepository } from "#repository"
 import { GetServerStateDTO, PostAgentDTO } from "#schema"
 import { ISpaceTradersService } from "#service"
@@ -14,9 +14,40 @@ export interface ISpaceTradersUC {
   acceptContract: (contractId: string) => Promise<{ contract: Contract; credits: number }>
   retrieveMyShips: () => Promise<Array<Ship>>
   retrieveShipyardsInSystem: (systemId: string) => Promise<Array<Waypoint>>
+  retrieveShipyard: (waypoint: string) => Promise<Shipyard>
 }
 
-export class RetrieveShipyardsInSystem {
+export class RetrieveShipyardUC {
+  private logger: ILogger
+  private spaceTradersFormatter: ISpaceTraderFormatter
+  private spaceTradersService: ISpaceTradersService
+  private spaceTradersRepository: ISpaceTradersRepository
+
+  constructor(input: {
+    logger: ILogger
+    spaceTradersFormatter: ISpaceTraderFormatter
+    spaceTradersService: ISpaceTradersService
+    spaceTradersRepository: ISpaceTradersRepository
+  }) {
+    this.logger = input.logger
+    this.spaceTradersFormatter = input.spaceTradersFormatter
+    this.spaceTradersService = input.spaceTradersService
+    this.spaceTradersRepository = input.spaceTradersRepository
+  }
+
+  public do = async (waypoint: string): Promise<Shipyard> => {
+    const response = await this.spaceTradersService.retrieveShipyard(waypoint, this.spaceTradersRepository.getShipyard)
+
+    if (response instanceof Error) {
+      this.logger.debug(JSON.stringify(response, null, 2))
+      throw response
+    }
+
+    return this.spaceTradersFormatter.retrieveShipyard(response)
+  }
+}
+
+export class RetrieveShipyardsInSystemUC {
   private logger: ILogger
   private spaceTradersFormatter: ISpaceTraderFormatter
   private spaceTradersService: ISpaceTradersService
@@ -35,7 +66,6 @@ export class RetrieveShipyardsInSystem {
   }
 
   public do = async (system: string) => {
-    this.logger.debug(system)
     const response = await this.spaceTradersService.retrieveWaypointsInSystem(
       system,
       this.spaceTradersRepository.getWaypointsInSystem

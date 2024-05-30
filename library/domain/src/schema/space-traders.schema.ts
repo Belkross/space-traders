@@ -1,6 +1,6 @@
 import { Type, Static } from "@sinclair/typebox"
-import { agentSchema, contractSchema, paginationDetailsSchema, shipSchema } from "#schema"
-import { waypointSchema } from "#model"
+import { agentSchema, contractSchema, paginationDetailsSchema, shipSchema, shipyardShipSchema } from "#schema"
+import { shipTypeSchema, waypointSchema } from "#model"
 
 export type GetServerStateDTO = Static<typeof getServerStatusSchema>
 export type GetMyAgentDTO = Static<typeof getMyAgentSchema>
@@ -10,6 +10,14 @@ export type GetMyContractsDTO = Static<typeof getMyContractsSchema>
 export type PostContractAcceptationDTO = Static<typeof postContractAcceptationSchema>
 export type GetMyShipsDTO = Static<typeof getMyShipsSchema>
 export type GetWaypointsInSystemDTO = Static<typeof getWaypointsInSystemSchema>
+export type GetShipyardDTO = Static<typeof getShipyardSchema>
+
+export const getShipyardSchema = Type.Object({
+  data: Type.Object({
+    ships: Type.Array(shipyardShipSchema),
+    shipTypes: Type.Array(shipTypeSchema),
+  }),
+})
 
 export const getWaypointsInSystemSchema = Type.Object({
   data: Type.Array(waypointSchema),

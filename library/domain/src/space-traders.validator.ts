@@ -16,6 +16,8 @@ import {
   getMyShipsSchema,
   GetWaypointsInSystemDTO,
   getWaypointsInSystemSchema,
+  GetShipyardDTO,
+  getShipyardSchema,
 } from "#schema"
 import { TypeCompiler } from "@sinclair/typebox/compiler"
 import { ValueErrorIterator } from "@sinclair/typebox/errors"
@@ -29,6 +31,7 @@ interface ISpaceTraderValidator {
   postContractAcceptation: (payload: unknown) => PostContractAcceptationDTO
   getMyShips: (payload: unknown) => GetMyShipsDTO
   getWaypointsInSystem: (payload: unknown) => GetWaypointsInSystemDTO
+  getShipyard: (payload: unknown) => GetShipyardDTO
 }
 
 const spaceTradersErrorValidator = TypeCompiler.Compile(spaceTradersApiErrorSchema)
@@ -39,9 +42,19 @@ const getMyContractsValidator = TypeCompiler.Compile(getMyContractsSchema)
 const postContractAcceptationValidator = TypeCompiler.Compile(postContractAcceptationSchema)
 const getMyShipsValidator = TypeCompiler.Compile(getMyShipsSchema)
 const getWaypointsInSystemValidator = TypeCompiler.Compile(getWaypointsInSystemSchema)
+const getShipyardValidator = TypeCompiler.Compile(getShipyardSchema)
 
 export class SpaceTraderValidator implements ISpaceTraderValidator {
   public constructor() {}
+
+  public getShipyard = (payload: unknown) => {
+    if (!getShipyardValidator.Check(payload)) {
+      const detail = this.createDetailError(this.getShipyard.name, getShipyardValidator.Errors(payload))
+      throw new InvalidPayloadError(detail)
+    }
+
+    return payload
+  }
 
   public getWaypointsInSystem = (payload: unknown) => {
     if (!getWaypointsInSystemValidator.Check(payload)) {

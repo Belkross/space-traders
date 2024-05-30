@@ -13,6 +13,7 @@ import {
   GetMyContractsDTO,
   GetMyShipsDTO,
   GetServerStateDTO,
+  GetShipyardDTO,
   GetWaypointsInSystemDTO,
   PostAgentDTO,
   PostContractAcceptationDTO,
@@ -32,6 +33,10 @@ export interface ISpaceTradersService {
     system: string,
     request: ISpaceTradersRepository["getWaypointsInSystem"]
   ) => Promise<GetWaypointsInSystemDTO | CustomError>
+  retrieveShipyard: (
+    waypoint: string,
+    request: ISpaceTradersRepository["getShipyard"]
+  ) => Promise<GetShipyardDTO | CustomError>
 }
 
 export const spaceTradersService: ISpaceTradersService = {
@@ -42,6 +47,22 @@ export const spaceTradersService: ISpaceTradersService = {
   acceptContract,
   getMyShips: getMyShipsService,
   retrieveWaypointsInSystem: retrieveWaypointsInSystemService,
+  retrieveShipyard: retrieveShipyardService,
+}
+
+export async function retrieveShipyardService(waypoint: string, request: ISpaceTradersRepository["getShipyard"]) {
+  try {
+    return await request(waypoint)
+  } catch (error) {
+    if (error instanceof CustomError) {
+      if (error.code === "4103") return new NoTokenProvidedError()
+      if (error.code === "4100") return new UnrecognizedTokenError()
+
+      return error
+    }
+
+    return new UnexpectedError()
+  }
 }
 
 export async function retrieveWaypointsInSystemService(

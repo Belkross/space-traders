@@ -9,9 +9,10 @@ import {
   LoginUC,
   RetrieveServerStateUC,
   RetrieveMyShipsUC,
-  RetrieveShipyardsInSystem,
+  RetrieveShipyardUC,
+  RetrieveShipyardsInSystemUC,
 } from "@library/domain"
-import { logger } from "./service/logger.service"
+import { logger } from "#service"
 
 const retrieveMyContractsUC = new RetrieveMyContractsUC({
   logger: logger,
@@ -54,7 +55,14 @@ const retrieveMyShipsUC = new RetrieveMyShipsUC({
   spaceTradersService: spaceTradersService,
 }).do
 
-const retrieveShipyardsInSystemUC = new RetrieveShipyardsInSystem({
+const retrieveShipyardsInSystemUC = new RetrieveShipyardsInSystemUC({
+  logger: logger,
+  spaceTradersFormatter: spaceTradersFormatter,
+  spaceTradersRepository: spaceTradersRepository,
+  spaceTradersService: spaceTradersService,
+}).do
+
+const retrieveShipyardUC = new RetrieveShipyardUC({
   logger: logger,
   spaceTradersFormatter: spaceTradersFormatter,
   spaceTradersRepository: spaceTradersRepository,
@@ -69,4 +77,5 @@ export const spaceTradersUC: ISpaceTradersUC = {
   acceptContract: acceptContractUC,
   retrieveMyShips: retrieveMyShipsUC,
   retrieveShipyardsInSystem: retrieveShipyardsInSystemUC,
+  retrieveShipyard: retrieveShipyardUC,
 }

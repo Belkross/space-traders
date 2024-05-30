@@ -1,4 +1,14 @@
 import { Type } from "@sinclair/typebox"
+import { shipTypeSchema } from "#model"
+
+export const shipyardShipSchema = Type.Object({
+  type: shipTypeSchema,
+  name: Type.String(),
+  description: Type.String(),
+  supply: Type.String(),
+  activity: Type.String(),
+  purchasePrice: Type.Number(),
+})
 
 export const paginationDetailsSchema = Type.Object({
   total: Type.Integer({ minimum: 0 }),

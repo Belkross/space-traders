@@ -2,10 +2,11 @@ import {
   GetMyAgentDTO,
   GetMyContractsDTO,
   GetMyShipsDTO,
+  GetShipyardDTO,
   GetWaypointsInSystemDTO,
   PostContractAcceptationDTO,
 } from "#schema"
-import { Agent, Contract, Ship, Waypoint } from "#model"
+import { Agent, Contract, Ship, Shipyard, Waypoint } from "#model"
 
 export interface ISpaceTraderFormatter {
   login: (dto: GetMyAgentDTO) => Agent
@@ -13,10 +14,15 @@ export interface ISpaceTraderFormatter {
   acceptContract: (dto: PostContractAcceptationDTO) => { contract: Contract; credits: number }
   retrieveMyShips: (dto: GetMyShipsDTO) => Array<Ship>
   retrieveShipyardsInSystem: (dto: GetWaypointsInSystemDTO) => Array<Waypoint>
+  retrieveShipyard: (dto: GetShipyardDTO) => Shipyard
 }
 
 export class SpaceTraderFormatter implements ISpaceTraderFormatter {
   public constructor() {}
+
+  public retrieveShipyard = (dto: GetShipyardDTO): Shipyard => {
+    return dto.data
+  }
 
   public retrieveShipyardsInSystem = (dto: GetWaypointsInSystemDTO) => {
     return dto.data.map((waypoint) => {
