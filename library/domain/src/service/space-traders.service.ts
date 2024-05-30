@@ -28,7 +28,7 @@ export interface ISpaceTradersService {
     contractId: string,
     request: ISpaceTradersRepository["postContractAcceptation"]
   ) => Promise<PostContractAcceptationDTO | CustomError>
-  getMyShips: (request: ISpaceTradersRepository["getMyShips"]) => Promise<GetMyShipsDTO | CustomError>
+  retrieveMyShips: (request: ISpaceTradersRepository["getMyShips"]) => Promise<GetMyShipsDTO | CustomError>
   retrieveWaypointsInSystem: (
     system: string,
     request: ISpaceTradersRepository["getWaypointsInSystem"]
@@ -45,7 +45,7 @@ export const spaceTradersService: ISpaceTradersService = {
   retrieveMyAgent,
   retrieveMyContracts,
   acceptContract,
-  getMyShips: getMyShipsService,
+  retrieveMyShips: retrieveMyShipsService,
   retrieveWaypointsInSystem: retrieveWaypointsInSystemService,
   retrieveShipyard: retrieveShipyardService,
 }
@@ -83,7 +83,7 @@ export async function retrieveWaypointsInSystemService(
   }
 }
 
-export async function getMyShipsService(request: ISpaceTradersRepository["getMyShips"]) {
+export async function retrieveMyShipsService(request: ISpaceTradersRepository["getMyShips"]) {
   try {
     return await request()
   } catch (error) {

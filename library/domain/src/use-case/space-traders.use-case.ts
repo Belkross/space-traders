@@ -99,7 +99,7 @@ export class RetrieveMyShipsUC {
   }
 
   public do = async () => {
-    const response = await this.spaceTradersService.getMyShips(this.spaceTradersRepository.getMyShips)
+    const response = await this.spaceTradersService.retrieveMyShips(this.spaceTradersRepository.getMyShips)
 
     if (response instanceof Error) {
       this.logger.debug(JSON.stringify(response, null, 2))

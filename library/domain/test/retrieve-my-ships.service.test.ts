@@ -1,9 +1,9 @@
 import { CustomError, UnexpectedError, NoTokenProvidedError, UnrecognizedTokenError } from "#error"
-import { acceptContract, getMyShipsService } from "#service"
+import { acceptContract, retrieveMyShipsService } from "#service"
 
-describe(getMyShipsService.name, () => {
+describe(retrieveMyShipsService.name, () => {
   test("should be defined", () => {
-    expect(getMyShipsService).toBeDefined()
+    expect(retrieveMyShipsService).toBeDefined()
   })
 
   test("should return the value of the request when succes", async () => {
