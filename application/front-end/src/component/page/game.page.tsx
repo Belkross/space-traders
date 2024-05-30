@@ -1,48 +1,9 @@
 import { useAppState } from "#context"
 import { css } from "#styled-system/css"
-import { useMutation } from "react-query"
-import { RQueryEnum } from "#type"
-import { CustomError, Feedback } from "@library/domain"
-import { displayFeedback } from "#helper"
-import { spaceTradersUC } from "#use-case"
-import { ContractList } from "#component"
-import { ShipList } from "../organism/ship-list"
-import { WaypointList } from "../organism/waypoint-list"
+import { ContractList, ShipList, WaypointList } from "#component"
 
 export function GamePage() {
-  const { state, dispatch } = useAppState()
-
-  const contractsMutation = useMutation(RQueryEnum.retrieve_my_contracts, {
-    mutationFn: () => spaceTradersUC.retrieveMyContracts(),
-
-    onSuccess: (payload) => {
-      dispatch({
-        type: "update_contract_list",
-        payload,
-      })
-    },
-
-    onError: (error) => {
-      const { message, severity, duration } = error as CustomError
-      displayFeedback(new Feedback({ message, severity, duration }))
-    },
-  })
-
-  const shipsMutation = useMutation(RQueryEnum.retrieve_my_ships, {
-    mutationFn: () => spaceTradersUC.retrieveMyShips(),
-
-    onSuccess: (payload) => {
-      dispatch({
-        type: "update_ship_list",
-        payload,
-      })
-    },
-
-    onError: (error) => {
-      const { message, severity, duration } = error as CustomError
-      displayFeedback(new Feedback({ message, severity, duration }))
-    },
-  })
+  const { state } = useAppState()
 
   return (
     <div className={cssContainer}>
@@ -53,12 +14,8 @@ export function GamePage() {
       <p>{`Headquarters: ${state.headquarters}`}</p>
 
       <WaypointList waypoints={state.shipsyards} />
-
-      <button onClick={() => shipsMutation.mutate()}>Ships</button>
-      <ShipList ships={state.ships} />
-
-      <button onClick={() => contractsMutation.mutate()}>Contracts</button>
       <ContractList contracts={state.contracts} />
+      <ShipList ships={state.ships} />
     </div>
   )
 }
