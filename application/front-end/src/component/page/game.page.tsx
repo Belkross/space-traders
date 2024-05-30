@@ -1,6 +1,6 @@
 import { useAppState } from "#context"
 import { css } from "#styled-system/css"
-import { ContractList, ShipList, WaypointList } from "#component"
+import { ContractList, ShipList, ShipyardVisitor, WaypointList } from "#component"
 
 export function GamePage() {
   const { state } = useAppState()
@@ -13,6 +13,7 @@ export function GamePage() {
       <p>{`Ship count: ${state.shipCount}`}</p>
       <p>{`Headquarters: ${state.headquarters}`}</p>
 
+      <ShipyardVisitor />
       <WaypointList waypoints={state.shipsyards} />
       <ContractList contracts={state.contracts} />
       <ShipList ships={state.ships} />

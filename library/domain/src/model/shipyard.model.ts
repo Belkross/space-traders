@@ -1,8 +1,9 @@
 import { ShipType } from "./ship.model.js"
 
 export type Shipyard = {
-  ships: Array<ShipyardShip>
-  shipTypes: Array<ShipType>
+  //ships: Array<ShipyardShip>
+  symbol: string
+  shipTypes: Array<{ type: ShipType }>
 }
 
 type ShipyardShip = {

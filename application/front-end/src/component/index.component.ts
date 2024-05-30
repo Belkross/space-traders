@@ -11,6 +11,7 @@ export * from "./organism/sign-up-form"
 export * from "./organism/contract-list"
 export * from "./organism/ship-list"
 export * from "./organism/waypoint-list"
+export * from "./organism/shipyard-visitor"
 
 //template
 

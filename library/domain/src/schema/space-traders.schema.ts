@@ -14,8 +14,13 @@ export type GetShipyardDTO = Static<typeof getShipyardSchema>
 
 export const getShipyardSchema = Type.Object({
   data: Type.Object({
-    ships: Type.Array(shipyardShipSchema),
-    shipTypes: Type.Array(shipTypeSchema),
+    symbol: Type.String(),
+    //ships: Type.Array(shipyardShipSchema), the ships field appear in the documentation but the e2e test found no ships field
+    shipTypes: Type.Array(
+      Type.Object({
+        type: shipTypeSchema,
+      })
+    ),
   }),
 })
 

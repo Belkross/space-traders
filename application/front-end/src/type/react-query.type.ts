@@ -8,6 +8,7 @@ type ReactQueryKey =
   | "accept_contract"
   | "retrieve_my_ships"
   | "retrieve_shipyards_in_system"
+  | "retrieve_shipyard"
 
 export const RQueryEnum: StringEnum<ReactQueryKey> = {
   retrieve_my_agent: "retrieve_my_agent",
@@ -17,4 +18,5 @@ export const RQueryEnum: StringEnum<ReactQueryKey> = {
   accept_contract: "accept_contract",
   retrieve_my_ships: "retrieve_my_ships",
   retrieve_shipyards_in_system: "retrieve_shipyards_in_system",
+  retrieve_shipyard: "retrieve_shipyard",
 }
