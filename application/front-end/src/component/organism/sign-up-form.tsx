@@ -2,7 +2,6 @@ import { css } from "#styled-system/css"
 import { useState, ChangeEvent } from "react"
 import { useMutation } from "react-query"
 import { RQueryEnum } from "#type"
-import { userService } from "../../service/index.service"
 import { CustomError, Feedback, feedback } from "@library/domain"
 import { displayFeedback } from "#helper"
 import { spaceTradersUC } from "#use-case"
@@ -18,7 +17,6 @@ export function SignUpForm() {
     mutationFn: (username: string) => spaceTradersUC.createAgent(username),
 
     onSuccess: async (data) => {
-      await userService.saveToken(data.data.token)
       displayFeedback(new Feedback({ message: `Agent ${data.data.agent.symbol} created.`, severity: "success" }))
     },
 

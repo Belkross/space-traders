@@ -249,33 +249,44 @@ export class CreateAgentUC {
 
   logger: ILogger
   validator: (username: string) => boolean
-  service: ISpaceTradersService["createAgent"]
+  spaceTradersService: ISpaceTradersService
+  userService: IUserService
 
-  constructor(
-    private input: {
-      logger: ILogger
-      validator: (username: string) => boolean
-      service: ISpaceTradersService["createAgent"]
-    }
-  ) {
+  constructor(input: {
+    logger: ILogger
+    validator: (username: string) => boolean
+    spaceTradersService: ISpaceTradersService
+    userService: IUserService
+  }) {
     this.validator = input.validator
-    this.service = input.service
-
+    this.spaceTradersService = input.spaceTradersService
     this.logger = input.logger
+    this.userService = input.userService
   }
 
   public do = async (username: string): Promise<PostAgentDTO> => {
     try {
-      if (!this.input.validator(username)) throw new InvalidUsernameError()
+      if (!this.validator(username)) throw new InvalidUsernameError()
 
-      const result = await this.service(username)
-
+      const result = await this.spaceTradersService.createAgent(username)
       if (result instanceof CustomError) throw result
-      else return result
+
+      this.saveToken(result.data.token)
+      return result
     } catch (error) {
-      this.logger.debug(JSON.stringify(error, null, 2))
-      throw error
+      if (error instanceof CustomError) {
+        this.logger.debug(JSON.stringify(error, null, 2))
+        throw error
+      }
+
+      throw new UnexpectedError()
     }
+  }
+
+  private saveToken = async (token: string) => {
+    const { error } = await this.userService.saveToken(token)
+
+    if (error !== undefined) throw error
   }
 
   static validateUsername = (username: string) =>

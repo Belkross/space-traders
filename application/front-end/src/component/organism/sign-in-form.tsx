@@ -34,7 +34,8 @@ export function SignInForm() {
 
   const handleUseSavedToken = async () => {
     try {
-      setInput(await userService.retrieveToken())
+      const { payload: token, error } = await userService.retrieveToken()
+      if (error === undefined) setInput(token)
     } catch (error) {
       const { message, severity, duration } = error as CustomError
       displayFeedback(new Feedback({ message, severity, duration }))
