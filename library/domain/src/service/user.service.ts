@@ -1,4 +1,16 @@
+import { CustomError } from "#error"
+
 export interface IUserService {
-  saveToken: (token: string) => Promise<void>
-  retrieveToken: () => Promise<string>
+  saveToken: (token: string) => Promise<ServiceResponse<undefined>>
+  retrieveToken: () => Promise<ServiceResponse<string>>
 }
+
+type ServiceResponse<PayloadType> =
+  | {
+      payload: PayloadType
+      error: undefined
+    }
+  | {
+      payload: undefined
+      error: CustomError
+    }

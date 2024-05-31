@@ -11,12 +11,13 @@ import {
   RetrieveShipyardUC,
   RetrieveShipyardsInSystemUC,
 } from "@library/domain"
-import { logger } from "#service"
+import { logger, userService } from "#service"
 
 const retrieveMyContractsUC = new RetrieveMyContractsUC({
   logger: logger,
   spaceTradersFormatter: spaceTradersFormatter,
   spaceTradersService: spaceTradersService,
+  userService: userService,
 }).do
 
 const createAgentUC = new CreateAgentUC({
@@ -29,6 +30,7 @@ const acceptContractUC = new AcceptContractUC({
   logger: logger,
   spaceTradersFormatter: spaceTradersFormatter,
   spaceTradersService: spaceTradersService,
+  userService: userService,
 }).do
 
 const loginUC = new LoginUC({
@@ -46,6 +48,7 @@ const retrieveMyShipsUC = new RetrieveMyShipsUC({
   logger: logger,
   spaceTradersFormatter: spaceTradersFormatter,
   spaceTradersService: spaceTradersService,
+  userService: userService,
 }).do
 
 const retrieveShipyardsInSystemUC = new RetrieveShipyardsInSystemUC({

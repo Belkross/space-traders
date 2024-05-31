@@ -1,8 +1,8 @@
 import { spaceTradersUC } from "#use-case"
 import { CustomError, Feedback, Ship } from "@library/domain"
 import { useMutation } from "react-query"
-import { displayFeedback } from "../../helper/display-feedback"
-import { RQueryEnum } from "../../type/react-query.type"
+import { displayFeedback } from "#helper"
+import { RQueryEnum } from "#type"
 import { useAppState } from "#context"
 
 type Props = {
@@ -14,7 +14,6 @@ export function ShipList({ ships }: Props) {
 
   const shipsMutation = useMutation(RQueryEnum.retrieve_my_ships, {
     mutationFn: () => spaceTradersUC.retrieveMyShips(),
-
     onSuccess: (payload) => {
       dispatch({
         type: "update_ship_list",

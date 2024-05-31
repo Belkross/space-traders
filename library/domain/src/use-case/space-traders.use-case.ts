@@ -1,7 +1,7 @@
 import { Agent, Contract, Ship, Shipyard, Waypoint } from "#model"
 import { GetServerStateDTO, PostAgentDTO } from "#schema"
-import { ISpaceTradersService } from "#service"
-import { CustomError, InvalidUsernameError } from "#error"
+import { ISpaceTradersService, IUserService } from "#service"
+import { CustomError, InvalidUsernameError, UnexpectedError } from "#error"
 import { ISpaceTraderFormatter } from "#formatter"
 import { ILogger } from "#logger"
 
@@ -74,52 +74,82 @@ export class RetrieveMyShipsUC {
   private logger: ILogger
   private spaceTradersFormatter: ISpaceTraderFormatter
   private spaceTradersService: ISpaceTradersService
+  private userService: IUserService
 
   constructor(input: {
     logger: ILogger
     spaceTradersFormatter: ISpaceTraderFormatter
     spaceTradersService: ISpaceTradersService
+    userService: IUserService
   }) {
     this.logger = input.logger
     this.spaceTradersFormatter = input.spaceTradersFormatter
     this.spaceTradersService = input.spaceTradersService
+    this.userService = input.userService
   }
 
   public do = async () => {
-    const response = await this.spaceTradersService.retrieveMyShips()
+    try {
+      const { payload: token, error } = await this.userService.retrieveToken()
+      if (error !== undefined) throw error
 
-    if (response instanceof Error) {
-      this.logger.debug(JSON.stringify(response, null, 2))
-      throw response
+      const response = await this.spaceTradersService.retrieveMyShips(token)
+
+      if (response instanceof Error) {
+        this.logger.debug(JSON.stringify(response, null, 2))
+        throw response
+      }
+
+      return this.spaceTradersFormatter.retrieveMyShips(response)
+    } catch (error) {
+      if (error instanceof CustomError) {
+        this.logger.debug(JSON.stringify(error, null, 2))
+        throw error
+      }
+
+      throw new UnexpectedError()
     }
-
-    return this.spaceTradersFormatter.retrieveMyShips(response)
   }
 }
 export class AcceptContractUC {
   private logger: ILogger
   private spaceTradersFormatter: ISpaceTraderFormatter
   private spaceTradersService: ISpaceTradersService
+  private userService: IUserService
 
   constructor(input: {
     logger: ILogger
     spaceTradersFormatter: ISpaceTraderFormatter
     spaceTradersService: ISpaceTradersService
+    userService: IUserService
   }) {
     this.logger = input.logger
     this.spaceTradersFormatter = input.spaceTradersFormatter
     this.spaceTradersService = input.spaceTradersService
+    this.userService = input.userService
   }
 
   public do = async (contractId: string) => {
-    const response = await this.spaceTradersService.acceptContract(contractId)
+    try {
+      const { payload: token, error } = await this.userService.retrieveToken()
+      if (error !== undefined) throw error
 
-    if (response instanceof Error) {
-      this.logger.debug(JSON.stringify(response, null, 2))
-      throw response
+      const response = await this.spaceTradersService.acceptContract(token, contractId)
+
+      if (response instanceof Error) {
+        this.logger.debug(JSON.stringify(response, null, 2))
+        throw response
+      }
+
+      return this.spaceTradersFormatter.acceptContract(response)
+    } catch (error) {
+      if (error instanceof CustomError) {
+        this.logger.debug(JSON.stringify(error, null, 2))
+        throw error
+      }
+
+      throw new UnexpectedError()
     }
-
-    return this.spaceTradersFormatter.acceptContract(response)
   }
 }
 
@@ -154,26 +184,41 @@ export class RetrieveMyContractsUC {
   private logger: ILogger
   private spaceTradersFormatter: ISpaceTraderFormatter
   private spaceTradersService: ISpaceTradersService
+  private userService: IUserService
 
   constructor(input: {
     logger: ILogger
     spaceTradersFormatter: ISpaceTraderFormatter
     spaceTradersService: ISpaceTradersService
+    userService: IUserService
   }) {
     this.logger = input.logger
     this.spaceTradersFormatter = input.spaceTradersFormatter
     this.spaceTradersService = input.spaceTradersService
+    this.userService = input.userService
   }
 
   public do = async () => {
-    const response = await this.spaceTradersService.retrieveMyContracts()
+    try {
+      const { payload: token, error } = await this.userService.retrieveToken()
+      if (error !== undefined) throw error
 
-    if (response instanceof Error) {
-      this.logger.debug(JSON.stringify(response, null, 2))
-      throw response
+      const response = await this.spaceTradersService.retrieveMyContracts(token)
+
+      if (response instanceof Error) {
+        this.logger.debug(JSON.stringify(response, null, 2))
+        throw response
+      }
+
+      return this.spaceTradersFormatter.retrieveMyContracts(response)
+    } catch (error) {
+      if (error instanceof CustomError) {
+        this.logger.debug(JSON.stringify(error, null, 2))
+        throw error
+      }
+
+      throw new UnexpectedError()
     }
-
-    return this.spaceTradersFormatter.retrieveMyContracts(response)
   }
 }
 

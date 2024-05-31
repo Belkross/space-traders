@@ -7,7 +7,6 @@ import {
   UnrecognizedTokenError,
   UsernameAlreadyTakenError,
 } from "#error"
-import { ISpaceTradersRepository, spaceTradersRepository } from "#repository"
 import {
   GetMyAgentDTO,
   GetMyContractsDTO,
@@ -18,14 +17,15 @@ import {
   PostAgentDTO,
   PostContractAcceptationDTO,
 } from "#schema"
+import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js"
 
 export interface ISpaceTradersService {
   retrieveServerState(): Promise<GetServerStateDTO | CustomError>
   retrieveMyAgent(token: string): Promise<GetMyAgentDTO | CustomError>
   createAgent: (username: string) => Promise<PostAgentDTO | CustomError>
-  retrieveMyContracts: () => Promise<GetMyContractsDTO | CustomError>
-  acceptContract: (contractId: string) => Promise<PostContractAcceptationDTO | CustomError>
-  retrieveMyShips: () => Promise<GetMyShipsDTO | CustomError>
+  retrieveMyContracts: (token: string) => Promise<GetMyContractsDTO | CustomError>
+  acceptContract: (token: string, contractId: string) => Promise<PostContractAcceptationDTO | CustomError>
+  retrieveMyShips: (token: string) => Promise<GetMyShipsDTO | CustomError>
   retrieveWaypointsInSystem: (system: string) => Promise<GetWaypointsInSystemDTO | CustomError>
   retrieveShipyard: (waypoint: string) => Promise<GetShipyardDTO | CustomError>
 }
@@ -63,9 +63,9 @@ export class SpaceTradersService implements ISpaceTradersService {
     }
   }
 
-  public retrieveMyShips = async () => {
+  public retrieveMyShips = async (token: string) => {
     try {
-      return await this.spaceTradersRepository.getMyShips()
+      return await this.spaceTradersRepository.getMyShips(token)
     } catch (error) {
       if (error instanceof CustomError) {
         if (error.code === "4103") return new NoTokenProvidedError()
@@ -78,9 +78,9 @@ export class SpaceTradersService implements ISpaceTradersService {
     }
   }
 
-  public acceptContract = async (contractId: string) => {
+  public acceptContract = async (token: string, contractId: string) => {
     try {
-      return await this.spaceTradersRepository.postContractAcceptation(contractId)
+      return await this.spaceTradersRepository.postContractAcceptation(token, contractId)
     } catch (error) {
       if (error instanceof CustomError) {
         if (error.code === "4103") return new NoTokenProvidedError()
@@ -93,9 +93,9 @@ export class SpaceTradersService implements ISpaceTradersService {
     }
   }
 
-  public retrieveMyContracts = async () => {
+  public retrieveMyContracts = async (token: string) => {
     try {
-      return await this.spaceTradersRepository.getMyContracts()
+      return await this.spaceTradersRepository.getMyContracts(token)
     } catch (error) {
       if (error instanceof CustomError) {
         if (error.code === "4103") return new NoTokenProvidedError()

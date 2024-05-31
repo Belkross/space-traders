@@ -7,7 +7,7 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     STRepositoryMock.postContractAcceptation = jest.fn().mockReturnValue("dumyResponse")
 
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
-    const response = await spaceTradersService.acceptContract("dumyContractId")
+    const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
     expect(response).toBe("dumyResponse")
   })
@@ -16,7 +16,7 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     STRepositoryMock.postContractAcceptation = jest.fn().mockRejectedValue(new CustomError({ message: "dumyMessage" }))
 
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
-    const response = await spaceTradersService.acceptContract("dumyContractId")
+    const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
     expect(response).toBeInstanceOf(CustomError)
   })
@@ -25,7 +25,7 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     STRepositoryMock.postContractAcceptation = jest.fn().mockRejectedValue("notACustomError")
 
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
-    const response = await spaceTradersService.acceptContract("dumyContractId")
+    const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
     expect(response).toBeInstanceOf(UnexpectedError)
   })
@@ -36,7 +36,7 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
       .mockRejectedValue(new CustomError({ code: "4103", message: "dumyMessage" }))
 
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
-    const response = await spaceTradersService.acceptContract("dumyContractId")
+    const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
     expect(response).toBeInstanceOf(NoTokenProvidedError)
   })
@@ -47,7 +47,7 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
       .mockRejectedValue(new CustomError({ message: "dumyMessage", code: "4100" }))
 
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
-    const response = await spaceTradersService.acceptContract("dumyContractId")
+    const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
     expect(response).toBeInstanceOf(UnrecognizedTokenError)
   })

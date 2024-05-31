@@ -15,9 +15,9 @@ export interface ISpaceTradersRepository {
   getServerState: () => Promise<GetServerStateDTO>
   getMyAgent: (token: string) => Promise<GetMyAgentDTO>
   postAgent: (username: string) => Promise<PostAgentDTO>
-  getMyContracts: () => Promise<GetMyContractsDTO>
-  postContractAcceptation: (contractId: string) => Promise<PostContractAcceptationDTO>
-  getMyShips: () => Promise<GetMyShipsDTO>
+  getMyContracts: (token: string) => Promise<GetMyContractsDTO>
+  postContractAcceptation: (token: string, contractId: string) => Promise<PostContractAcceptationDTO>
+  getMyShips: (token: string) => Promise<GetMyShipsDTO>
   getWaypointsInSystem: (input: { system: string; traits?: string }) => Promise<GetWaypointsInSystemDTO>
   getShipyard: (waypoint: string) => Promise<GetShipyardDTO>
 }
@@ -25,16 +25,10 @@ export interface ISpaceTradersRepository {
 export class SpaceTradersRepository implements ISpaceTradersRepository {
   private readonly origin: string
   private readonly validator: SpaceTraderValidator
-  private token: string
 
   public constructor(validator: SpaceTraderValidator) {
     this.origin = "https://api.spacetraders.io/v2"
     this.validator = validator
-    this.token = ""
-  }
-
-  public setToken = (token: string) => {
-    this.token = token
   }
 
   public getShipyard = async (waypoint: string) => {
@@ -73,10 +67,10 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     return this.validator.getWaypointsInSystem(payload)
   }
 
-  public getMyShips = async () => {
+  public getMyShips = async (token: string) => {
     const response = await fetch(`${this.origin}/my/ships`, {
       method: "GET",
-      headers: { accept: "application/json", authorization: `Bearer ${this.token}` },
+      headers: { accept: "application/json", authorization: `Bearer ${token}` },
     })
 
     const payload = await response.json()
@@ -89,12 +83,12 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     return this.validator.getMyShips(payload)
   }
 
-  public postContractAcceptation = async (contractId: string) => {
+  public postContractAcceptation = async (token: string, contractId: string) => {
     const url = `${this.origin}/my/contracts/${contractId}/accept`
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        authorization: `Bearer ${this.token}`,
+        authorization: `Bearer ${token}`,
       },
     })
 
@@ -108,10 +102,10 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
     return this.validator.postContractAcceptation(payload)
   }
 
-  public getMyContracts = async () => {
+  public getMyContracts = async (token: string) => {
     const response = await fetch(this.origin + "/my/contracts", {
       headers: {
-        authorization: `Bearer ${this.token}`,
+        authorization: `Bearer ${token}`,
       },
     })
 
@@ -154,7 +148,6 @@ export class SpaceTradersRepository implements ISpaceTradersRepository {
       throw new SpaceTradersApiError(validError)
     }
 
-    this.token = token
     return this.validator.getMyAgent(payload)
   }
 

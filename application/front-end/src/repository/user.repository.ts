@@ -1,19 +1,10 @@
-import { IUserRepository, NoTokenProvidedError } from "@library/domain"
+import { IUserRepository } from "@library/domain"
 class UserRepository implements IUserRepository {
-  private static instance: UserRepository | undefined
-  private readonly KEY_TOKEN = "space_traders_token"
+  private readonly KEY_TOKEN = "space_traders_api_token"
 
-  private constructor() {}
+  public constructor() {}
 
-  public static getInstance(): UserRepository {
-    if (UserRepository.instance === undefined) {
-      UserRepository.instance = new UserRepository()
-    }
-
-    return UserRepository.instance
-  }
-
-  postToken(token: string): Promise<void> {
+  public postToken = async (token: string) => {
     return new Promise<void>((resolve, reject) => {
       if (!token) reject()
 
@@ -22,14 +13,14 @@ class UserRepository implements IUserRepository {
     })
   }
 
-  getToken(): Promise<string> {
-    return new Promise((resolve, reject) => {
+  public getToken = async () => {
+    return new Promise<string>((resolve, reject) => {
       const token = localStorage.getItem(this.KEY_TOKEN)
 
-      if (token === null) reject(new NoTokenProvidedError())
+      if (token === null || token === "") reject()
       else resolve(token)
     })
   }
 }
 
-export const userRepository = UserRepository.getInstance()
+export const userRepository = new UserRepository()

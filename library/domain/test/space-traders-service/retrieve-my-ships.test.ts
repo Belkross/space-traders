@@ -6,7 +6,7 @@ describe(SpaceTradersService.name, () => {
     STRepositoryMock.getMyShips = jest.fn().mockReturnValue("dumyResponse")
 
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
-    const response = await spaceTradersService.retrieveMyShips()
+    const response = await spaceTradersService.retrieveMyShips("dumyToken")
 
     expect(response).toBe("dumyResponse")
   })
