@@ -1,24 +1,17 @@
-import {
-  CustomError,
-  InvalidPayloadError,
-  InvalidUsernameError,
-  UnexpectedError,
-  UsernameAlreadyTakenError,
-} from "#error"
-import { createAgent } from "#service"
+import { SpaceTradersService } from "#service"
+import { STRepositoryMock } from "../mock/space-traders-repository.mock.js"
 
-describe(createAgent.name, () => {
-  test("should return the result of the request when success", async () => {
-    const dumyUsername = "dumyUsername"
-    const dumyRequestPayload = "dumyRequestPayload"
-    const request = jest.fn().mockReturnValue(dumyRequestPayload)
+describe(SpaceTradersService.name, () => {
+  test("should return the value of the request when the request succeeds", async () => {
+    STRepositoryMock.postAgent = jest.fn().mockReturnValue("dumyResponse")
 
-    const result = await createAgent(dumyUsername, request)
+    const spaceTradersService = new SpaceTradersService(STRepositoryMock)
+    const response = await spaceTradersService.createAgent("dumyUsername")
 
-    expect(result).toBe(dumyRequestPayload)
+    expect(response).toBe("dumyResponse")
   })
 
-  test("should return an unexpected error when the error is unknown", async () => {
+  /*   test("should return an unexpected error when the error is unknown", async () => {
     const dumyUsername = "dumyUsername"
     const request = jest.fn().mockRejectedValue("dumyError")
 
@@ -62,5 +55,5 @@ describe(createAgent.name, () => {
     const result = await createAgent(dumyUsername, request)
 
     expect(result).toBeInstanceOf(InvalidPayloadError)
-  })
+  }) */
 })

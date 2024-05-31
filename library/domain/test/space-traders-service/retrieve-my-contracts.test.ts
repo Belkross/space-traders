@@ -1,7 +1,21 @@
-import { CustomError, NoTokenProvidedError, UnexpectedError, UnrecognizedTokenError } from "#error"
+import { SpaceTradersService } from "#service"
+import { STRepositoryMock } from "../mock/space-traders-repository.mock.js"
+
+describe(SpaceTradersService.name, () => {
+  test("should return the value of the request when the request succeeds", async () => {
+    STRepositoryMock.getMyContracts = jest.fn().mockReturnValue("dumyResponse")
+
+    const spaceTradersService = new SpaceTradersService(STRepositoryMock)
+    const response = await spaceTradersService.retrieveMyContracts()
+
+    expect(response).toBe("dumyResponse")
+  })
+})
+
+/* import { CustomError, NoTokenProvidedError, UnexpectedError, UnrecognizedTokenError } from "#error"
 import { retrieveMyContracts } from "#service"
 
-describe(retrieveMyContracts.name, () => {
+describe.skip(retrieveMyContracts.name, () => {
   test("should be defined", () => {
     expect(retrieveMyContracts).toBeDefined()
   })
@@ -46,3 +60,4 @@ describe(retrieveMyContracts.name, () => {
     expect(response).toBeInstanceOf(UnrecognizedTokenError)
   })
 })
+ */

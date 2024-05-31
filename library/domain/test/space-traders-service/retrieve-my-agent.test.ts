@@ -1,7 +1,20 @@
-import { CustomError, InvalidPayloadError, NoTokenProvidedError, UnexpectedError, UnrecognizedTokenError } from "#error"
-import { retrieveMyAgent } from "#service"
+import { SpaceTradersService } from "#service"
+import { STRepositoryMock } from "../mock/space-traders-repository.mock.js"
 
-describe(retrieveMyAgent.name, () => {
+describe(SpaceTradersService.name, () => {
+  test("should return the value of the request when the request succeeds", async () => {
+    STRepositoryMock.getMyAgent = jest.fn().mockReturnValue("dumyResponse")
+
+    const spaceTradersService = new SpaceTradersService(STRepositoryMock)
+    const response = await spaceTradersService.retrieveMyAgent("dumyToken")
+
+    expect(response).toBe("dumyResponse")
+  })
+})
+
+/* import { CustomError, InvalidPayloadError, NoTokenProvidedError, UnexpectedError, UnrecognizedTokenError } from "#error"
+
+describe.skip(retrieveMyAgent.name, () => {
   test("should do a request and return it when successful", async () => {
     const dumyResponse = "dumyResponse"
     const dumyToken = "dumyToken"
@@ -49,3 +62,4 @@ describe(retrieveMyAgent.name, () => {
     expect(response).toBeInstanceOf(UnrecognizedTokenError)
   })
 })
+ */

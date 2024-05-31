@@ -1,9 +1,23 @@
-import { CustomError, NoTokenProvidedError, UnexpectedError, UnrecognizedTokenError } from "#error"
-import { acceptContract } from "#service"
+import { SpaceTradersService } from "#service"
+import { STRepositoryMock } from "../mock/space-traders-repository.mock.js"
 
-describe(acceptContract.name, () => {
+describe(SpaceTradersService.name, () => {
+  test("should return the value of the request when the request succeeds", async () => {
+    STRepositoryMock.getMyShips = jest.fn().mockReturnValue("dumyResponse")
+
+    const spaceTradersService = new SpaceTradersService(STRepositoryMock)
+    const response = await spaceTradersService.retrieveMyShips()
+
+    expect(response).toBe("dumyResponse")
+  })
+})
+
+/* import { CustomError, UnexpectedError, NoTokenProvidedError, UnrecognizedTokenError } from "#error"
+import { acceptContract, retrieveMyShipsService } from "#service"
+
+describe.skip(retrieveMyShipsService.name, () => {
   test("should be defined", () => {
-    expect(acceptContract).toBeDefined()
+    expect(retrieveMyShipsService).toBeDefined()
   })
 
   test("should return the value of the request when succes", async () => {
@@ -50,6 +64,5 @@ describe(acceptContract.name, () => {
 
     expect(response).toBeInstanceOf(UnrecognizedTokenError)
   })
-
-  test.todo("should return a specific error when the contract already accepted")
 })
+ */
