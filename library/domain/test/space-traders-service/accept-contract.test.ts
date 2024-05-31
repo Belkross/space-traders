@@ -9,7 +9,8 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
     const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
-    expect(response).toBe("dumyResponse")
+    expect(response.payload).toBe("dumyResponse")
+    expect(response.error).toBeUndefined()
   })
 
   test("should return a specific error when the request throw something handled", async () => {
@@ -18,7 +19,8 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
     const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
-    expect(response).toBeInstanceOf(CustomError)
+    expect(response.error).toBeInstanceOf(CustomError)
+    expect(response.payload).toBeUndefined()
   })
 
   test("should return a specific error when error is unknown", async () => {
@@ -27,7 +29,8 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
     const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
-    expect(response).toBeInstanceOf(UnexpectedError)
+    expect(response.error).toBeInstanceOf(UnexpectedError)
+    expect(response.payload).toBeUndefined()
   })
 
   test("should return a specific error when the token is not provided", async () => {
@@ -38,7 +41,8 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
     const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
-    expect(response).toBeInstanceOf(NoTokenProvidedError)
+    expect(response.error).toBeInstanceOf(NoTokenProvidedError)
+    expect(response.payload).toBeUndefined()
   })
 
   test("should return a specific error when the token is unrecognized", async () => {
@@ -49,6 +53,7 @@ describe(SpaceTradersService.name + ".acceptContract", () => {
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
     const response = await spaceTradersService.acceptContract("dumyToken", "dumyContractId")
 
-    expect(response).toBeInstanceOf(UnrecognizedTokenError)
+    expect(response.error).toBeInstanceOf(UnrecognizedTokenError)
+    expect(response.payload).toBeUndefined()
   })
 })

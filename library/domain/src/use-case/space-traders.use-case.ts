@@ -32,14 +32,14 @@ export class RetrieveShipyardUC {
   }
 
   public do = async (waypoint: string): Promise<Shipyard> => {
-    const response = await this.spaceTradersService.retrieveShipyard(waypoint)
+    const { payload, error } = await this.spaceTradersService.retrieveShipyard(waypoint)
 
-    if (response instanceof Error) {
-      this.logger.debug(JSON.stringify(response, null, 2))
-      throw response
+    if (error) {
+      this.logger.debug(JSON.stringify(error, null, 2))
+      throw error
     }
 
-    return this.spaceTradersFormatter.retrieveShipyard(response)
+    return this.spaceTradersFormatter.retrieveShipyard(payload)
   }
 }
 
@@ -59,14 +59,14 @@ export class RetrieveShipyardsInSystemUC {
   }
 
   public do = async (system: string) => {
-    const response = await this.spaceTradersService.retrieveWaypointsInSystem(system)
+    const { payload, error } = await this.spaceTradersService.retrieveWaypointsInSystem(system)
 
-    if (response instanceof Error) {
-      this.logger.debug(JSON.stringify(response, null, 2))
-      throw response
+    if (error) {
+      this.logger.debug(JSON.stringify(error, null, 2))
+      throw error
     }
 
-    return this.spaceTradersFormatter.retrieveShipyardsInSystem(response)
+    return this.spaceTradersFormatter.retrieveShipyardsInSystem(payload)
   }
 }
 
@@ -90,17 +90,13 @@ export class RetrieveMyShipsUC {
 
   public do = async () => {
     try {
-      const { payload: token, error } = await this.userService.retrieveToken()
-      if (error !== undefined) throw error
+      const { payload: token, error: userServiceError } = await this.userService.retrieveToken()
+      if (userServiceError) throw userServiceError
 
-      const response = await this.spaceTradersService.retrieveMyShips(token)
+      const { payload, error: spaceTradersServiceError } = await this.spaceTradersService.retrieveMyShips(token)
+      if (spaceTradersServiceError) throw spaceTradersServiceError
 
-      if (response instanceof Error) {
-        this.logger.debug(JSON.stringify(response, null, 2))
-        throw response
-      }
-
-      return this.spaceTradersFormatter.retrieveMyShips(response)
+      return this.spaceTradersFormatter.retrieveMyShips(payload)
     } catch (error) {
       if (error instanceof CustomError) {
         this.logger.debug(JSON.stringify(error, null, 2))
@@ -131,17 +127,13 @@ export class AcceptContractUC {
 
   public do = async (contractId: string) => {
     try {
-      const { payload: token, error } = await this.userService.retrieveToken()
-      if (error !== undefined) throw error
+      const { payload: token, error: userServiceError } = await this.userService.retrieveToken()
+      if (userServiceError) throw userServiceError
 
-      const response = await this.spaceTradersService.acceptContract(token, contractId)
+      const { payload, error } = await this.spaceTradersService.acceptContract(token, contractId)
+      if (error) throw error
 
-      if (response instanceof Error) {
-        this.logger.debug(JSON.stringify(response, null, 2))
-        throw response
-      }
-
-      return this.spaceTradersFormatter.acceptContract(response)
+      return this.spaceTradersFormatter.acceptContract(payload)
     } catch (error) {
       if (error instanceof CustomError) {
         this.logger.debug(JSON.stringify(error, null, 2))
@@ -169,14 +161,14 @@ export class LoginUC {
   }
 
   public do = async (token: string) => {
-    const response = await this.spaceTradersService.retrieveMyAgent(token)
+    const { payload, error } = await this.spaceTradersService.retrieveMyAgent(token)
 
-    if (response instanceof Error) {
-      this.logger.debug(JSON.stringify(response, null, 2))
-      throw response
+    if (error) {
+      this.logger.debug(JSON.stringify(error, null, 2))
+      throw error
     }
 
-    return this.spaceTradersFormatter.login(response)
+    return this.spaceTradersFormatter.login(payload)
   }
 }
 
@@ -200,17 +192,13 @@ export class RetrieveMyContractsUC {
 
   public do = async () => {
     try {
-      const { payload: token, error } = await this.userService.retrieveToken()
-      if (error !== undefined) throw error
+      const { payload: token, error: userServiceError } = await this.userService.retrieveToken()
+      if (userServiceError) throw userServiceError
 
-      const response = await this.spaceTradersService.retrieveMyContracts(token)
+      const { payload, error } = await this.spaceTradersService.retrieveMyContracts(token)
+      if (error) throw error
 
-      if (response instanceof Error) {
-        this.logger.debug(JSON.stringify(response, null, 2))
-        throw response
-      }
-
-      return this.spaceTradersFormatter.retrieveMyContracts(response)
+      return this.spaceTradersFormatter.retrieveMyContracts(payload)
     } catch (error) {
       if (error instanceof CustomError) {
         this.logger.debug(JSON.stringify(error, null, 2))
@@ -232,14 +220,14 @@ export class RetrieveServerStateUC {
   }
 
   public do = async () => {
-    const response = await this.spaceTradersService.retrieveServerState()
+    const { payload, error } = await this.spaceTradersService.retrieveServerState()
 
-    if (response instanceof Error) {
-      this.logger.debug(JSON.stringify(response, null, 2))
-      throw response
+    if (error) {
+      this.logger.debug(JSON.stringify(error, null, 2))
+      throw error
     }
 
-    return response
+    return payload
   }
 }
 
@@ -268,11 +256,11 @@ export class CreateAgentUC {
     try {
       if (!this.validator(username)) throw new InvalidUsernameError()
 
-      const result = await this.spaceTradersService.createAgent(username)
-      if (result instanceof CustomError) throw result
+      const { payload, error } = await this.spaceTradersService.createAgent(username)
+      if (error) throw error
 
-      this.saveToken(result.data.token)
-      return result
+      this.saveToken(payload.data.token)
+      return payload
     } catch (error) {
       if (error instanceof CustomError) {
         this.logger.debug(JSON.stringify(error, null, 2))

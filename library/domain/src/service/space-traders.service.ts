@@ -17,17 +17,18 @@ import {
   PostAgentDTO,
   PostContractAcceptationDTO,
 } from "#schema"
-import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js"
+import { ISpaceTradersRepository, spaceTradersRepository } from "../repository/space-traders.repository.js" // using the alias make the app crash
+import { ServiceResponse } from "./service.type.js"
 
 export interface ISpaceTradersService {
-  retrieveServerState(): Promise<GetServerStateDTO | CustomError>
-  retrieveMyAgent(token: string): Promise<GetMyAgentDTO | CustomError>
-  createAgent: (username: string) => Promise<PostAgentDTO | CustomError>
-  retrieveMyContracts: (token: string) => Promise<GetMyContractsDTO | CustomError>
-  acceptContract: (token: string, contractId: string) => Promise<PostContractAcceptationDTO | CustomError>
-  retrieveMyShips: (token: string) => Promise<GetMyShipsDTO | CustomError>
-  retrieveWaypointsInSystem: (system: string) => Promise<GetWaypointsInSystemDTO | CustomError>
-  retrieveShipyard: (waypoint: string) => Promise<GetShipyardDTO | CustomError>
+  retrieveServerState(): Promise<ServiceResponse<GetServerStateDTO>>
+  retrieveMyAgent(token: string): Promise<ServiceResponse<GetMyAgentDTO>>
+  createAgent: (username: string) => Promise<ServiceResponse<PostAgentDTO>>
+  retrieveMyContracts: (token: string) => Promise<ServiceResponse<GetMyContractsDTO>>
+  acceptContract: (token: string, contractId: string) => Promise<ServiceResponse<PostContractAcceptationDTO>>
+  retrieveMyShips: (token: string) => Promise<ServiceResponse<GetMyShipsDTO>>
+  retrieveWaypointsInSystem: (system: string) => Promise<ServiceResponse<GetWaypointsInSystemDTO>>
+  retrieveShipyard: (waypoint: string) => Promise<ServiceResponse<GetShipyardDTO>>
 }
 
 export class SpaceTradersService implements ISpaceTradersService {
@@ -35,120 +36,124 @@ export class SpaceTradersService implements ISpaceTradersService {
 
   public retrieveShipyard = async (waypoint: string) => {
     try {
-      return await this.spaceTradersRepository.getShipyard(waypoint)
+      return { payload: await this.spaceTradersRepository.getShipyard(waypoint), error: undefined }
     } catch (error) {
       if (error instanceof CustomError) {
-        if (error.code === "4103") return new NoTokenProvidedError()
-        if (error.code === "4100") return new UnrecognizedTokenError()
+        if (error.code === "4103") return { payload: undefined, error: new NoTokenProvidedError() }
+        if (error.code === "4100") return { payload: undefined, error: new UnrecognizedTokenError() }
 
-        return error
+        return { payload: undefined, error: error }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 
   public retrieveWaypointsInSystem = async (system: string) => {
     try {
-      return await this.spaceTradersRepository.getWaypointsInSystem({ system, traits: "SHIPYARD" })
+      return {
+        payload: await this.spaceTradersRepository.getWaypointsInSystem({ system, traits: "SHIPYARD" }),
+        error: undefined,
+      }
     } catch (error) {
       if (error instanceof CustomError) {
-        if (error.code === "4103") return new NoTokenProvidedError()
-        if (error.code === "4100") return new UnrecognizedTokenError()
+        if (error.code === "4103") return { payload: undefined, error: new NoTokenProvidedError() }
+        if (error.code === "4100") return { payload: undefined, error: new UnrecognizedTokenError() }
 
-        return error
+        return { payload: undefined, error: error }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 
   public retrieveMyShips = async (token: string) => {
     try {
-      return await this.spaceTradersRepository.getMyShips(token)
+      return { payload: await this.spaceTradersRepository.getMyShips(token), error: undefined }
     } catch (error) {
       if (error instanceof CustomError) {
-        if (error.code === "4103") return new NoTokenProvidedError()
-        if (error.code === "4100") return new UnrecognizedTokenError()
+        if (error.code === "4103") return { payload: undefined, error: new NoTokenProvidedError() }
+        if (error.code === "4100") return { payload: undefined, error: new UnrecognizedTokenError() }
 
-        return error
+        return { payload: undefined, error: error }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 
   public acceptContract = async (token: string, contractId: string) => {
     try {
-      return await this.spaceTradersRepository.postContractAcceptation(token, contractId)
+      return { payload: await this.spaceTradersRepository.postContractAcceptation(token, contractId), error: undefined }
     } catch (error) {
       if (error instanceof CustomError) {
-        if (error.code === "4103") return new NoTokenProvidedError()
-        if (error.code === "4100") return new UnrecognizedTokenError()
+        if (error.code === "4103") return { payload: undefined, error: new NoTokenProvidedError() }
+        if (error.code === "4100") return { payload: undefined, error: new UnrecognizedTokenError() }
 
-        return error
+        return { payload: undefined, error: error }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 
   public retrieveMyContracts = async (token: string) => {
     try {
-      return await this.spaceTradersRepository.getMyContracts(token)
+      return { payload: await this.spaceTradersRepository.getMyContracts(token), error: undefined }
     } catch (error) {
       if (error instanceof CustomError) {
-        if (error.code === "4103") return new NoTokenProvidedError()
-        if (error.code === "4100") return new UnrecognizedTokenError()
+        if (error.code === "4103") return { payload: undefined, error: new NoTokenProvidedError() }
+        if (error.code === "4100") return { payload: undefined, error: new UnrecognizedTokenError() }
 
-        return error
+        return { payload: undefined, error: error }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 
   public createAgent = async (username: string) => {
     try {
-      return await this.spaceTradersRepository.postAgent(username)
+      return { payload: await this.spaceTradersRepository.postAgent(username), error: undefined }
     } catch (error) {
       if (error instanceof CustomError) {
-        if (error.code === "4111") return new UsernameAlreadyTakenError()
-        if (error.code === "422") return new InvalidUsernameError({ detail: "from SpaceTraders’s api" })
-        if (error instanceof InvalidUsernameError) return error
-        if (error instanceof InvalidPayloadError) return error
+        if (error.code === "4111") return { payload: undefined, error: new UsernameAlreadyTakenError() }
+        if (error.code === "422")
+          return { payload: undefined, error: new InvalidUsernameError({ detail: "from SpaceTraders’s api" }) }
+        if (error instanceof InvalidUsernameError) return { payload: undefined, error }
+        if (error instanceof InvalidPayloadError) return { payload: undefined, error }
 
-        return new CustomError({ severity: "warning", message: error.message })
+        return { payload: undefined, error: new CustomError({ severity: "warning", message: error.message }) }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 
   public retrieveMyAgent = async (token: string) => {
     try {
-      return await this.spaceTradersRepository.getMyAgent(token)
+      return { payload: await this.spaceTradersRepository.getMyAgent(token), error: undefined }
     } catch (error) {
       if (error instanceof CustomError) {
-        if (error.code === "4103") return new NoTokenProvidedError()
-        if (error.code === "4100") return new UnrecognizedTokenError()
+        if (error.code === "4103") return { payload: undefined, error: new NoTokenProvidedError() }
+        if (error.code === "4100") return { payload: undefined, error: new UnrecognizedTokenError() }
 
-        return error
+        return { payload: undefined, error: error }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 
   public retrieveServerState = async () => {
     try {
-      return await this.spaceTradersRepository.getServerState()
+      return { payload: await this.spaceTradersRepository.getServerState(), error: undefined }
     } catch (error) {
       if (error instanceof CustomError) {
-        return error
+        return { payload: undefined, error: error }
       }
 
-      return new UnexpectedError()
+      return { payload: undefined, error: new UnexpectedError() }
     }
   }
 }

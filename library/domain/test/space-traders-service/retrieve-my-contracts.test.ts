@@ -8,7 +8,8 @@ describe(SpaceTradersService.name, () => {
     const spaceTradersService = new SpaceTradersService(STRepositoryMock)
     const response = await spaceTradersService.retrieveMyContracts("dumyToken")
 
-    expect(response).toBe("dumyResponse")
+    expect(response.payload).toBe("dumyResponse")
+    expect(response.error).toBeUndefined()
   })
 })
 
